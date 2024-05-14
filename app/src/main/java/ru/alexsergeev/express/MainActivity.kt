@@ -28,6 +28,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import ru.alexsergeev.express.screens.MainPage
+import ru.alexsergeev.express.screens.Registration
 import ru.alexsergeev.express.ui.theme.ExpressTheme
 
 class MainActivity : ComponentActivity() {
@@ -36,102 +38,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ExpressTheme {
-                Registration()
+//                Registration()
+                MainPage()
             }
         }
     }
-}
-
-@Composable
-fun Registration() {
-    val name = remember {
-        mutableStateOf("")
-    }
-    val phone = remember {
-        mutableStateOf("")
-    }
-    val ctx = LocalContext.current
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = Color.Black), contentAlignment = Alignment.Center
-    )
-    {
-        Image(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 48.dp)
-                .align(alignment = Alignment.TopCenter),
-            painter = painterResource(id = R.drawable.slavexpresslogo__horisontal_),
-            contentDescription = "test image"
-        )
-        Column {
-            Text(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .align(alignment = Alignment.CenterHorizontally),
-                color = Color.White,
-                text = "Регистрация"
-            )
-            OutlinedTextField(
-                modifier = Modifier
-                    .align(alignment = Alignment.CenterHorizontally),
-                value = name.value,
-                label = { Text(text = "Ваше имя") },
-                colors = TextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    focusedContainerColor = Color.Black,
-                    unfocusedTextColor = Color.White,
-                    unfocusedContainerColor = Color.Black
-                ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                onValueChange = {
-                    name.value = it
-                }
-            )
-            OutlinedTextField(
-                modifier = Modifier
-                    .align(alignment = Alignment.CenterHorizontally),
-                value = phone.value,
-                label = { Text(text = "Ваш номер телефона") },
-                colors = TextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    focusedContainerColor = Color.Black,
-                    unfocusedTextColor = Color.White,
-                    unfocusedContainerColor = Color.Black
-                ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-                onValueChange = {
-                    phone.value = it
-                }
-            )
-            Button(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth(0.5f)
-                    .align(alignment = Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(Color.Red),
-                onClick = {
-                    if (phone.value.isNotEmpty()) {
-                        if (android.util.Patterns.PHONE.matcher(phone.value).matches()) {
-                            Toast.makeText(ctx, "Phone Number is valid..", Toast.LENGTH_SHORT)
-                                .show()
-                        } else {
-                            Toast.makeText(ctx, "Phone Number is invalid..", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    } else {
-                        Toast.makeText(ctx, "Please enter phone number", Toast.LENGTH_SHORT).show()
-                    }
-                }) {
-                Text(text = "Войти")
-            }
-        }
-    }
-}
-
-@Composable
-fun MainPage() {
-
 }
