@@ -1,41 +1,17 @@
 package ru.alexsergeev.express
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import ru.alexsergeev.express.screens.LeftMenu
 import ru.alexsergeev.express.screens.MainPage
-import ru.alexsergeev.express.screens.RateScreen
+import ru.alexsergeev.express.screens.Map
 import ru.alexsergeev.express.screens.Registration
-import ru.alexsergeev.express.ui.theme.DarkGrey
-import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.ExpressTheme
 
 class MainActivity : ComponentActivity() {
@@ -44,24 +20,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ExpressTheme {
-//                Image(
-//                    painter = painterResource(
-//                        id = R.drawable.road_view
-//                    ),
-//                    contentDescription = "im1",
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .alpha(0.5f),
-//                    contentScale = ContentScale.FillBounds
-//                )
                 Column(modifier = Modifier
                     .padding(8.dp)
-                    .background(DarkGrey)
+//                    .background(DarkGrey)
                 ) {
-                    MainPage()
-                    RateScreen()
+//                    Map()
+//                    MainPage()
+//                    RateScreen()
+//                    Registration()
+                    LeftMenu()
                 }
-//                Registration()
             }
         }
     }

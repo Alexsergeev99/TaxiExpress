@@ -1,6 +1,5 @@
 package ru.alexsergeev.express.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
@@ -25,15 +23,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
-import ru.alexsergeev.express.R
+import ru.alexsergeev.express.ui.theme.DarkGray
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 import java.time.LocalDate
@@ -76,7 +74,8 @@ fun MainPage() {
     Box(
         Modifier
             .fillMaxWidth()
-            .fillMaxHeight(0.4f)
+            .fillMaxHeight()
+            .background(Color.White)
     ) {
 //        Image(
 //        modifier = Modifier
@@ -99,9 +98,11 @@ fun MainPage() {
                     label = { Text(text = "Откуда поедем") },
                     colors = TextFieldDefaults.colors(
                         focusedTextColor = Color.White,
-                        focusedContainerColor = DarkYellow,
+                        focusedContainerColor = Color.Black,
                         unfocusedTextColor = Color.White,
-                        unfocusedContainerColor = DarkYellow
+                        unfocusedContainerColor = Color.Black,
+                        focusedLabelColor = Color.White,
+                        unfocusedLabelColor = Color.White
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = {
@@ -117,9 +118,11 @@ fun MainPage() {
                     label = { Text(text = "Куда поедем") },
                     colors = TextFieldDefaults.colors(
                         focusedTextColor = Color.White,
-                        focusedContainerColor = DarkYellow,
+                        focusedContainerColor = Color.Black,
                         unfocusedTextColor = Color.White,
-                        unfocusedContainerColor = DarkYellow
+                        unfocusedContainerColor = Color.Black,
+                        focusedLabelColor = Color.White,
+                        unfocusedLabelColor = Color.White
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = {
@@ -135,10 +138,12 @@ fun MainPage() {
                     Button(modifier = Modifier
                         .padding(4.dp)
                         .fillMaxWidth(0.5f),
-                        colors = ButtonDefaults.buttonColors(DarkYellow), onClick = {
+                        colors = ButtonDefaults.buttonColors(Color.Black),
+                        onClick = {
                             dateDialogState.show()
                         }) {
-                        Text(text = "Дата поездки")
+                        Text(text = "Дата поездки",
+                            color = Color.White)
                     }
 //                    Text(
 //                        modifier = Modifier
@@ -151,20 +156,22 @@ fun MainPage() {
                             .padding(4.dp)
                             .fillMaxWidth(0.5f),
                         enabled = true,
-                        colors = ButtonDefaults.buttonColors(DarkYellow),
+                        colors = ButtonDefaults.buttonColors(Color.Black),
                         onClick = { /*TODO*/ }) {
-                        Text(text = formattedDate)
+                        Text(text = formattedDate,
+                            color = Color.White)
                     }
                 }
                 Column {
                     Button(modifier = Modifier
                         .padding(4.dp)
                         .fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(DarkYellow),
+                        colors = ButtonDefaults.buttonColors(Color.Black),
                         onClick = {
                             timeDialogState.show()
                         }) {
-                        Text(text = "Время поездки")
+                        Text(text = "Время поездки",
+                            color = Color.White)
                     }
 //                    Text(
 //                        modifier = Modifier
@@ -177,9 +184,10 @@ fun MainPage() {
                             .padding(4.dp)
                             .fillMaxWidth(),
                         enabled = true,
-                        colors = ButtonDefaults.buttonColors(DarkYellow),
+                        colors = ButtonDefaults.buttonColors(Color.Black),
                         onClick = { /*TODO*/ }) {
-                        Text(text = formattedTime)
+                        Text(text = formattedTime,
+                            color = Color.White)
                     }
                 }
             }

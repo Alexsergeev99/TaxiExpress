@@ -52,6 +52,7 @@ android {
 
 dependencies {
 
+    implementation ("org.osmdroid:osmdroid-android:6.1.16")
     implementation("com.google.accompanist:accompanist-pager:0.19.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.19.0")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
