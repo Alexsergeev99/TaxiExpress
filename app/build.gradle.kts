@@ -52,6 +52,11 @@ android {
 
 dependencies {
 
+    implementation("com.google.accompanist:accompanist-pager:0.19.0")
+    implementation("com.google.accompanist:accompanist-pager-indicators:0.19.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
+    implementation("com.google.maps.android:maps-compose:2.2.0")
+    implementation ("androidx.compose.foundation:foundation:1.6.7")
     implementation("io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

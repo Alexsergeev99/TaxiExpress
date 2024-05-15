@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,13 +24,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.alexsergeev.express.screens.MainPage
+import ru.alexsergeev.express.screens.RateScreen
 import ru.alexsergeev.express.screens.Registration
+import ru.alexsergeev.express.ui.theme.DarkGrey
+import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.ExpressTheme
 
 class MainActivity : ComponentActivity() {
@@ -38,8 +44,24 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             ExpressTheme {
+//                Image(
+//                    painter = painterResource(
+//                        id = R.drawable.road_view
+//                    ),
+//                    contentDescription = "im1",
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .alpha(0.5f),
+//                    contentScale = ContentScale.FillBounds
+//                )
+                Column(modifier = Modifier
+                    .padding(8.dp)
+                    .background(DarkGrey)
+                ) {
+                    MainPage()
+                    RateScreen()
+                }
 //                Registration()
-                MainPage()
             }
         }
     }

@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import ru.alexsergeev.express.R
+import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
 fun Registration() {
@@ -99,7 +100,7 @@ fun Registration() {
                     .padding(16.dp)
                     .fillMaxWidth(0.5f)
                     .align(alignment = Alignment.CenterHorizontally),
-                colors = ButtonDefaults.buttonColors(Color.Red),
+                colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
                     if (phone.value.isNotEmpty()) {
                         if (Patterns.PHONE.matcher(phone.value).matches()) {
