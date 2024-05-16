@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -42,12 +43,14 @@ fun Registration() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.Black), contentAlignment = Alignment.Center
+            .background(color = Color.Black)
+        , contentAlignment = Alignment.Center
     )
     {
         Image(
             modifier = Modifier
                 .fillMaxWidth()
+                .size(240.dp)
                 .padding(top = 48.dp)
                 .align(alignment = Alignment.TopCenter),
             painter = painterResource(id = R.drawable.slavexpresslogo__horisontal_),

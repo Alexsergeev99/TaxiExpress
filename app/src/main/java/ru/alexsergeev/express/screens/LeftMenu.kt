@@ -35,7 +35,7 @@ fun LeftMenu() {
         .fillMaxWidth(0.5f)
         .fillMaxHeight()
         .background(DarkGray),
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.SpaceAround
     )
     {
         Row(modifier = Modifier
