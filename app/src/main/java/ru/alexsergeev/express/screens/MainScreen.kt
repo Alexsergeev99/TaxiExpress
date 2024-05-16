@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
@@ -46,7 +47,7 @@ import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainPage() {
+fun MainPage(navController: NavController) {
     var pickedDate by remember {
         mutableStateOf(LocalDate.now())
     }
@@ -84,9 +85,11 @@ fun MainPage() {
             .background(Color.Black)
     ) {
         IconButton(modifier = Modifier
-            .padding(16.dp)
+            .padding(top = 32.dp, start = 32.dp)
             .size(32.dp),
-            onClick = { /*TODO*/ }) {
+            onClick = {
+                navController.navigate("left_menu")
+            }) {
             Icon(painter = painterResource(id = R.drawable.menu_vert)
                 , contentDescription = "menu"
             , tint = Color.White)

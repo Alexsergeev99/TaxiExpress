@@ -24,14 +24,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
-fun Registration() {
+fun Registration(navController: NavController) {
     val name = remember {
         mutableStateOf("")
     }
@@ -39,7 +41,7 @@ fun Registration() {
         mutableStateOf("")
     }
     val ctx = LocalContext.current
-
+    val focusManager = LocalFocusManager.current
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -105,10 +107,12 @@ fun Registration() {
                     .align(alignment = Alignment.CenterHorizontally),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
+                    focusManager.clearFocus()
                     if (phone.value.isNotEmpty()) {
                         if (Patterns.PHONE.matcher(phone.value).matches()) {
                             Toast.makeText(ctx, "Phone Number is valid..", Toast.LENGTH_SHORT)
                                 .show()
+                            navController.navigate("main_screen")
                         } else {
                             Toast.makeText(ctx, "Phone Number is invalid..", Toast.LENGTH_SHORT)
                                 .show()
