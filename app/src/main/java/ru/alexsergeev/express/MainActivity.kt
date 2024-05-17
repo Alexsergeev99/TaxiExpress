@@ -25,6 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ru.alexsergeev.express.screens.LeftMenu
+import ru.alexsergeev.express.screens.LeftMenuNew
 import ru.alexsergeev.express.screens.MainPage
 import ru.alexsergeev.express.screens.Map
 import ru.alexsergeev.express.screens.Registration
@@ -45,10 +46,11 @@ class MainActivity : ComponentActivity() {
 //                    MainPage()
 //                    RateScreen()
 //                    Registration()
-                    LeftMenu()
-//                    Surface(color = Color.Black, modifier = Modifier.fillMaxSize()) {
-//                        Navigation()
-//                    }
+//                    LeftMenu()
+                    Surface(color = Color.Black, modifier = Modifier.fillMaxSize()) {
+                        Navigation()
+//                        LeftMenu()
+                    }
                 }
             }
         }
@@ -69,9 +71,9 @@ fun Navigation() {
             MainPage(navController = navController)
         }
         composable("left_menu") {
-            Row {
-                LeftMenu()
+            Box {
                 MainPage(navController = navController)
+                LeftMenu(navController = navController)
             }
         }
         }

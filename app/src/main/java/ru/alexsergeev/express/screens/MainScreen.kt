@@ -13,13 +13,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,7 +30,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -38,7 +40,6 @@ import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import ru.alexsergeev.express.R
-import ru.alexsergeev.express.ui.theme.DarkGray
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 import java.time.LocalDate
@@ -78,6 +79,48 @@ fun MainPage(navController: NavController) {
     val finish = remember {
         mutableStateOf("")
     }
+    val items = listOf("Главная страница", "Мой аккаунт", "Мои поездки", "Настройки", "Поддержка")
+    val selectedItem = remember { mutableStateOf(items[0]) }
+    val drawerState = rememberDrawerState(DrawerValue.Closed)
+//    val scope = rememberCoroutineScope()
+//    ModalNavigationDrawer(
+//        drawerState = drawerState,
+//        drawerContent = {
+//            ModalDrawerSheet(
+//                drawerContainerColor = Color.Black,
+//                drawerContentColor = DarkRed
+//            ) {
+//                items.forEach { item ->
+//                    NavigationDrawerItem(
+//                        label = { Text(item, fontSize = 22.sp) },
+//                        selected = selectedItem.value == item,
+//                        onClick = {
+//                            scope.launch { drawerState.close() }
+//                            selectedItem.value = item
+//                        },
+//                        colors = NavigationDrawerItemDefaults.colors(
+//                            selectedContainerColor = Color.Transparent,
+//                            unselectedContainerColor = Color.Transparent,
+//                            selectedTextColor = Color.White,
+//                            unselectedTextColor = Color.LightGray
+//                        )
+//                    )
+//                }
+//            }
+//        },
+//        content = {
+//            Column(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//                    .padding(16.dp),
+//                horizontalAlignment = Alignment.CenterHorizontally
+//            ) {
+//                Text(text = if (drawerState.isClosed) ">>> Swipe >>>" else "<<< Swipe <<<")
+//                Spacer(Modifier.height(20.dp))
+//                Button(onClick = { scope.launch { drawerState.open() } }) {
+//                    Text("Click to open")
+//                }
+//            }
     Box(
         Modifier
             .fillMaxWidth()
@@ -90,9 +133,11 @@ fun MainPage(navController: NavController) {
             onClick = {
                 navController.navigate("left_menu")
             }) {
-            Icon(painter = painterResource(id = R.drawable.menu_vert)
-                , contentDescription = "menu"
-            , tint = Color.White)
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_density_medium_24),
+                contentDescription = "menu",
+                tint = Color.White
+            )
         }
         Image(
             modifier = Modifier
@@ -101,7 +146,8 @@ fun MainPage(navController: NavController) {
                 .padding(top = 16.dp)
                 .align(alignment = Alignment.TopCenter),
             painter = painterResource(id = R.drawable.slavexpresslogo__horisontal_),
-            contentDescription = "test image")
+            contentDescription = "test image"
+        )
         Column(
             modifier = Modifier
                 .padding(16.dp)
@@ -160,8 +206,10 @@ fun MainPage(navController: NavController) {
                         onClick = {
                             dateDialogState.show()
                         }) {
-                        Text(text = "Дата поездки",
-                            color = Color.Black)
+                        Text(
+                            text = "Дата поездки",
+                            color = Color.Black
+                        )
                     }
 //                    Text(
 //                        modifier = Modifier
@@ -176,8 +224,10 @@ fun MainPage(navController: NavController) {
                         enabled = true,
                         colors = ButtonDefaults.buttonColors(DarkRed),
                         onClick = { /*TODO*/ }) {
-                        Text(text = formattedDate,
-                            color = Color.Black)
+                        Text(
+                            text = formattedDate,
+                            color = Color.Black
+                        )
                     }
                 }
                 Column {
@@ -188,8 +238,10 @@ fun MainPage(navController: NavController) {
                         onClick = {
                             timeDialogState.show()
                         }) {
-                        Text(text = "Время поездки",
-                            color = Color.Black)
+                        Text(
+                            text = "Время поездки",
+                            color = Color.Black
+                        )
                     }
 //                    Text(
 //                        modifier = Modifier
@@ -204,8 +256,10 @@ fun MainPage(navController: NavController) {
                         enabled = true,
                         colors = ButtonDefaults.buttonColors(DarkRed),
                         onClick = { /*TODO*/ }) {
-                        Text(text = formattedTime,
-                            color = Color.Black)
+                        Text(
+                            text = formattedTime,
+                            color = Color.Black
+                        )
                     }
                 }
             }
@@ -215,35 +269,39 @@ fun MainPage(navController: NavController) {
                 .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = { /*TODO*/ }) {
-                Text(text = "Далее",
-                    color = Color.Black)
-            }
-        }
-        MaterialDialog(
-            dialogState = dateDialogState,
-            buttons = {
-                positiveButton(text = "OK")
-                negativeButton(text = "Назад")
-            }) {
-            datepicker(
-                initialDate = LocalDate.now(),
-                title = "Дата поездки",
-            ) {
-                pickedDate = it
-            }
-        }
-        MaterialDialog(
-            dialogState = timeDialogState,
-            buttons = {
-                positiveButton(text = "OK")
-                negativeButton(text = "Назад")
-            }) {
-            timepicker(
-                initialTime = LocalTime.now(),
-                title = "Время поездки",
-            ) {
-                pickedTime = it
+                Text(
+                    text = "Далее",
+                    color = Color.Black
+                )
             }
         }
     }
+    MaterialDialog(
+        dialogState = dateDialogState,
+        buttons = {
+            positiveButton(text = "OK")
+            negativeButton(text = "Назад")
+        }) {
+        datepicker(
+            initialDate = LocalDate.now(),
+            title = "Дата поездки",
+        ) {
+            pickedDate = it
+        }
+    }
+    MaterialDialog(
+        dialogState = timeDialogState,
+        buttons = {
+            positiveButton(text = "OK")
+            negativeButton(text = "Назад")
+        }) {
+        timepicker(
+            initialTime = LocalTime.now(),
+            title = "Время поездки",
+        ) {
+            pickedTime = it
+        }
+    }
+//}
+//    )
 }
