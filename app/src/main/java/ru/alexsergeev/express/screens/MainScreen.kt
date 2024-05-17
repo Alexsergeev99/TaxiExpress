@@ -13,16 +13,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -48,7 +45,7 @@ import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainPage(navController: NavController) {
+fun MainPage(navController: NavController, name: String?) {
     var pickedDate by remember {
         mutableStateOf(LocalDate.now())
     }
@@ -79,9 +76,9 @@ fun MainPage(navController: NavController) {
     val finish = remember {
         mutableStateOf("")
     }
-    val items = listOf("Главная страница", "Мой аккаунт", "Мои поездки", "Настройки", "Поддержка")
-    val selectedItem = remember { mutableStateOf(items[0]) }
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
+//    val items = listOf("Главная страница", "Мой аккаунт", "Мои поездки", "Настройки", "Поддержка")
+//    val selectedItem = remember { mutableStateOf(items[0]) }
+//    val drawerState = rememberDrawerState(DrawerValue.Closed)
 //    val scope = rememberCoroutineScope()
 //    ModalNavigationDrawer(
 //        drawerState = drawerState,
@@ -131,7 +128,7 @@ fun MainPage(navController: NavController) {
             .padding(top = 32.dp, start = 32.dp)
             .size(32.dp),
             onClick = {
-                navController.navigate("left_menu")
+                navController.navigate("left_menu/${name.toString()}")
             }) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_density_medium_24),
@@ -211,12 +208,6 @@ fun MainPage(navController: NavController) {
                             color = Color.Black
                         )
                     }
-//                    Text(
-//                        modifier = Modifier
-//                            .padding(4.dp)
-//                            .fillMaxWidth(0.5f)
-//                        , text = formattedDate
-//                    )
                     Button(
                         modifier = Modifier
                             .padding(4.dp)
@@ -243,12 +234,6 @@ fun MainPage(navController: NavController) {
                             color = Color.Black
                         )
                     }
-//                    Text(
-//                        modifier = Modifier
-//                            .padding(4.dp)
-//                            .fillMaxWidth()
-//                        , text = formattedTime
-//                    )
                     Button(
                         modifier = Modifier
                             .padding(4.dp)

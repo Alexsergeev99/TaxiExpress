@@ -45,8 +45,7 @@ fun Registration(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.Black)
-        , contentAlignment = Alignment.Center
+            .background(color = Color.Black), contentAlignment = Alignment.Center
     )
     {
         Image(
@@ -69,9 +68,9 @@ fun Registration(navController: NavController) {
             OutlinedTextField(
                 modifier = Modifier
                     .align(alignment = Alignment.CenterHorizontally),
-                value = name.value
-                ,shape = RoundedCornerShape(20)
-                ,label = { Text(text = "Ваше имя") },
+                value = name.value,
+                shape = RoundedCornerShape(20),
+                label = { Text(text = "Ваше имя") },
                 colors = TextFieldDefaults.colors(
                     focusedTextColor = Color.White,
                     focusedContainerColor = Color.Black,
@@ -112,7 +111,7 @@ fun Registration(navController: NavController) {
                         if (Patterns.PHONE.matcher(phone.value).matches()) {
                             Toast.makeText(ctx, "Phone Number is valid..", Toast.LENGTH_SHORT)
                                 .show()
-                            navController.navigate("main_screen")
+                            navController.navigate("main_screen/${name.value.toString()}")
                         } else {
                             Toast.makeText(ctx, "Phone Number is invalid..", Toast.LENGTH_SHORT)
                                 .show()

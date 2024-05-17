@@ -28,28 +28,25 @@ fun SplashScreen(navController: NavController) {
     LaunchedEffect(key1 = true) {
         scale.animateTo(
             targetValue = 0.7f,
-            // tween Animation
             animationSpec = tween(
                 durationMillis = 800,
                 easing = {
                     OvershootInterpolator(4f).getInterpolation(it)
                 })
         )
-        // Customize the delay time
         delay(3000L)
         navController.navigate("registration")
     }
 
-    // Image
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
     ) {
-        // Change the logo
         Image(
             painter = painterResource(id = R.drawable.slavexpresslogo_only_s),
             contentDescription = "Logo",
-            modifier = Modifier.scale(scale.value)
+            modifier = Modifier
+                .scale(scale.value)
                 .size(360.dp)
         )
     }
