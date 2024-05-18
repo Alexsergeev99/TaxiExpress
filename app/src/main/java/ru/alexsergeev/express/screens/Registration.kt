@@ -109,15 +109,15 @@ fun Registration(navController: NavController) {
                     focusManager.clearFocus()
                     if (phone.value.isNotEmpty()) {
                         if (Patterns.PHONE.matcher(phone.value).matches()) {
-                            Toast.makeText(ctx, "Phone Number is valid..", Toast.LENGTH_SHORT)
+                            Toast.makeText(ctx, "Номер телефона указан верно", Toast.LENGTH_SHORT)
                                 .show()
                             navController.navigate("main_screen/${name.value.toString()}")
                         } else {
-                            Toast.makeText(ctx, "Phone Number is invalid..", Toast.LENGTH_SHORT)
+                            Toast.makeText(ctx, "Номер телефона указан неверно", Toast.LENGTH_SHORT)
                                 .show()
                         }
                     } else {
-                        Toast.makeText(ctx, "Please enter phone number", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(ctx, "Пожалуйста, введите номер телефона", Toast.LENGTH_SHORT).show()
                     }
                 }) {
                 Text(text = "Войти")

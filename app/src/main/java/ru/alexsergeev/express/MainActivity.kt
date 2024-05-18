@@ -18,8 +18,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import ru.alexsergeev.express.rates.EconomyRate
 import ru.alexsergeev.express.screens.LeftMenu
 import ru.alexsergeev.express.screens.MainPage
+import ru.alexsergeev.express.screens.RateScreen
 import ru.alexsergeev.express.screens.Registration
 import ru.alexsergeev.express.screens.SplashScreen
 import ru.alexsergeev.express.ui.theme.ExpressTheme
@@ -43,6 +45,8 @@ class MainActivity : ComponentActivity() {
                     Surface(color = Color.Black, modifier = Modifier.fillMaxSize()) {
                         Navigation()
 //                        LeftMenu()
+//                        RateScreen()
+//                        EconomyRate()
                     }
                 }
             }
@@ -63,15 +67,18 @@ fun Navigation() {
         composable("registration") {
             Registration(navController = navController)
         }
-        composable(
-            "main_screen/{name}"
-        ) {
+        composable("main_screen/{name}") {
             MainPage(navController = navController, it.arguments?.getString("name"))
         }
         composable(route = "left_menu/{name}") {
             Box {
                 MainPage(navController = navController, it.arguments?.getString("name"))
                 LeftMenu(navController = navController, it.arguments?.getString("name"))
+            }
+        }
+        composable(route = "rate_screen/{name}") {
+            Box {
+                RateScreen(navController = navController, it.arguments?.getString("name"))
             }
         }
     }

@@ -76,48 +76,6 @@ fun MainPage(navController: NavController, name: String?) {
     val finish = remember {
         mutableStateOf("")
     }
-//    val items = listOf("Главная страница", "Мой аккаунт", "Мои поездки", "Настройки", "Поддержка")
-//    val selectedItem = remember { mutableStateOf(items[0]) }
-//    val drawerState = rememberDrawerState(DrawerValue.Closed)
-//    val scope = rememberCoroutineScope()
-//    ModalNavigationDrawer(
-//        drawerState = drawerState,
-//        drawerContent = {
-//            ModalDrawerSheet(
-//                drawerContainerColor = Color.Black,
-//                drawerContentColor = DarkRed
-//            ) {
-//                items.forEach { item ->
-//                    NavigationDrawerItem(
-//                        label = { Text(item, fontSize = 22.sp) },
-//                        selected = selectedItem.value == item,
-//                        onClick = {
-//                            scope.launch { drawerState.close() }
-//                            selectedItem.value = item
-//                        },
-//                        colors = NavigationDrawerItemDefaults.colors(
-//                            selectedContainerColor = Color.Transparent,
-//                            unselectedContainerColor = Color.Transparent,
-//                            selectedTextColor = Color.White,
-//                            unselectedTextColor = Color.LightGray
-//                        )
-//                    )
-//                }
-//            }
-//        },
-//        content = {
-//            Column(
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(16.dp),
-//                horizontalAlignment = Alignment.CenterHorizontally
-//            ) {
-//                Text(text = if (drawerState.isClosed) ">>> Swipe >>>" else "<<< Swipe <<<")
-//                Spacer(Modifier.height(20.dp))
-//                Button(onClick = { scope.launch { drawerState.open() } }) {
-//                    Text("Click to open")
-//                }
-//            }
     Box(
         Modifier
             .fillMaxWidth()
@@ -253,7 +211,9 @@ fun MainPage(navController: NavController, name: String?) {
                 .padding(4.dp)
                 .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
-                onClick = { /*TODO*/ }) {
+                onClick = {
+                    navController.navigate("rate_screen/${name.toString()}")
+                }) {
                 Text(
                     text = "Далее",
                     color = Color.Black

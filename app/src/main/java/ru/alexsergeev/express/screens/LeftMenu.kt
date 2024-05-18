@@ -63,7 +63,7 @@ fun LeftMenu(navController: NavController, name: String?) {
                 Color.White
             ),
             onClick = {
-                navController.navigate("main_screen")
+                navController.navigate("main_screen/${name.toString()}")
             }
         ) {
             Icon(
