@@ -23,7 +23,7 @@ import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
-fun ComfortRate() {
+fun MinivanRate() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -37,14 +37,14 @@ fun ComfortRate() {
                 .size(200.dp)
                 .clip(CircleShape)
                 .align(alignment = Alignment.CenterHorizontally),
-            painter = painterResource(id = R.drawable.optima),
-            contentDescription = "optima"
+            painter = painterResource(id = R.drawable.mers_minivan),
+            contentDescription = "minivan"
         )
         Text(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp) ,
-            text = "Hyundai Sonata, Kia Optima, Toyota Camry",
+            text = "Mercedes V-Class, Kia Carnival, Volkswagen Transporter",
             color = Color.White,
             fontSize = 20.sp
         )

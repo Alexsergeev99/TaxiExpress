@@ -23,7 +23,7 @@ import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
-fun ComfortRate() {
+fun BusinessRate() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -37,14 +37,14 @@ fun ComfortRate() {
                 .size(200.dp)
                 .clip(CircleShape)
                 .align(alignment = Alignment.CenterHorizontally),
-            painter = painterResource(id = R.drawable.optima),
-            contentDescription = "optima"
+            painter = painterResource(id = R.drawable.maybach),
+            contentDescription = "maybach"
         )
         Text(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp) ,
-            text = "Hyundai Sonata, Kia Optima, Toyota Camry",
+            text = "Mercedes-Benz S-Class, Audi A8, BMW 7-Series",
             color = Color.White,
             fontSize = 20.sp
         )
@@ -52,7 +52,7 @@ fun ComfortRate() {
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp),
-            text = "От 15 рублей за километр",
+            text = "От 20 рублей за километр",
             color = Color.White,
             fontSize = 28.sp
         )
