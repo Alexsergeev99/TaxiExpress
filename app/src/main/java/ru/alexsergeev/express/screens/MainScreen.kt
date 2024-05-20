@@ -30,13 +30,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import ru.alexsergeev.express.R
+import ru.alexsergeev.express.buttons.CounterPassengersButton
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 import java.time.LocalDate
@@ -75,6 +78,9 @@ fun MainPage(navController: NavController, name: String?) {
     }
     val finish = remember {
         mutableStateOf("")
+    }
+    var valueCounter by remember {
+        mutableStateOf(1)
     }
     Box(
         Modifier
@@ -206,6 +212,31 @@ fun MainPage(navController: NavController, name: String?) {
                     }
                 }
             }
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp, bottom = 4.dp),
+                textAlign = TextAlign.Center,
+                fontSize = 20.sp,
+                text = "Количество пассажиров",
+                color = Color.White
+            )
+            CounterPassengersButton(
+                value = valueCounter.toString(),
+                onValueDecreaseClick = {
+                    valueCounter = maxOf(valueCounter - 1, 1)
+                },
+                onValueIncreaseClick = {
+                    valueCounter++
+                },
+                onValueClearClick = {
+                    valueCounter = 1
+                },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .background(Color.Black)
+            )
             Button(modifier = Modifier
                 .align(alignment = Alignment.CenterHorizontally)
                 .padding(4.dp)
@@ -247,6 +278,4 @@ fun MainPage(navController: NavController, name: String?) {
             pickedTime = it
         }
     }
-//}
-//    )
 }

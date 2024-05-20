@@ -26,11 +26,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkYellow
+import kotlin.math.absoluteValue
 
 @Composable
 fun Registration(navController: NavController) {
@@ -42,6 +47,7 @@ fun Registration(navController: NavController) {
     }
     val ctx = LocalContext.current
     val focusManager = LocalFocusManager.current
+    val mask = MaskVisualTransformation("+7 (###) ### ##-##")
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -88,6 +94,7 @@ fun Registration(navController: NavController) {
                 value = phone.value,
                 shape = RoundedCornerShape(20),
                 label = { Text(text = "Ваш номер телефона") },
+                placeholder = { Text(text = "+7 (###) ### ##-##") } ,
                 colors = TextFieldDefaults.colors(
                     focusedTextColor = Color.White,
                     focusedContainerColor = Color.Black,
@@ -97,7 +104,8 @@ fun Registration(navController: NavController) {
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                 onValueChange = {
                     phone.value = it
-                }
+                },
+                visualTransformation = mask
             )
             Button(
                 modifier = Modifier
@@ -122,6 +130,41 @@ fun Registration(navController: NavController) {
                 }) {
                 Text(text = "Войти")
             }
+        }
+    }
+}
+
+class MaskVisualTransformation(private val mask: String): VisualTransformation {
+    private val specialSymbolsIndices = mask.indices.filter { mask[it] != '#' }
+
+    override fun filter(text: AnnotatedString): TransformedText {
+        var out = ""
+        var maskIndex = 0
+        text.forEach { char ->
+            while (specialSymbolsIndices.contains(maskIndex)) {
+                out += mask[maskIndex]
+                maskIndex++
+            }
+            out += char
+            maskIndex++
+        }
+        return TransformedText(AnnotatedString(out), offsetTranslator())
+    }
+
+    private fun offsetTranslator() = object: OffsetMapping {
+        override fun originalToTransformed(offset: Int): Int {
+            val offsetValue = offset.absoluteValue
+            if (offsetValue == 0) return 0
+            var numberOfHashtags = 0
+            val masked = mask.takeWhile {
+                if (it == '#') numberOfHashtags++
+                numberOfHashtags < offsetValue
+            }
+            return masked.length + 1
+        }
+
+        override fun transformedToOriginal(offset: Int): Int {
+            return mask.take(offset.absoluteValue).count { it == '#' }
         }
     }
 }
