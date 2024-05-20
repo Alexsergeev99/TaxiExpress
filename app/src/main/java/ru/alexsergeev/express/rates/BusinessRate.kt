@@ -19,11 +19,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
-fun BusinessRate() {
+fun BusinessRate(navController: NavController, name: String?) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,7 +63,7 @@ fun BusinessRate() {
             .fillMaxWidth(0.5f),
             colors = ButtonDefaults.buttonColors(DarkYellow),
             onClick = {
-
+                navController.navigate("final_screen/${name.toString()}")
             }) {
             Text(
                 text = "Выбрать тариф",

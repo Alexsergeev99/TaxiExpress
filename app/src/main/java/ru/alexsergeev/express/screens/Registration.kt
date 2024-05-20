@@ -119,7 +119,7 @@ fun Registration(navController: NavController) {
                         if (Patterns.PHONE.matcher(phone.value).matches()) {
                             Toast.makeText(ctx, "Номер телефона указан верно", Toast.LENGTH_SHORT)
                                 .show()
-                            navController.navigate("main_screen/${name.value.toString()}")
+                            navController.navigate("code_screen/${name.value.toString()}")
                         } else {
                             Toast.makeText(ctx, "Номер телефона указан неверно", Toast.LENGTH_SHORT)
                                 .show()
@@ -128,7 +128,7 @@ fun Registration(navController: NavController) {
                         Toast.makeText(ctx, "Пожалуйста, введите номер телефона", Toast.LENGTH_SHORT).show()
                     }
                 }) {
-                Text(text = "Войти")
+                Text(text = "Получить код")
             }
         }
     }

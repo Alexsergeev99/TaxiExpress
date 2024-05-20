@@ -18,7 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import ru.alexsergeev.express.rates.EconomyRate
+import ru.alexsergeev.express.screens.CodeScreen
+import ru.alexsergeev.express.screens.FinalScreen
 import ru.alexsergeev.express.screens.LeftMenu
 import ru.alexsergeev.express.screens.MainPage
 import ru.alexsergeev.express.screens.RateScreen
@@ -70,6 +71,9 @@ fun Navigation() {
         composable("main_screen/{name}") {
             MainPage(navController = navController, it.arguments?.getString("name"))
         }
+        composable("code_screen/{name}") {
+            CodeScreen(navController = navController, it.arguments?.getString("name"))
+        }
         composable(route = "left_menu/{name}") {
             Box {
                 MainPage(navController = navController, it.arguments?.getString("name"))
@@ -77,9 +81,10 @@ fun Navigation() {
             }
         }
         composable(route = "rate_screen/{name}") {
-            Box {
                 RateScreen(navController = navController, it.arguments?.getString("name"))
-            }
+        }
+        composable(route = "final_screen/{name}") {
+            FinalScreen(navController = navController, it.arguments?.getString("name"))
         }
     }
 }

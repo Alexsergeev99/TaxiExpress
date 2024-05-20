@@ -36,8 +36,10 @@ import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import ru.alexsergeev.express.R
+import ru.alexsergeev.express.rates.BusinessRate
 import ru.alexsergeev.express.rates.ComfortRate
 import ru.alexsergeev.express.rates.EconomyRate
+import ru.alexsergeev.express.rates.MinivanRate
 import ru.alexsergeev.express.ui.theme.DarkRed
 
 @OptIn(ExperimentalPagerApi::class)
@@ -95,23 +97,18 @@ fun RateScreen(navController: NavController, name: String?) {
         HorizontalPager(
             count = tabList.size,
             state = pagerState,
-            modifier = Modifier.weight(1.0f)
+            modifier = Modifier
+                .weight(1.0f)
                 .fillMaxHeight(0.5f)
         ) {
                 index ->
             when (tabIndex) {
-                0 -> EconomyRate()
-                1 -> ComfortRate()
-//            when(index) {
-//            }
+                0 -> EconomyRate(navController = navController, name.toString())
+                1 -> ComfortRate(navController = navController, name.toString())
+                2 -> BusinessRate(navController = navController, name.toString())
+                else -> MinivanRate(navController = navController, name.toString())
             }
         }
-//        when (tabIndex) {
-//            0 -> EconomyRate()
-//            1 -> ComfortRate()
-//            2 -> println("")//BusinessRate()
-//            else -> println("")//MinivanRate()
-//        }
     }
 }
 
@@ -122,7 +119,6 @@ fun Modifier.pagerTabIndicatorOffset(
     pageIndexMapping: (Int) -> Int = { it },
 ): Modifier = layout { measurable, constraints ->
     if (tabPositions.isEmpty()) {
-        // If there are no pages, nothing to show
         layout(constraints.maxWidth, 0) {}
     } else {
         val currentPage = minOf(tabPositions.lastIndex, pageIndexMapping(pagerState.currentPage))
