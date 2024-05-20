@@ -27,24 +27,25 @@ fun MinivanRate(navController: NavController, name: String?) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp)
-            .background(Color.Black)
+            .padding(bottom = 24.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+            .background(Color.Black),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             modifier = Modifier
                 .fillMaxWidth(0.7f)
-                .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+                .padding(bottom = 24.dp, top = 8.dp, start = 8.dp, end = 8.dp)
                 .size(200.dp)
 //                .clip(CircleShape)
                 .align(alignment = Alignment.CenterHorizontally),
             painter = painterResource(id = R.drawable.mers_minivan),
             contentDescription = "minivan"
         )
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column() {
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp),
+                    .padding(bottom = 24.dp, top = 8.dp, start = 8.dp, end = 8.dp),
                 text = "Mercedes V-Class",
                 color = Color.White,
                 fontSize = 24.sp
@@ -52,7 +53,7 @@ fun MinivanRate(navController: NavController, name: String?) {
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp),
+                    .padding(bottom = 24.dp, top = 8.dp, start = 8.dp, end = 8.dp),
                 text = "Kia Carnival",
                 color = Color.White,
                 fontSize = 24.sp
@@ -60,28 +61,29 @@ fun MinivanRate(navController: NavController, name: String?) {
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp),
+                    .padding(bottom = 24.dp, top = 8.dp, start = 8.dp, end = 8.dp),
                 text = "Volkswagen Transporter",
                 color = Color.White,
                 fontSize = 24.sp
             )
-        }
-        TextButton(
-            onClick = {
-                navController.navigate("minivans/${name.toString()}")
-            },
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-        ) {
-            Text(
+            TextButton(
+                onClick = {
+                    navController.navigate("minivans/${name.toString()}")
+                },
                 modifier = Modifier
-                    .padding(8.dp)
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(8.dp)
 //                .align(Alignment.CenterVertically)
-                ,
-                text = "еще",
-                color = Color.White
-            )
+                    ,
+                    text = "еще",
+                    color = Color.White
+                )
+            }
         }
+
         Button(modifier = Modifier
             .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp)
             .align(Alignment.CenterHorizontally)

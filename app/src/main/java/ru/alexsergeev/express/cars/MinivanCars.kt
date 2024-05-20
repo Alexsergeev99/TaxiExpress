@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,8 +21,9 @@ val cars = listOf("Citroen C4 Grand Picasso", "Volkswagen Caddy")
 fun MinivanCars(navController: NavController, name: String?) {
     LazyColumn(
         modifier = Modifier
-            .fillMaxWidth(0.5f)
-            .fillMaxHeight(0.4f)
+//            .fillMaxWidth(0.5f)
+//            .fillMaxHeight(0.4f)
+            .padding(bottom = 36.dp)
             .background(Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Bottom
@@ -29,7 +31,7 @@ fun MinivanCars(navController: NavController, name: String?) {
         items(cars.size) { car ->
             Text(
                 modifier = Modifier
-                    .height(80.dp),
+                    .height(40.dp),
                 text = cars[car],
                 color = Color.Black
             )

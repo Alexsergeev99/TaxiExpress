@@ -127,7 +127,8 @@ fun FinalScreen(navController: NavController, name: String?) {
 
             OutlinedTextField(
                 modifier = Modifier
-                    .align(alignment = Alignment.CenterHorizontally),
+                    .align(alignment = Alignment.CenterHorizontally)
+                    .padding(top = 16.dp),
                 value = comment.value,
                 shape = RoundedCornerShape(20),
                 label = { Text(text = "Комментарий:") },

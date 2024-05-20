@@ -4,13 +4,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -19,6 +24,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ru.alexsergeev.express.cars.MinivanCars
+import ru.alexsergeev.express.rates.MinivanRate
 import ru.alexsergeev.express.screens.CodeScreen
 import ru.alexsergeev.express.screens.FinalScreen
 import ru.alexsergeev.express.screens.LeftMenu
@@ -88,9 +94,10 @@ fun Navigation() {
             FinalScreen(navController = navController, it.arguments?.getString("name"))
         }
         composable(route = "minivans/{name}") {
-
-//                MinivanRate(navController = navController, it.arguments?.getString("name"))
-            MinivanCars(navController = navController, it.arguments?.getString("name"))
+                Box {
+                    MinivanRate(navController = navController, it.arguments?.getString("name"))
+                    MinivanCars(navController = navController, it.arguments?.getString("name"))
+                }
+            }
         }
     }
-}
