@@ -1,6 +1,5 @@
 package ru.alexsergeev.express.screens
 
-import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -98,7 +97,8 @@ fun CodeScreen(navController: NavController, name: String?) {
                                 .show()
                         }
                     } else {
-                        Toast.makeText(ctx, "Пожалуйста, введите код из СМС", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(ctx, "Пожалуйста, введите код из СМС", Toast.LENGTH_SHORT)
+                            .show()
                     }
                 }) {
                 Text(text = "Войти")
@@ -154,7 +154,8 @@ private fun CharView(
         index > text.length -> ""
         else -> text[index].toString()
     }
-    Text(text = char,
+    Text(
+        text = char,
         modifier = Modifier
             .width(40.dp)
             .height(40.dp)

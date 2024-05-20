@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import ru.alexsergeev.express.cars.MinivanCars
 import ru.alexsergeev.express.screens.CodeScreen
 import ru.alexsergeev.express.screens.FinalScreen
 import ru.alexsergeev.express.screens.LeftMenu
@@ -81,10 +82,15 @@ fun Navigation() {
             }
         }
         composable(route = "rate_screen/{name}") {
-                RateScreen(navController = navController, it.arguments?.getString("name"))
+            RateScreen(navController = navController, it.arguments?.getString("name"))
         }
         composable(route = "final_screen/{name}") {
             FinalScreen(navController = navController, it.arguments?.getString("name"))
+        }
+        composable(route = "minivans/{name}") {
+
+//                MinivanRate(navController = navController, it.arguments?.getString("name"))
+            MinivanCars(navController = navController, it.arguments?.getString("name"))
         }
     }
 }
