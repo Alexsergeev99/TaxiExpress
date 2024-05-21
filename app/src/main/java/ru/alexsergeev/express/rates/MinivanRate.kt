@@ -42,7 +42,7 @@ fun MinivanRate(navController: NavController,
                 to: String?,
                 date: String?,
                 time: String?,
-                passengers: Int?) {
+                passengers: String?) {
 
     val sheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
 
@@ -122,7 +122,7 @@ fun MinivanRate(navController: NavController,
                             "${to.toString()}/" +
                             "${date.toString()}/" +
                             "${time.toString()}/" +
-                            "${passengers?.toInt()}/" +
+                            "${passengers?.toString()}/" +
                             "Минивен")
                 }
             ) {

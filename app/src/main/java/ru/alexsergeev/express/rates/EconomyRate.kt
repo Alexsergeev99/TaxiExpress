@@ -32,7 +32,7 @@ fun EconomyRate(navController: NavController, name: String?,
                 to: String?,
                 date: String?,
                 time: String?,
-                passengers: Int?) {
+                passengers: String?) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -104,7 +104,7 @@ fun EconomyRate(navController: NavController, name: String?,
                             "${to.toString()}/" +
                             "${date.toString()}/" +
                             "${time.toString()}/" +
-                            "${passengers?.toInt()}/" +
+                            "${passengers.toString()}/" +
                             "Эконом")
                 }
             ) {

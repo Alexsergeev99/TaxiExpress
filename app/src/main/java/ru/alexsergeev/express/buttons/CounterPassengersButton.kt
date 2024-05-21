@@ -119,7 +119,7 @@ private fun ButtonContainer(
 }
 
 @Composable
-private fun IconControlButton(
+fun IconControlButton(
     icon: ImageVector,
     contentDescription: String,
     onClick: () -> Unit,

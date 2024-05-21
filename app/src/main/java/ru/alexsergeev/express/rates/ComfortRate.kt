@@ -31,7 +31,7 @@ fun ComfortRate(navController: NavController, name: String?,
                 to: String?,
                 date: String?,
                 time: String?,
-                passengers: Int?) {
+                passengers: String?) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -103,7 +103,7 @@ fun ComfortRate(navController: NavController, name: String?,
                             "${to.toString()}/" +
                             "${date.toString()}/" +
                             "${time.toString()}/" +
-                            "${passengers?.toInt()}/" +
+                            "${passengers.toString()}/" +
                             "Комфорт")
                 }
             ) {

@@ -50,7 +50,7 @@ fun RateScreen(
     to: String?,
     date: String?,
     time: String?,
-    passengers: Int?
+    passengers: String?
 ) {
     val tabList = listOf("Эконом", "Комфорт", "Бизнес", "Минивэн")
     val pagerState = rememberPagerState()
@@ -120,7 +120,7 @@ fun RateScreen(
                     to.toString(),
                     date.toString(),
                     time.toString(),
-                    passengers?.toInt()
+                    passengers.toString()
                 )
 
                 1 -> ComfortRate(navController = navController,
@@ -130,7 +130,7 @@ fun RateScreen(
                     to.toString(),
                     date.toString(),
                     time.toString(),
-                    passengers?.toInt())
+                    passengers.toString())
                 2 -> BusinessRate(navController = navController,
                     name.toString(),
                     phone.toString(),
@@ -138,7 +138,7 @@ fun RateScreen(
                     to.toString(),
                     date.toString(),
                     time.toString(),
-                    passengers?.toInt())
+                    passengers.toString())
                 else -> MinivanRate(navController = navController,
                     name.toString(),
                     phone.toString(),
@@ -146,7 +146,7 @@ fun RateScreen(
                     to.toString(),
                     date.toString(),
                     time.toString(),
-                    passengers?.toInt())
+                    passengers.toString())
             }
         }
     }

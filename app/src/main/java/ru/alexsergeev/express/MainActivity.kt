@@ -77,7 +77,7 @@ fun Navigation() {
         composable(route = "left_menu/{name}") {
             Box {
                 MainPage(navController = navController, it.arguments?.getString("name"), it.arguments?.getString("phone"))
-                LeftMenu(navController = navController, it.arguments?.getString("name"))
+                LeftMenu(navController = navController, it.arguments?.getString("name"), it.arguments?.getString("phone"))
             }
         }
         composable(route = "rate_screen/{name}/{phone}/{from}/{to}/{date}/{time}/{passengers}") {
@@ -87,7 +87,7 @@ fun Navigation() {
                 it.arguments?.getString("to"),
                 it.arguments?.getString("date"),
                 it.arguments?.getString("time"),
-                it.arguments?.getInt("passengers")
+                it.arguments?.getString("passengers")
                 )
         }
         composable(route = "final_screen/{name}/{phone}/{from}/{to}/{date}/{time}/{passengers}/{rate}") {
@@ -97,7 +97,7 @@ fun Navigation() {
                 it.arguments?.getString("to"),
                 it.arguments?.getString("date"),
                 it.arguments?.getString("time"),
-                it.arguments?.getInt("passengers"),
+                it.arguments?.getString("passengers"),
                 it.arguments?.getString("rate")
                 )
         }

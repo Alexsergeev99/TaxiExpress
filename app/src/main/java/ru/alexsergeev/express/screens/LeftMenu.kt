@@ -25,7 +25,7 @@ import androidx.navigation.NavController
 import ru.alexsergeev.express.R
 
 @Composable
-fun LeftMenu(navController: NavController, name: String?) {
+fun LeftMenu(navController: NavController, name: String?, phone: String?) {
     Column(
         modifier = Modifier
             .fillMaxWidth(0.7f)
@@ -63,7 +63,7 @@ fun LeftMenu(navController: NavController, name: String?) {
                 Color.White
             ),
             onClick = {
-                navController.navigate("main_screen/${name.toString()}")
+                navController.navigate("main_screen/${name.toString()}/${phone.toString()}")
             }
         ) {
             Icon(

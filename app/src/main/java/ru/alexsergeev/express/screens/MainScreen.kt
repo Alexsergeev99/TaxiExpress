@@ -1,5 +1,6 @@
 package ru.alexsergeev.express.screens
 
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -28,6 +31,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -40,6 +45,7 @@ import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.buttons.CounterPassengersButton
+import ru.alexsergeev.express.buttons.IconControlButton
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 import java.time.LocalDate
@@ -70,6 +76,9 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
         }
     }
 
+    val focusManager = LocalFocusManager.current
+    val ctx = LocalContext.current
+
     val dateDialogState = rememberMaterialDialogState()
     val timeDialogState = rememberMaterialDialogState()
 
@@ -81,6 +90,9 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
     }
     var valueCounter by remember {
         mutableStateOf(1)
+    }
+    val passengers = remember {
+        mutableStateOf("")
     }
     Box(
         Modifier
@@ -127,11 +139,12 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                         unfocusedTextColor = Color.White,
                         unfocusedContainerColor = Color.Black,
                         focusedLabelColor = Color.White,
-                        unfocusedLabelColor = Color.White
+                        unfocusedLabelColor = Color.White,
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = {
                         start.value = it
+//                        focusManager.clearFocus()
                     }
                 )
                 OutlinedTextField(
@@ -152,9 +165,18 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = {
                         finish.value = it
+//                        focusManager.clearFocus()
                     }
                 )
             }
+            IconControlButton(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally),
+                icon = Icons.Outlined.Check,
+                contentDescription = "Decrease count",
+                onClick = { focusManager.clearFocus() },
+                tintColor = Color.White
+            )
             Row(
                 modifier = Modifier
                     .padding(16.dp)
@@ -225,12 +247,15 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                 value = valueCounter.toString(),
                 onValueDecreaseClick = {
                     valueCounter = maxOf(valueCounter - 1, 1)
+                    passengers.value = valueCounter.toString()
                 },
                 onValueIncreaseClick = {
                     valueCounter++
+                    passengers.value = valueCounter.toString()
                 },
                 onValueClearClick = {
                     valueCounter = 1
+                    passengers.value = valueCounter.toString()
                 },
                 modifier = Modifier
                     .padding(8.dp)
@@ -243,16 +268,30 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                 .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
-                    if(start.value.isNotEmpty() && finish.value.isNotEmpty() && pickedDate >= LocalDate.now())
-                    navController.navigate("rate_screen/" +
-                            "${name.toString()}/" +
-                            "${phone.toString()}/" +
-                            "${start.value.toString()}/" +
-                            "${finish.value.toString()}/" +
-                            "${pickedDate.toString()}/" +
-                            "${pickedTime.toString()}/" +
-                            "${valueCounter.toString()}")
-                }) {
+                    if(start.value.isNotEmpty() && finish.value.isNotEmpty() && pickedDate >= LocalDate.now()) {
+                        navController.navigate(
+                            "rate_screen/" +
+                                    "${name.toString()}/" +
+                                    "${phone.toString()}/" +
+                                    "${start.value.toString()}/" +
+                                    "${finish.value.toString()}/" +
+                                    "${pickedDate.toString()}/" +
+                                    "${pickedTime.toString()}/${passengers.value.toString()}"
+
+                        )
+                    } else if (start.value.isNotEmpty() && finish.value.isNotEmpty()){
+                        Toast.makeText(ctx, "Дата поездки не может быть раньше сегодняшнего дня", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        Toast.makeText(
+                            ctx,
+                            "Пожалуйста, заполните все поля",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                }
+            ) {
                 Text(
                     text = "Далее",
                     color = Color.Black

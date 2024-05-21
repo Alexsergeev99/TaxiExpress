@@ -12,9 +12,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Check
+import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -31,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import ru.alexsergeev.express.R
+import ru.alexsergeev.express.buttons.IconControlButton
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
@@ -43,7 +49,7 @@ fun FinalScreen(
     to: String?,
     date: String?,
     time: String?,
-    passengers: Int?,
+    passengers: String?,
     rate: String?
 ) {
     val comment = remember {
@@ -81,7 +87,7 @@ fun FinalScreen(
                 text = "Подтверждение заказа"
             )
             Box(modifier = Modifier
-                .border(4.dp, DarkRed)) {
+                .border(4.dp, DarkYellow)) {
                 Column {
                     Row {
                         Text(modifier = Modifier
@@ -133,25 +139,34 @@ fun FinalScreen(
                     }
                 }
             }
-
-            OutlinedTextField(
-                modifier = Modifier
-                    .align(alignment = Alignment.CenterHorizontally)
-                    .padding(top = 8.dp),
-                value = comment.value,
-                shape = RoundedCornerShape(20),
-                label = { Text(text = "Комментарий:") },
-                colors = TextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    focusedContainerColor = Color.Black,
-                    unfocusedTextColor = Color.White,
-                    unfocusedContainerColor = Color.Black
-                ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                onValueChange = {
-                    comment.value = it
-                }
-            )
+            Row(modifier = Modifier
+                .align(Alignment.CenterHorizontally)) {
+                OutlinedTextField(
+                    modifier = Modifier
+                        .padding(top = 8.dp),
+                    value = comment.value,
+                    shape = RoundedCornerShape(20),
+                    label = { Text(text = "Комментарий:") },
+                    colors = TextFieldDefaults.colors(
+                        focusedTextColor = Color.White,
+                        focusedContainerColor = Color.Black,
+                        unfocusedTextColor = Color.White,
+                        unfocusedContainerColor = Color.Black
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    onValueChange = {
+                        comment.value = it
+                    }
+                )
+                IconControlButton(
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically),
+                    icon = Icons.Outlined.Check,
+                    contentDescription = "Decrease count",
+                    onClick = { focusManager.clearFocus() },
+                    tintColor = Color.White
+                )
+            }
             Row {
                 Checkbox(
                     checked = checkedChildrenState.value,
