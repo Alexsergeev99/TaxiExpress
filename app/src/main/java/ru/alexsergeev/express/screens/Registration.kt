@@ -115,17 +115,17 @@ fun Registration(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
                     focusManager.clearFocus()
-                    if (phone.value.isNotEmpty()) {
+                    if (phone.value.isNotEmpty() && name.value.isNotEmpty()) {
                         if (Patterns.PHONE.matcher(phone.value).matches()) {
                             Toast.makeText(ctx, "Номер телефона указан верно", Toast.LENGTH_SHORT)
                                 .show()
-                            navController.navigate("code_screen/${name.value.toString()}")
+                            navController.navigate("code_screen/${name.value.toString()}/${phone.value.toString()}")
                         } else {
                             Toast.makeText(ctx, "Номер телефона указан неверно", Toast.LENGTH_SHORT)
                                 .show()
                         }
                     } else {
-                        Toast.makeText(ctx, "Пожалуйста, введите номер телефона", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(ctx, "Пожалуйста, не оставляйте поле пустым", Toast.LENGTH_SHORT).show()
                     }
                 }) {
                 Text(text = "Получить код")

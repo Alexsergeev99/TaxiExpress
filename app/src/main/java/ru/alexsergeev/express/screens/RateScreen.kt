@@ -6,15 +6,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Tab
+import androidx.compose.material3.TabPosition
 import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TabPosition
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -32,7 +31,6 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import ru.alexsergeev.express.R
@@ -44,7 +42,16 @@ import ru.alexsergeev.express.ui.theme.DarkRed
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun RateScreen(navController: NavController, name: String?) {
+fun RateScreen(
+    navController: NavController,
+    name: String?,
+    phone: String?,
+    from: String?,
+    to: String?,
+    date: String?,
+    time: String?,
+    passengers: Int?
+) {
     val tabList = listOf("Эконом", "Комфорт", "Бизнес", "Минивэн")
     val pagerState = rememberPagerState()
     val tabIndex = pagerState.currentPage
@@ -65,14 +72,17 @@ fun RateScreen(navController: NavController, name: String?) {
             painter = painterResource(id = R.drawable.slavexpresslogo__horisontal_),
             contentDescription = "test image"
         )
-        Text(modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 16.dp, bottom = 16.dp)
-            ,textAlign = TextAlign.Center
-            , fontSize = 36.sp,
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, bottom = 16.dp),
+            textAlign = TextAlign.Center,
+            fontSize = 36.sp,
             text = "Выбор тарифа",
-            color = Color.White)
-        TabRow(selectedTabIndex = tabIndex,
+            color = Color.White
+        )
+        TabRow(
+            selectedTabIndex = tabIndex,
             indicator = { position ->
                 TabRowDefaults.Indicator(
                     Modifier.pagerTabIndicatorOffset(pagerState, position)
@@ -100,13 +110,43 @@ fun RateScreen(navController: NavController, name: String?) {
             modifier = Modifier
                 .weight(1.0f)
                 .fillMaxHeight(0.5f)
-        ) {
-                index ->
+        ) { index ->
             when (tabIndex) {
-                0 -> EconomyRate(navController = navController, name.toString())
-                1 -> ComfortRate(navController = navController, name.toString())
-                2 -> BusinessRate(navController = navController, name.toString())
-                else -> MinivanRate(navController = navController, name.toString())
+                0 -> EconomyRate(
+                    navController = navController,
+                    name.toString(),
+                    phone.toString(),
+                    from.toString(),
+                    to.toString(),
+                    date.toString(),
+                    time.toString(),
+                    passengers?.toInt()
+                )
+
+                1 -> ComfortRate(navController = navController,
+                    name.toString(),
+                    phone.toString(),
+                    from.toString(),
+                    to.toString(),
+                    date.toString(),
+                    time.toString(),
+                    passengers?.toInt())
+                2 -> BusinessRate(navController = navController,
+                    name.toString(),
+                    phone.toString(),
+                    from.toString(),
+                    to.toString(),
+                    date.toString(),
+                    time.toString(),
+                    passengers?.toInt())
+                else -> MinivanRate(navController = navController,
+                    name.toString(),
+                    phone.toString(),
+                    from.toString(),
+                    to.toString(),
+                    date.toString(),
+                    time.toString(),
+                    passengers?.toInt())
             }
         }
     }

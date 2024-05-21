@@ -4,18 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -23,8 +18,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import ru.alexsergeev.express.cars.MinivanCars
-import ru.alexsergeev.express.rates.MinivanRate
 import ru.alexsergeev.express.screens.CodeScreen
 import ru.alexsergeev.express.screens.FinalScreen
 import ru.alexsergeev.express.screens.LeftMenu
@@ -75,29 +68,44 @@ fun Navigation() {
         composable("registration") {
             Registration(navController = navController)
         }
-        composable("main_screen/{name}") {
-            MainPage(navController = navController, it.arguments?.getString("name"))
+        composable("main_screen/{name}/{phone}") {
+            MainPage(navController = navController, it.arguments?.getString("name"), it.arguments?.getString("phone"))
         }
-        composable("code_screen/{name}") {
-            CodeScreen(navController = navController, it.arguments?.getString("name"))
+        composable("code_screen/{name}/{phone}") {
+            CodeScreen(navController = navController, it.arguments?.getString("name"), it.arguments?.getString("phone"))
         }
         composable(route = "left_menu/{name}") {
             Box {
-                MainPage(navController = navController, it.arguments?.getString("name"))
+                MainPage(navController = navController, it.arguments?.getString("name"), it.arguments?.getString("phone"))
                 LeftMenu(navController = navController, it.arguments?.getString("name"))
             }
         }
-        composable(route = "rate_screen/{name}") {
-            RateScreen(navController = navController, it.arguments?.getString("name"))
+        composable(route = "rate_screen/{name}/{phone}/{from}/{to}/{date}/{time}/{passengers}") {
+            RateScreen(navController = navController, it.arguments?.getString("name"),
+                it.arguments?.getString("phone"),
+                it.arguments?.getString("from"),
+                it.arguments?.getString("to"),
+                it.arguments?.getString("date"),
+                it.arguments?.getString("time"),
+                it.arguments?.getInt("passengers")
+                )
         }
-        composable(route = "final_screen/{name}") {
-            FinalScreen(navController = navController, it.arguments?.getString("name"))
+        composable(route = "final_screen/{name}/{phone}/{from}/{to}/{date}/{time}/{passengers}/{rate}") {
+            FinalScreen(navController = navController, it.arguments?.getString("name"),
+                it.arguments?.getString("phone"),
+                it.arguments?.getString("from"),
+                it.arguments?.getString("to"),
+                it.arguments?.getString("date"),
+                it.arguments?.getString("time"),
+                it.arguments?.getInt("passengers"),
+                it.arguments?.getString("rate")
+                )
         }
-        composable(route = "minivans/{name}") {
-                Box {
-                    MinivanRate(navController = navController, it.arguments?.getString("name"))
-                    MinivanCars(navController = navController, it.arguments?.getString("name"))
-                }
-            }
+//        composable(route = "minivans/{name}") {
+//                Box {
+//                    MinivanRate(navController = navController, it.arguments?.getString("name"))
+//                    MinivanCars(navController = navController, it.arguments?.getString("name"))
+//                }
+//            }
         }
     }

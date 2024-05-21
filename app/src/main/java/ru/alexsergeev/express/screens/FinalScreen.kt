@@ -24,7 +24,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -36,7 +35,17 @@ import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
-fun FinalScreen(navController: NavController, name: String?) {
+fun FinalScreen(
+    navController: NavController,
+    name: String?,
+    phone: String?,
+    from: String?,
+    to: String?,
+    date: String?,
+    time: String?,
+    passengers: Int?,
+    rate: String?
+) {
     val comment = remember {
         mutableStateOf("")
     }
@@ -76,51 +85,51 @@ fun FinalScreen(navController: NavController, name: String?) {
                 Column {
                     Row {
                         Text(modifier = Modifier
-                            .padding(20.dp)
+                            .padding(16.dp)
                             .align(Alignment.CenterVertically),
                             color = Color.White,
                             text = "Имя: ${name.toString()}")
                         Text(modifier = Modifier
-                            .padding(20.dp)
+                            .padding(16.dp)
                             .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Номер телефона:")
+                            text = "Номер телефона: ${phone.toString()}")
                     }
                     Row {
                         Text(modifier = Modifier
-                            .padding(20.dp)
+                            .padding(16.dp)
                             .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Поедем из:")
+                            text = "Поедем из: ${from.toString()}")
                         Text(modifier = Modifier
-                            .padding(20.dp)
+                            .padding(16.dp)
                             .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Поедем в:")
+                            text = "Поедем в: ${to.toString()}")
                     }
                     Row {
                         Text(modifier = Modifier
-                            .padding(20.dp)
+                            .padding(16.dp)
                             .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Дата поездки:")
+                            text = "Дата поездки: ${date.toString()}")
                         Text(modifier = Modifier
-                            .padding(20.dp)
+                            .padding(16.dp)
                             .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Время поездки:")
+                            text = "Время поездки: ${time.toString()}")
                     }
                     Row {
                         Text(modifier = Modifier
-                            .padding(20.dp)
+                            .padding(16.dp)
                             .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Тариф:")
+                            text = "Тариф: ${rate.toString()}")
                         Text(modifier = Modifier
-                            .padding(20.dp)
+                            .padding(16.dp)
                             .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Количество пассажиров:")
+                            text = "Количество пассажиров: ${passengers.toString()}")
                     }
                 }
             }
@@ -128,7 +137,7 @@ fun FinalScreen(navController: NavController, name: String?) {
             OutlinedTextField(
                 modifier = Modifier
                     .align(alignment = Alignment.CenterHorizontally)
-                    .padding(top = 16.dp),
+                    .padding(top = 8.dp),
                 value = comment.value,
                 shape = RoundedCornerShape(20),
                 label = { Text(text = "Комментарий:") },

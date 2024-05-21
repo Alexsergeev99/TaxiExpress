@@ -48,7 +48,7 @@ import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainPage(navController: NavController, name: String?) {
+fun MainPage(navController: NavController, name: String?, phone: String?) {
     var pickedDate by remember {
         mutableStateOf(LocalDate.now())
     }
@@ -243,7 +243,15 @@ fun MainPage(navController: NavController, name: String?) {
                 .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
-                    navController.navigate("rate_screen/${name.toString()}")
+                    if(start.value.isNotEmpty() && finish.value.isNotEmpty() && pickedDate >= LocalDate.now())
+                    navController.navigate("rate_screen/" +
+                            "${name.toString()}/" +
+                            "${phone.toString()}/" +
+                            "${start.value.toString()}/" +
+                            "${finish.value.toString()}/" +
+                            "${pickedDate.toString()}/" +
+                            "${pickedTime.toString()}/" +
+                            "${valueCounter.toString()}")
                 }) {
                 Text(
                     text = "Далее",

@@ -43,7 +43,7 @@ import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
-fun CodeScreen(navController: NavController, name: String?) {
+fun CodeScreen(navController: NavController, name: String?, phone: String?) {
 
     val ctx = LocalContext.current
     val focusManager = LocalFocusManager.current
@@ -91,7 +91,7 @@ fun CodeScreen(navController: NavController, name: String?) {
                         if (codeValue.value.length == 6) {
                             Toast.makeText(ctx, "Код введен верно", Toast.LENGTH_SHORT)
                                 .show()
-                            navController.navigate("main_screen/${name.toString()}")
+                            navController.navigate("main_screen/${name.toString()}/${phone.toString()}")
                         } else {
                             Toast.makeText(ctx, "Код введен неверно", Toast.LENGTH_SHORT)
                                 .show()
