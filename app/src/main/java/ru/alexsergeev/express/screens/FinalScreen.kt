@@ -99,7 +99,7 @@ fun FinalScreen(
                             .padding(16.dp)
                             .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Номер телефона: ${phone.toString()}")
+                            text = "Номер телефона: +7${phone.toString()}")
                     }
                     Row {
                         Text(modifier = Modifier

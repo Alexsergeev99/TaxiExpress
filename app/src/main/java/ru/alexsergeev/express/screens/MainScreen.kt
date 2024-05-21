@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DatePickerColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -34,12 +35,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
@@ -51,6 +57,7 @@ import ru.alexsergeev.express.ui.theme.DarkYellow
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,7 +66,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
         mutableStateOf(LocalDate.now())
     }
     var pickedTime by remember {
-        mutableStateOf(LocalTime.NOON)
+        mutableStateOf("")
     }
     val formattedDate by remember {
         derivedStateOf {
@@ -68,16 +75,17 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                 .format(pickedDate)
         }
     }
-    val formattedTime by remember {
-        derivedStateOf {
-            DateTimeFormatter
-                .ofPattern("hh:mm")
-                .format(pickedTime)
-        }
-    }
+//    val formattedTime by remember {
+//        derivedStateOf {
+//            DateTimeFormatter
+//                .ofPattern("hh:mm")
+//                .format(pickedTime)
+//        }
+//    }
 
     val focusManager = LocalFocusManager.current
     val ctx = LocalContext.current
+    val mask = MaskVisualTransformation("##:##")
 
     val dateDialogState = rememberMaterialDialogState()
     val timeDialogState = rememberMaterialDialogState()
@@ -207,32 +215,53 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                         )
                     }
                 }
-                Column {
-                    Button(modifier = Modifier
-                        .padding(4.dp)
-                        .fillMaxWidth(),
-                        colors = ButtonDefaults.buttonColors(DarkRed),
-                        onClick = {
-                            timeDialogState.show()
-                        }) {
-                        Text(
-                            text = "Время поездки",
-                            color = Color.Black
-                        )
-                    }
-                    Button(
+//                    Button(modifier = Modifier
+//                        .padding(4.dp)
+//                        .fillMaxWidth(),
+//                        colors = ButtonDefaults.buttonColors(DarkRed),
+//                        onClick = {
+//                            timeDialogState.show()
+//                        }) {
+//                        Text(
+//                            text = "Время поездки",
+//                            color = Color.Black
+//                        )
+//                    }
+                    OutlinedTextField(
                         modifier = Modifier
-                            .padding(4.dp)
-                            .fillMaxWidth(),
-                        enabled = true,
-                        colors = ButtonDefaults.buttonColors(DarkRed),
-                        onClick = { /*TODO*/ }) {
-                        Text(
-                            text = formattedTime,
-                            color = Color.Black
-                        )
-                    }
-                }
+                            .align(alignment = Alignment.CenterVertically),
+                        value = pickedTime.toString(),
+                        shape = RoundedCornerShape(20),
+                        label = { Text(text = "Время поездки") },
+                        placeholder = { Text(text = "##:##") } ,
+                        colors = TextFieldDefaults.colors(
+                            focusedTextColor = Color.White,
+                            focusedContainerColor = Color.Black,
+                            unfocusedTextColor = Color.White,
+                            unfocusedContainerColor = Color.Black
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        onValueChange = {
+                            pickedTime = it
+                        },
+                        visualTransformation = mask
+                    )
+//                    Button(
+//                        modifier = Modifier
+//                            .padding(4.dp)
+//                            .fillMaxWidth(),
+//                        enabled = true,
+//                        colors = ButtonDefaults.buttonColors(DarkRed),
+//                        onClick = { /*TODO*/ }) {
+//                        Text(
+//                            text = if(pickedTime != null) {
+//                                "${pickedTime[0]}" + "${pickedTime[1]}" + ":" + "${pickedTime[2]}" + "${pickedTime[3]}"
+//                            } else {
+//                                   pickedTime
+//                            },
+//                            color = Color.Black
+//                        )
+//                    }
             }
             Text(
                 modifier = Modifier
@@ -300,29 +329,67 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
         }
     }
     MaterialDialog(
+        backgroundColor = Color.Black,
         dialogState = dateDialogState,
         buttons = {
             positiveButton(text = "OK")
             negativeButton(text = "Назад")
         }) {
         datepicker(
+            colors = DatePickerDefaults.colors(Color.Black, Color.White,Color.White,Color.Black,Color.Black,DarkYellow,
+                Color.White),
             initialDate = LocalDate.now(),
             title = "Дата поездки",
         ) {
             pickedDate = it
         }
     }
-    MaterialDialog(
-        dialogState = timeDialogState,
-        buttons = {
-            positiveButton(text = "OK")
-            negativeButton(text = "Назад")
-        }) {
-        timepicker(
-            initialTime = LocalTime.now(),
-            title = "Время поездки",
-        ) {
-            pickedTime = it
+//    MaterialDialog(
+//        dialogState = timeDialogState,
+//        buttons = {
+//            positiveButton(text = "OK")
+//            negativeButton(text = "Назад")
+//        }) {
+//        timepicker(
+//            initialTime = LocalTime.now(),
+//            title = "Время поездки",
+//        ) {
+//            pickedTime = it
+//        }
+//    }
+}
+
+class MaskTimeVisualTransformation(private val mask: String): VisualTransformation {
+    private val specialSymbolsIndices = mask.indices.filter { mask[it] != '#' }
+
+    override fun filter(text: AnnotatedString): TransformedText {
+        var out = ""
+        var maskIndex = 0
+        text.forEach { char ->
+            while (specialSymbolsIndices.contains(maskIndex)) {
+                out += mask[maskIndex]
+                maskIndex++
+            }
+            out += char
+            maskIndex++
+        }
+        return TransformedText(AnnotatedString(out), offsetTranslator())
+    }
+
+    private fun offsetTranslator() = object: OffsetMapping {
+        override fun originalToTransformed(offset: Int): Int {
+            val offsetValue = offset.absoluteValue
+            if (offsetValue == 0) return 0
+            var numberOfHashtags = 0
+            val masked = mask.takeWhile {
+                if (it == '#') numberOfHashtags++
+                numberOfHashtags < offsetValue
+            }
+            return masked.length + 1
+        }
+
+        override fun transformedToOriginal(offset: Int): Int {
+            return mask.take(offset.absoluteValue).count { it == '#' }
         }
     }
 }
