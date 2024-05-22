@@ -1,5 +1,6 @@
 package ru.alexsergeev.express.screens
 
+import android.app.Activity
 import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -33,8 +34,14 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthOptions
+import com.google.firebase.auth.PhoneAuthProvider
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkYellow
+import java.util.concurrent.TimeUnit
 import kotlin.math.absoluteValue
 
 @Composable
@@ -45,6 +52,17 @@ fun Registration(navController: NavController) {
     val phone = remember {
         mutableStateOf("")
     }
+    val verificationID = remember {
+        mutableStateOf("")
+    }
+
+    val message = remember {
+        mutableStateOf("")
+    }
+
+//    var mAuth: FirebaseAuth = FirebaseAuth.getInstance();
+    lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
+
     val ctx = LocalContext.current
     val focusManager = LocalFocusManager.current
     val mask = MaskVisualTransformation("+7 (###) ### ##-##")
@@ -119,6 +137,7 @@ fun Registration(navController: NavController) {
                         if (Patterns.PHONE.matcher(phone.value).matches()) {
                             Toast.makeText(ctx, "Номер телефона указан верно", Toast.LENGTH_SHORT)
                                 .show()
+//                            sendVerificationCode(phone.value, mAuth, ctx as Activity, callbacks)
                             navController.navigate("code_screen/${name.value.toString()}/${phone.value.toString()}")
                         } else {
                             Toast.makeText(ctx, "Номер телефона указан неверно", Toast.LENGTH_SHORT)
@@ -130,6 +149,25 @@ fun Registration(navController: NavController) {
                 }) {
                 Text(text = "Получить код")
             }
+        }
+    }
+    callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        override fun onVerificationCompleted(p0: PhoneAuthCredential) {
+            // обновление сообщения и отправка тоаста
+            message.value = "Верификация прошла успешно"
+            Toast.makeText(ctx, "Верификация неуспешна", Toast.LENGTH_SHORT).show()
+        }
+
+        override fun onVerificationFailed(p0: FirebaseException) {
+            // тоаст с ошибкой
+            message.value = "Fail to verify user : \n" + p0.message
+            Toast.makeText(ctx, "Верификация неуспешна", Toast.LENGTH_SHORT).show()
+        }
+
+        override fun onCodeSent(verificationId: String, p1: PhoneAuthProvider.ForceResendingToken) {
+            // отправка кода
+            super.onCodeSent(verificationId, p1)
+            verificationID.value = verificationId
         }
     }
 }
@@ -167,4 +205,21 @@ class MaskVisualTransformation(private val mask: String): VisualTransformation {
             return mask.take(offset.absoluteValue).count { it == '#' }
         }
     }
+}
+
+// метод для получения кода
+private fun sendVerificationCode(
+    number: String,
+    auth: FirebaseAuth,
+    activity: Activity,
+    callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
+) {
+    // опции кода
+    val options = PhoneAuthOptions.newBuilder(auth)
+        .setPhoneNumber(number) // номер телефона
+        .setTimeout(60L, TimeUnit.SECONDS) // время
+        .setActivity(activity)
+        .setCallbacks(callbacks)
+        .build()
+    PhoneAuthProvider.verifyPhoneNumber(options)
 }

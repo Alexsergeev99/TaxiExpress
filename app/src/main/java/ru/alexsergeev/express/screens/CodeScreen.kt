@@ -1,5 +1,8 @@
 package ru.alexsergeev.express.screens
 
+import android.app.Activity
+import android.content.Context
+import android.text.TextUtils
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,6 +27,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,18 +42,85 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.google.firebase.FirebaseException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthProvider
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
+//@Composable
+//fun OTPAuth() {
+//    val mAuth = FirebaseAuth.getInstance()
+//    var verificationOtp = ""
+//val turnOffPhoneVerify = FirebaseAuth.getInstance().firebaseAuthSettings
+//    .setAppVerificationDisabledForTesting(false)
+//
+//    fun send(phone: String) {
+//    val options = PhoneAuthOptions.newBuilder(mAuth)
+//
+//        .setPhoneNumber("+7$phone")
+//        .setTimeout(60L, TimeUnit.SECONDS)
+//        .setActivity(this)
+//        .setCallbacks(object :
+//            PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+//            override fun onVerificationCompleted(p0: PhoneAuthCredential) {
+//                Toast.makeText(applicationContext, "Verification Completed", Toast.LENGTH_SHORT).show()
+//            }
+//
+//            override fun onVerificationFailed(p0: FirebaseException) {
+//                Toast.makeText(applicationContext, "Verification Failed", Toast.LENGTH_SHORT).show()
+//            }
+//
+//            override fun onCodeSent(otp: String, p1: PhoneAuthProvider.ForceResendingToken) {
+//                super.onCodeSent(otp, p1)
+//                verificationOtp = otp
+//                Toast.makeText(applicationContext, "Otp Send Successfully", Toast.LENGTH_SHORT).show()
+//            }
+//        }).build()
+//    PhoneAuthProvider.verifyPhoneNumber(options)
+//}
+//
+// fun otpVerification(otp: String) {
+//    val credential = PhoneAuthProvider.getCredential(verificationOtp, otp)
+//    FirebaseAuth.getInstance().signInWithCredential(credential)
+//        .addOnCompleteListener(this) { task ->
+//            if (task.isSuccessful) {
+//                Toast.makeText(applicationContext, "Verification Successful", Toast.LENGTH_SHORT).show()
+//            } else {
+//                Toast.makeText(applicationContext, "Wrong Otp", Toast.LENGTH_SHORT).show()
+//            }
+//        }
+//}
+//}
+
 @Composable
 fun CodeScreen(navController: NavController, name: String?, phone: String?) {
 
-    val ctx = LocalContext.current
-    val focusManager = LocalFocusManager.current
+    val phoneNumber = remember {
+        mutableStateOf("")
+    }
+
     val codeValue = remember {
         mutableStateOf("")
     }
+
+    val verificationID = remember {
+        mutableStateOf("")
+    }
+
+    val message = remember {
+        mutableStateOf("")
+    }
+
+//    var mAuth: FirebaseAuth = FirebaseAuth.getInstance();
+    lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
+
+    val ctx = LocalContext.current
+    val focusManager = LocalFocusManager.current
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -100,9 +171,47 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?) {
                         Toast.makeText(ctx, "Пожалуйста, введите код из СМС", Toast.LENGTH_SHORT)
                             .show()
                     }
-                }) {
+//                    if (TextUtils.isEmpty(codeValue.value.toString())) {
+//                        // displaying toast message on below line.
+//                        Toast.makeText(ctx, "Пожалуйста, введите код из СМС", Toast.LENGTH_SHORT)
+//                            .show()
+//                    } else {
+//                        // on below line generating phone credentials.
+//                        val credential: PhoneAuthCredential = PhoneAuthProvider.getCredential(
+//                            verificationID.value, codeValue.value
+//                        )
+//                        // on below line signing within credentials.
+//                        signInWithPhoneAuthCredential(
+//                            credential,
+//                            mAuth,
+//                            ctx as Activity,
+//                            ctx,
+//                            message
+//                        )
+//                    }
+                }
+            ) {
                 Text(text = "Войти")
             }
+        }
+    }
+    callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+        override fun onVerificationCompleted(p0: PhoneAuthCredential) {
+            // ниже обновление сообщения и показ тоаста
+            message.value = "Верификация прошла успешно"
+            Toast.makeText(ctx, "Верификация неуспешна", Toast.LENGTH_SHORT).show()
+        }
+
+        override fun onVerificationFailed(p0: FirebaseException) {
+            // тоаст с ошибкой
+            message.value = "Ошибка верификации пользователя : \n" + p0.message
+            Toast.makeText(ctx, "Верификация неуспешна", Toast.LENGTH_SHORT).show()
+        }
+
+        override fun onCodeSent(verificationId: String, p1: PhoneAuthProvider.ForceResendingToken) {
+            // метод отправки кода
+            super.onCodeSent(verificationId, p1)
+            verificationID.value = verificationId
         }
     }
 }
@@ -174,4 +283,31 @@ private fun CharView(
         },
         textAlign = TextAlign.Center
     )
+}
+
+private fun signInWithPhoneAuthCredential(
+    credential: PhoneAuthCredential,
+    auth: FirebaseAuth,
+    activity: Activity,
+    context: Context,
+    message: MutableState<String>
+) {
+    auth.signInWithCredential(credential)
+        .addOnCompleteListener(activity) { task ->
+            // когда верификация успешна
+            if (task.isSuccessful) {
+                message.value = "Успешно"
+                Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
+            } else {
+                // Sign in failed, display a message
+                if (task.exception is FirebaseAuthInvalidCredentialsException) {
+                    // когда неуспешна
+                    Toast.makeText(
+                        context,
+                        "Неправильный код" + (task.exception as FirebaseAuthInvalidCredentialsException).message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
 }
