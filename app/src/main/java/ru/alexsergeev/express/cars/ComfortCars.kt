@@ -21,10 +21,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import ru.alexsergeev.express.ui.theme.DarkRed
 
-private val cars = listOf("Citroen C4 Grand Picasso", "Volkswagen Caddy")
+private val cars = listOf("Kia Cerato", "Kia K5", "Kia Seltos",
+    "Kia Sportage", "Mazda 6", "Mazda CX-5", "Mercedes-Benz C-klasse",
+    "Nissan Juke", "Nissan Teana", "Nissan Qashqai", "Opel Insignia", "Renault Talisman",
+    "Skoda Octavia", "Subaru Legacy", "Toyota RAV 4", "Toyota Prius", "Volkswagen Passat",
+    "Volkswagen Tiguan", "Volvo S80", "Volvo XC60", "Volvo XC90",
+    "Geely Coolray", "Genesis G70", "Honda Accord", "Hyundai Elantra",
+    "Kaiyi E5", "Chevrolet Malibu", "Chery Arrizo 8")
 
 @Composable
-fun MinivanCars(
+fun ComfortCars(
     dialogState: MutableState<Boolean>,
     navController: NavController,
     name: String?,
@@ -41,7 +47,7 @@ fun MinivanCars(
     AlertDialog(onDismissRequest = {
         dialogState.value = false
     }, modifier = Modifier
-        .padding(bottom = 16.dp),
+        .padding(bottom = 8.dp),
         confirmButton = {
             TextButton(onClick = {
                 navController.navigate(
@@ -53,7 +59,7 @@ fun MinivanCars(
                             "${date.toString()}/" +
                             "${time.toString()}/" +
                             "${passengers?.toString()}/" +
-                            "Минивен"
+                            "Комфорт"
                 )
                 dialogState.value = false
             },
@@ -75,7 +81,7 @@ fun MinivanCars(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp),
+                    .padding(bottom = 4.dp),
 //            .background(Color.White)
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom
@@ -83,7 +89,7 @@ fun MinivanCars(
                 items(cars.size) { car ->
                     Text(
                         modifier = Modifier
-                            .padding(16.dp), fontSize = 16.sp,
+                            .padding(4.dp), fontSize = 12.sp,
                         text = cars[car],
                         color = Color.Black
                     )

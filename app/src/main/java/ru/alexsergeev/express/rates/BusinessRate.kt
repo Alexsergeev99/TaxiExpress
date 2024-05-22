@@ -13,6 +13,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,16 +24,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import ru.alexsergeev.express.R
+import ru.alexsergeev.express.cars.BusinessCars
+import ru.alexsergeev.express.cars.MinivanCars
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
-fun BusinessRate(navController: NavController, name: String?,
-                 phone: String?,
-                 from: String?,
-                 to: String?,
-                 date: String?,
-                 time: String?,
-                 passengers: String?) {
+fun BusinessRate(
+    navController: NavController, name: String?,
+    phone: String?,
+    from: String?,
+    to: String?,
+    date: String?,
+    time: String?,
+    passengers: String?
+) {
+
+    val dialogState = remember {
+        mutableStateOf(false)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -75,9 +86,22 @@ fun BusinessRate(navController: NavController, name: String?,
                 fontSize = 20.sp
             )
 
+            if (dialogState.value) {
+                BusinessCars(
+                    dialogState, navController = navController,
+                    name.toString(),
+                    phone.toString(),
+                    from.toString(),
+                    to.toString(),
+                    date.toString(),
+                    time.toString(),
+                    passengers.toString()
+                )
+            }
+
             TextButton(
                 onClick = {
-//                    navController.navigate("minivans/${name.toString()}")
+                    dialogState.value = true
                 },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -86,7 +110,7 @@ fun BusinessRate(navController: NavController, name: String?,
                     modifier = Modifier
                         .padding(8.dp)
                         .align(Alignment.CenterVertically),
-                    text = "еще",
+                    text = "Другие машины в этом тарифе",
                     color = Color.White
                 )
             }
@@ -96,15 +120,17 @@ fun BusinessRate(navController: NavController, name: String?,
                 .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
-                    navController.navigate("final_screen/" +
-                            "${name.toString()}/" +
-                            "${phone.toString()}/" +
-                            "${from.toString()}/" +
-                            "${to.toString()}/" +
-                            "${date.toString()}/" +
-                            "${time.toString()}/" +
-                            "${passengers.toString()}/" +
-                            "Бизнес")
+                    navController.navigate(
+                        "final_screen/" +
+                                "${name.toString()}/" +
+                                "${phone.toString()}/" +
+                                "${from.toString()}/" +
+                                "${to.toString()}/" +
+                                "${date.toString()}/" +
+                                "${time.toString()}/" +
+                                "${passengers.toString()}/" +
+                                "Бизнес"
+                    )
                 }
             ) {
                 Text(

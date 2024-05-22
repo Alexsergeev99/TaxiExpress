@@ -21,6 +21,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import ru.alexsergeev.express.R
+import ru.alexsergeev.express.cars.MinivanCars
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -44,12 +47,9 @@ fun MinivanRate(navController: NavController,
                 time: String?,
                 passengers: String?) {
 
-    val sheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
-
-    val sheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = sheetState
-    )
-    val scope = rememberCoroutineScope()
+    val dialogState = remember {
+        mutableStateOf(false)
+    }
 
     Column(
         modifier = Modifier
@@ -94,9 +94,20 @@ fun MinivanRate(navController: NavController,
                 fontSize = 24.sp
             )
 
+            if (dialogState.value) {
+                MinivanCars(dialogState, navController = navController,
+                    name.toString(),
+                    phone.toString(),
+                    from.toString(),
+                    to.toString(),
+                    date.toString(),
+                    time.toString(),
+                    passengers.toString()
+                )
+            }
             TextButton(
                 onClick = {
-//                    navController.navigate("minivans/${name.toString()}")
+                    dialogState.value = true
                 },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -105,7 +116,7 @@ fun MinivanRate(navController: NavController,
                     modifier = Modifier
                         .padding(8.dp)
                         .align(Alignment.CenterVertically),
-                    text = "еще",
+                    text = "Другие машины в этом тарифе",
                     color = Color.White
                 )
             }

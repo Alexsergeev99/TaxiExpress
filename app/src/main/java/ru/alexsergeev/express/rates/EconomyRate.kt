@@ -14,6 +14,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import ru.alexsergeev.express.R
+import ru.alexsergeev.express.cars.EconomyCars
+import ru.alexsergeev.express.cars.MinivanCars
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
@@ -33,6 +37,11 @@ fun EconomyRate(navController: NavController, name: String?,
                 date: String?,
                 time: String?,
                 passengers: String?) {
+
+    val dialogState = remember {
+        mutableStateOf(false)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -75,10 +84,21 @@ fun EconomyRate(navController: NavController, name: String?,
                 color = Color.White,
                 fontSize = 20.sp
             )
-
+            if (dialogState.value) {
+                EconomyCars(
+                    dialogState, navController = navController,
+                    name.toString(),
+                    phone.toString(),
+                    from.toString(),
+                    to.toString(),
+                    date.toString(),
+                    time.toString(),
+                    passengers.toString()
+                )
+            }
             TextButton(
                 onClick = {
-//                    navController.navigate("minivans/${name.toString()}")
+                    dialogState.value = true
                 },
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -87,7 +107,7 @@ fun EconomyRate(navController: NavController, name: String?,
                     modifier = Modifier
                         .padding(8.dp)
                         .align(Alignment.CenterVertically),
-                    text = "еще",
+                    text = "Другие машины в этом тарифе",
                     color = Color.White
                 )
             }

@@ -21,10 +21,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import ru.alexsergeev.express.ui.theme.DarkRed
 
-private val cars = listOf("Citroen C4 Grand Picasso", "Volkswagen Caddy")
+private val cars = listOf("Hongqi H5", "Hongqi H9", "Mercedes-Benz Maybach S-klasse", "Zeekr 009")
 
 @Composable
-fun MinivanCars(
+fun BusinessCars(
     dialogState: MutableState<Boolean>,
     navController: NavController,
     name: String?,
@@ -53,7 +53,7 @@ fun MinivanCars(
                             "${date.toString()}/" +
                             "${time.toString()}/" +
                             "${passengers?.toString()}/" +
-                            "Минивен"
+                            "Бизнес"
                 )
                 dialogState.value = false
             },
@@ -75,7 +75,7 @@ fun MinivanCars(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 16.dp),
+                    .padding(bottom = 8.dp),
 //            .background(Color.White)
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom
@@ -83,7 +83,7 @@ fun MinivanCars(
                 items(cars.size) { car ->
                     Text(
                         modifier = Modifier
-                            .padding(16.dp), fontSize = 16.sp,
+                            .padding(8.dp), fontSize = 14.sp,
                         text = cars[car],
                         color = Color.Black
                     )

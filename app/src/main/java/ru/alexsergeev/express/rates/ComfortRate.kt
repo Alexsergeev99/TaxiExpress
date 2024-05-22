@@ -13,6 +13,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import ru.alexsergeev.express.R
+import ru.alexsergeev.express.cars.ComfortCars
+import ru.alexsergeev.express.cars.MinivanCars
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
@@ -32,6 +36,11 @@ fun ComfortRate(navController: NavController, name: String?,
                 date: String?,
                 time: String?,
                 passengers: String?) {
+
+    val dialogState = remember {
+        mutableStateOf(false)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -75,43 +84,57 @@ fun ComfortRate(navController: NavController, name: String?,
                 fontSize = 20.sp
             )
 
-            TextButton(
-                onClick = {
-//                    navController.navigate("minivans/${name.toString()}")
-                },
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            ) {
-                Text(
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .align(Alignment.CenterVertically),
-                    text = "еще",
-                    color = Color.White
+            if (dialogState.value) {
+                ComfortCars(
+                    dialogState, navController = navController,
+                    name.toString(),
+                    phone.toString(),
+                    from.toString(),
+                    to.toString(),
+                    date.toString(),
+                    time.toString(),
+                    passengers.toString()
                 )
             }
-            Button(modifier = Modifier
-                .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp)
-                .align(Alignment.CenterHorizontally)
-                .fillMaxWidth(0.5f),
-                colors = ButtonDefaults.buttonColors(DarkYellow),
-                onClick = {
-                    navController.navigate("final_screen/" +
-                            "${name.toString()}/" +
-                            "${phone.toString()}/" +
-                            "${from.toString()}/" +
-                            "${to.toString()}/" +
-                            "${date.toString()}/" +
-                            "${time.toString()}/" +
-                            "${passengers.toString()}/" +
-                            "Комфорт")
+                TextButton(
+                    onClick = {
+                        dialogState.value = true
+                    },
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .align(Alignment.CenterVertically),
+                        text = "Другие машины в этом тарифе",
+                        color = Color.White
+                    )
                 }
-            ) {
-                Text(
-                    text = "Выбрать тариф",
-                    color = Color.Black
-                )
+                Button(modifier = Modifier
+                    .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+                    .align(Alignment.CenterHorizontally)
+                    .fillMaxWidth(0.5f),
+                    colors = ButtonDefaults.buttonColors(DarkYellow),
+                    onClick = {
+                        navController.navigate(
+                            "final_screen/" +
+                                    "${name.toString()}/" +
+                                    "${phone.toString()}/" +
+                                    "${from.toString()}/" +
+                                    "${to.toString()}/" +
+                                    "${date.toString()}/" +
+                                    "${time.toString()}/" +
+                                    "${passengers.toString()}/" +
+                                    "Комфорт"
+                        )
+                    }
+                ) {
+                    Text(
+                        text = "Выбрать тариф",
+                        color = Color.Black
+                    )
+                }
             }
         }
     }
-}

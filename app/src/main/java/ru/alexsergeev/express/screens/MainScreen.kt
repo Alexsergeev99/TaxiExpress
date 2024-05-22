@@ -100,7 +100,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
         mutableStateOf(1)
     }
     val passengers = remember {
-        mutableStateOf("")
+        mutableStateOf("1")
     }
     Box(
         Modifier
@@ -297,7 +297,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                 .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
-                    if(start.value.isNotEmpty() && finish.value.isNotEmpty() && pickedDate >= LocalDate.now()) {
+                    if(start.value.isNotEmpty() && finish.value.isNotEmpty() && pickedDate >= LocalDate.now() && pickedTime.isNotEmpty()) {
                         navController.navigate(
                             "rate_screen/" +
                                     "${name.toString()}/" +
