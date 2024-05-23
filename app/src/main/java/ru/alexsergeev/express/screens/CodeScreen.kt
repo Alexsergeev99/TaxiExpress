@@ -2,7 +2,6 @@ package ru.alexsergeev.express.screens
 
 import android.app.Activity
 import android.content.Context
-import android.text.TextUtils
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -50,51 +49,6 @@ import com.google.firebase.auth.PhoneAuthProvider
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
-
-//@Composable
-//fun OTPAuth() {
-//    val mAuth = FirebaseAuth.getInstance()
-//    var verificationOtp = ""
-//val turnOffPhoneVerify = FirebaseAuth.getInstance().firebaseAuthSettings
-//    .setAppVerificationDisabledForTesting(false)
-//
-//    fun send(phone: String) {
-//    val options = PhoneAuthOptions.newBuilder(mAuth)
-//
-//        .setPhoneNumber("+7$phone")
-//        .setTimeout(60L, TimeUnit.SECONDS)
-//        .setActivity(this)
-//        .setCallbacks(object :
-//            PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-//            override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-//                Toast.makeText(applicationContext, "Verification Completed", Toast.LENGTH_SHORT).show()
-//            }
-//
-//            override fun onVerificationFailed(p0: FirebaseException) {
-//                Toast.makeText(applicationContext, "Verification Failed", Toast.LENGTH_SHORT).show()
-//            }
-//
-//            override fun onCodeSent(otp: String, p1: PhoneAuthProvider.ForceResendingToken) {
-//                super.onCodeSent(otp, p1)
-//                verificationOtp = otp
-//                Toast.makeText(applicationContext, "Otp Send Successfully", Toast.LENGTH_SHORT).show()
-//            }
-//        }).build()
-//    PhoneAuthProvider.verifyPhoneNumber(options)
-//}
-//
-// fun otpVerification(otp: String) {
-//    val credential = PhoneAuthProvider.getCredential(verificationOtp, otp)
-//    FirebaseAuth.getInstance().signInWithCredential(credential)
-//        .addOnCompleteListener(this) { task ->
-//            if (task.isSuccessful) {
-//                Toast.makeText(applicationContext, "Verification Successful", Toast.LENGTH_SHORT).show()
-//            } else {
-//                Toast.makeText(applicationContext, "Wrong Otp", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//}
-//}
 
 @Composable
 fun CodeScreen(navController: NavController, name: String?, phone: String?) {

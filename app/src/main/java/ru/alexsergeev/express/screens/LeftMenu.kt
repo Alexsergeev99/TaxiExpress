@@ -82,67 +82,35 @@ fun LeftMenu(navController: NavController, name: String?, phone: String?) {
                 Color.Black,
                 Color.White
             ),
-            onClick = { /*TODO*/ }) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_account_circle_24),
-                contentDescription = "myAccount"
-            )
-            Text(
-                modifier = Modifier
-                    .padding(start = 8.dp),
-                text = "Мой аккаунт", fontSize = 24.sp
-            )
-        }
-        Button(modifier = Modifier
-            .align(alignment = Alignment.Start),
-            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                Color.Black,
-                Color.White
-            ),
-            onClick = { /*TODO*/ }) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_directions_car_24),
-                contentDescription = "carIcon"
-            )
-            Text(
-                modifier = Modifier
-                    .padding(start = 8.dp),
-                text = "Мои поездки", fontSize = 24.sp
-            )
-        }
-        Button(modifier = Modifier
-            .align(alignment = Alignment.Start),
-            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                Color.Black,
-                Color.White
-            ),
-            onClick = { /*TODO*/ }) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_emoji_emotions_24),
-                contentDescription = "settings"
-            )
-            Text(
-                modifier = Modifier
-                    .padding(start = 8.dp),
-                text = "Настройки", fontSize = 24.sp
-            )
-        }
-        Button(modifier = Modifier
-            .align(alignment = Alignment.Start),
-            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                Color.Black,
-                Color.White
-            ),
-            onClick = { /*TODO*/ }) {
+            onClick = {
+                navController.navigate("contacts/${name.toString()}/${phone.toString()}")
+            }) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_contact_support_24),
-                contentDescription = "help"
+                contentDescription = "contacts"
             )
             Text(
                 modifier = Modifier
-                    .padding(start = 8.dp), text = "Поддержка", fontSize = 24.sp
+                    .padding(start = 8.dp),
+                text = "Контакты", fontSize = 24.sp
             )
         }
+//        Button(modifier = Modifier
+//            .align(alignment = Alignment.Start),
+//            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+//                Color.Black,
+//                Color.White
+//            ),
+//            onClick = { /*TODO*/ }) {
+//            Icon(
+//                painter = painterResource(id = R.drawable.baseline_contact_support_24),
+//                contentDescription = "help"
+//            )
+//            Text(
+//                modifier = Modifier
+//                    .padding(start = 8.dp), text = "Поддержка", fontSize = 24.sp
+//            )
+//        }
 //        LeftMenuNew()
     }
 }

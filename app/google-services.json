@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1008509718163",
+    "project_id": "express-37422",
+    "storage_bucket": "express-37422.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1008509718163:android:c478213999a54d60c9c766",
+        "android_client_info": {
+          "package_name": "ru.alexsergeev.express"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-B7Y2QgPwpgsvedfjw1FCKgcQzzfP5Hs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

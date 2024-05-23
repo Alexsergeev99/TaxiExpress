@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -52,12 +53,12 @@ android {
 
 dependencies {
 
-    implementation ("org.osmdroid:osmdroid-android:6.1.16")
+    implementation("org.osmdroid:osmdroid-android:6.1.16")
     implementation("com.google.accompanist:accompanist-pager:0.19.0")
     implementation("com.google.accompanist:accompanist-pager-indicators:0.19.0")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.maps.android:maps-compose:2.2.0")
-    implementation ("androidx.compose.foundation:foundation:1.6.7")
+    implementation("androidx.compose.foundation:foundation:1.6.7")
     implementation("io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc")
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -67,6 +68,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -76,7 +78,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("androidx.navigation:navigation-compose:2.7.7")
-    implementation ("com.google.firebase:firebase-auth-ktx:21.0.1")
-    implementation ("com.google.firebase:firebase-analytics-ktx:19.0.0")
+    implementation("com.google.firebase:firebase-auth-ktx:21.0.1")
+    implementation("com.google.firebase:firebase-analytics-ktx:19.0.0")
 
 }

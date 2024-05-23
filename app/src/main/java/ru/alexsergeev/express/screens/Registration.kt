@@ -33,6 +33,7 @@ import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
@@ -87,7 +88,8 @@ fun Registration(navController: NavController) {
                     .padding(16.dp)
                     .align(alignment = Alignment.CenterHorizontally),
                 color = Color.White,
-                text = "Регистрация"
+                text = "Регистрация",
+                fontSize = 24.sp
             )
             OutlinedTextField(
                 modifier = Modifier
@@ -112,7 +114,7 @@ fun Registration(navController: NavController) {
                 value = phone.value,
                 shape = RoundedCornerShape(20),
                 label = { Text(text = "Ваш номер телефона") },
-                placeholder = { Text(text = "+7 (###) ### ##-##") } ,
+                placeholder = { Text(text = "+7 (###) ### ##-##") },
                 colors = TextFieldDefaults.colors(
                     focusedTextColor = Color.White,
                     focusedContainerColor = Color.Black,
@@ -144,7 +146,11 @@ fun Registration(navController: NavController) {
                                 .show()
                         }
                     } else {
-                        Toast.makeText(ctx, "Пожалуйста, не оставляйте поле пустым", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            ctx,
+                            "Пожалуйста, не оставляйте поле пустым",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }) {
                 Text(text = "Получить код")
@@ -172,7 +178,7 @@ fun Registration(navController: NavController) {
     }
 }
 
-class MaskVisualTransformation(private val mask: String): VisualTransformation {
+class MaskVisualTransformation(private val mask: String) : VisualTransformation {
     private val specialSymbolsIndices = mask.indices.filter { mask[it] != '#' }
 
     override fun filter(text: AnnotatedString): TransformedText {
@@ -189,7 +195,7 @@ class MaskVisualTransformation(private val mask: String): VisualTransformation {
         return TransformedText(AnnotatedString(out), offsetTranslator())
     }
 
-    private fun offsetTranslator() = object: OffsetMapping {
+    private fun offsetTranslator() = object : OffsetMapping {
         override fun originalToTransformed(offset: Int): Int {
             val offsetValue = offset.absoluteValue
             if (offsetValue == 0) return 0

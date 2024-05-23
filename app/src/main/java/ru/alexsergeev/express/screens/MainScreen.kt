@@ -16,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DatePickerColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -47,7 +46,6 @@ import androidx.navigation.NavController
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
-import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.buttons.CounterPassengersButton
@@ -55,7 +53,6 @@ import ru.alexsergeev.express.buttons.IconControlButton
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 import java.time.LocalDate
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.absoluteValue
 
@@ -112,7 +109,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
             .padding(top = 32.dp, start = 32.dp)
             .size(32.dp),
             onClick = {
-                navController.navigate("left_menu/${name.toString()}")
+                navController.navigate("left_menu/${name.toString()}/${phone.toString()}")
             }) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_density_medium_24),
@@ -227,25 +224,25 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
 //                            color = Color.Black
 //                        )
 //                    }
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .align(alignment = Alignment.CenterVertically),
-                        value = pickedTime.toString(),
-                        shape = RoundedCornerShape(20),
-                        label = { Text(text = "Время поездки") },
-                        placeholder = { Text(text = "##:##") } ,
-                        colors = TextFieldDefaults.colors(
-                            focusedTextColor = Color.White,
-                            focusedContainerColor = Color.Black,
-                            unfocusedTextColor = Color.White,
-                            unfocusedContainerColor = Color.Black
-                        ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        onValueChange = {
-                            pickedTime = it
-                        },
-                        visualTransformation = mask
-                    )
+                OutlinedTextField(
+                    modifier = Modifier
+                        .align(alignment = Alignment.CenterVertically),
+                    value = pickedTime.toString(),
+                    shape = RoundedCornerShape(20),
+                    label = { Text(text = "Время поездки") },
+                    placeholder = { Text(text = "##:##") },
+                    colors = TextFieldDefaults.colors(
+                        focusedTextColor = Color.White,
+                        focusedContainerColor = Color.Black,
+                        unfocusedTextColor = Color.White,
+                        unfocusedContainerColor = Color.Black
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    onValueChange = {
+                        pickedTime = it
+                    },
+                    visualTransformation = mask
+                )
 //                    Button(
 //                        modifier = Modifier
 //                            .padding(4.dp)
@@ -297,7 +294,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                 .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
-                    if(start.value.isNotEmpty() && finish.value.isNotEmpty() && pickedDate >= LocalDate.now() && pickedTime.isNotEmpty()) {
+                    if (start.value.isNotEmpty() && finish.value.isNotEmpty() && pickedDate >= LocalDate.now() && pickedTime.isNotEmpty()) {
                         navController.navigate(
                             "rate_screen/" +
                                     "${name.toString()}/" +
@@ -308,8 +305,12 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                                     "${pickedTime.toString()}/${passengers.value.toString()}"
 
                         )
-                    } else if (start.value.isNotEmpty() && finish.value.isNotEmpty()){
-                        Toast.makeText(ctx, "Дата поездки не может быть раньше сегодняшнего дня", Toast.LENGTH_SHORT)
+                    } else if (start.value.isNotEmpty() && finish.value.isNotEmpty()) {
+                        Toast.makeText(
+                            ctx,
+                            "Дата поездки не может быть раньше сегодняшнего дня",
+                            Toast.LENGTH_SHORT
+                        )
                             .show()
                     } else {
                         Toast.makeText(
@@ -336,8 +337,10 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
             negativeButton(text = "Назад")
         }) {
         datepicker(
-            colors = DatePickerDefaults.colors(Color.Black, Color.White,Color.White,Color.Black,Color.Black,DarkYellow,
-                Color.White),
+            colors = DatePickerDefaults.colors(
+                Color.Black, Color.White, Color.White, Color.Black, Color.Black, DarkYellow,
+                Color.White
+            ),
             initialDate = LocalDate.now(),
             title = "Дата поездки",
         ) {
@@ -359,7 +362,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
 //    }
 }
 
-class MaskTimeVisualTransformation(private val mask: String): VisualTransformation {
+class MaskTimeVisualTransformation(private val mask: String) : VisualTransformation {
     private val specialSymbolsIndices = mask.indices.filter { mask[it] != '#' }
 
     override fun filter(text: AnnotatedString): TransformedText {
@@ -376,7 +379,7 @@ class MaskTimeVisualTransformation(private val mask: String): VisualTransformati
         return TransformedText(AnnotatedString(out), offsetTranslator())
     }
 
-    private fun offsetTranslator() = object: OffsetMapping {
+    private fun offsetTranslator() = object : OffsetMapping {
         override fun originalToTransformed(offset: Int): Int {
             val offsetValue = offset.absoluteValue
             if (offsetValue == 0) return 0
