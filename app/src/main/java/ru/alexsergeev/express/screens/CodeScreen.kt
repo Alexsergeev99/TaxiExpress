@@ -145,7 +145,8 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?) {
 //                    }
                 }
             ) {
-                Text(text = "Войти")
+                Text(text = "Войти",
+                    color = Color.Black)
             }
         }
     }

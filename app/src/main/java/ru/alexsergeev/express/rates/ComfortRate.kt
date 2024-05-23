@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.cars.ComfortCars
 import ru.alexsergeev.express.cars.MinivanCars
+import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
@@ -44,14 +45,14 @@ fun ComfortRate(navController: NavController, name: String?,
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+            .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp)
             .background(Color.Black),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             modifier = Modifier
                 .fillMaxWidth(0.7f)
-                .padding(bottom = 24.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+                .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp)
                 .size(200.dp)
                 .clip(CircleShape)
                 .align(alignment = Alignment.CenterHorizontally),
@@ -62,7 +63,7 @@ fun ComfortRate(navController: NavController, name: String?,
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 20.dp, top = 8.dp, start = 8.dp, end = 8.dp),
+                    .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp),
                 text = "Kia Optima",
                 color = Color.White,
                 fontSize = 20.sp
@@ -70,7 +71,7 @@ fun ComfortRate(navController: NavController, name: String?,
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 20.dp, top = 8.dp, start = 8.dp, end = 8.dp),
+                    .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp),
                 text = "Hyundai Sonata",
                 color = Color.White,
                 fontSize = 20.sp
@@ -78,7 +79,7 @@ fun ComfortRate(navController: NavController, name: String?,
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 20.dp, top = 8.dp, start = 8.dp, end = 8.dp),
+                    .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp),
                 text = "Toyota Camry",
                 color = Color.White,
                 fontSize = 20.sp
@@ -112,7 +113,7 @@ fun ComfortRate(navController: NavController, name: String?,
                     )
                 }
                 Button(modifier = Modifier
-                    .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+                    .padding(bottom = 4.dp, top = 8.dp, start = 8.dp, end = 8.dp)
                     .align(Alignment.CenterHorizontally)
                     .fillMaxWidth(0.5f),
                     colors = ButtonDefaults.buttonColors(DarkYellow),
@@ -135,6 +136,22 @@ fun ComfortRate(navController: NavController, name: String?,
                         color = Color.Black
                     )
                 }
+            Button(
+                modifier = Modifier
+                    .padding(bottom = 4.dp)
+                    .fillMaxWidth(0.25f)
+                    .align(Alignment.CenterHorizontally),
+                enabled = true,
+                colors = ButtonDefaults.buttonColors(DarkRed),
+                onClick = {
+                    navController.navigateUp()
+                }
+            ) {
+                Text(
+                    text = "Назад",
+                    color = Color.Black
+                )
+            }
             }
         }
     }

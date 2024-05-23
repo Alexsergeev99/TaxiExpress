@@ -153,7 +153,8 @@ fun Registration(navController: NavController) {
                         ).show()
                     }
                 }) {
-                Text(text = "Получить код")
+                Text(text = "Получить код",
+                    color = Color.Black)
             }
         }
     }

@@ -197,7 +197,7 @@ fun FinalScreen(
             }
             Button(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(top = 16.dp)
                     .fillMaxWidth(0.5f)
                     .align(alignment = Alignment.CenterHorizontally),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
@@ -205,7 +205,24 @@ fun FinalScreen(
                     focusManager.clearFocus()
 //                    navController.navigate("code_screen/${name.toString()}")
                 }) {
-                Text(text = "Рассчитать заказ")
+                Text(text = "Рассчитать заказ",
+                    color = Color.Black)
+            }
+            Button(
+                modifier = Modifier
+                    .padding(bottom = 8.dp, top = 4.dp)
+                    .fillMaxWidth(0.25f)
+                    .align(Alignment.CenterHorizontally),
+                enabled = true,
+                colors = ButtonDefaults.buttonColors(DarkRed),
+                onClick = {
+                    navController.navigateUp()
+                }
+            ) {
+                Text(
+                    text = "Назад",
+                    color = Color.Black
+                )
             }
         }
     }

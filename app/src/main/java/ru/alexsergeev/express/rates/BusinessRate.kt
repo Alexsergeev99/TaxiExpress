@@ -26,6 +26,7 @@ import androidx.navigation.NavController
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.cars.BusinessCars
 import ru.alexsergeev.express.cars.MinivanCars
+import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
@@ -46,14 +47,14 @@ fun BusinessRate(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+            .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp)
             .background(Color.Black),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             modifier = Modifier
                 .fillMaxWidth(0.7f)
-                .padding(bottom = 24.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+                .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp)
                 .size(200.dp)
                 .clip(CircleShape)
                 .align(alignment = Alignment.CenterHorizontally),
@@ -64,7 +65,7 @@ fun BusinessRate(
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 20.dp, top = 8.dp, start = 8.dp, end = 8.dp),
+                    .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp),
                 text = "Mercedes-Benz S-Class",
                 color = Color.White,
                 fontSize = 20.sp
@@ -72,7 +73,7 @@ fun BusinessRate(
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 20.dp, top = 8.dp, start = 8.dp, end = 8.dp),
+                    .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp),
                 text = "Audi A8",
                 color = Color.White,
                 fontSize = 20.sp
@@ -80,7 +81,7 @@ fun BusinessRate(
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 20.dp, top = 8.dp, start = 8.dp, end = 8.dp),
+                    .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp),
                 text = "BMW 7-Series",
                 color = Color.White,
                 fontSize = 20.sp
@@ -115,7 +116,7 @@ fun BusinessRate(
                 )
             }
             Button(modifier = Modifier
-                .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+                .padding(bottom = 4.dp, top = 8.dp, start = 8.dp, end = 8.dp)
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
@@ -135,6 +136,22 @@ fun BusinessRate(
             ) {
                 Text(
                     text = "Выбрать тариф",
+                    color = Color.Black
+                )
+            }
+            Button(
+                modifier = Modifier
+                    .padding(bottom = 4.dp)
+                    .fillMaxWidth(0.25f)
+                    .align(Alignment.CenterHorizontally),
+                enabled = true,
+                colors = ButtonDefaults.buttonColors(DarkRed),
+                onClick = {
+                    navController.navigateUp()
+                }
+            ) {
+                Text(
+                    text = "Назад",
                     color = Color.Black
                 )
             }

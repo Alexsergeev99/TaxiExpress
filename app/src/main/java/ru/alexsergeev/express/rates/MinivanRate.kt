@@ -34,6 +34,7 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.cars.MinivanCars
+import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -54,14 +55,14 @@ fun MinivanRate(navController: NavController,
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 24.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+            .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp)
             .background(Color.Black),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             modifier = Modifier
                 .fillMaxWidth(0.7f)
-                .padding(bottom = 24.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+                .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp)
                 .size(200.dp)
 //                .clip(CircleShape)
                 .align(alignment = Alignment.CenterHorizontally),
@@ -72,7 +73,7 @@ fun MinivanRate(navController: NavController,
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 24.dp, top = 8.dp, start = 8.dp, end = 8.dp),
+                    .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp),
                 text = "Citroen C4 Picasso",
                 color = Color.White,
                 fontSize = 24.sp
@@ -80,7 +81,7 @@ fun MinivanRate(navController: NavController,
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 24.dp, top = 8.dp, start = 8.dp, end = 8.dp),
+                    .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp),
                 text = "Kia Carnival",
                 color = Color.White,
                 fontSize = 24.sp
@@ -88,7 +89,7 @@ fun MinivanRate(navController: NavController,
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 24.dp, top = 8.dp, start = 8.dp, end = 8.dp),
+                    .padding(bottom = 8.dp, top = 8.dp, start = 8.dp, end = 8.dp),
                 text = "Ford Galaxy",
                 color = Color.White,
                 fontSize = 24.sp
@@ -121,7 +122,7 @@ fun MinivanRate(navController: NavController,
                 )
             }
             Button(modifier = Modifier
-                .padding(bottom = 32.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+                .padding(bottom = 4.dp, top = 8.dp, start = 8.dp, end = 8.dp)
                 .align(Alignment.CenterHorizontally)
                 .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
@@ -139,6 +140,22 @@ fun MinivanRate(navController: NavController,
             ) {
                 Text(
                     text = "Выбрать тариф",
+                    color = Color.Black
+                )
+            }
+            Button(
+                modifier = Modifier
+                    .padding(bottom = 4.dp)
+                    .fillMaxWidth(0.25f)
+                    .align(Alignment.CenterHorizontally),
+                enabled = true,
+                colors = ButtonDefaults.buttonColors(DarkRed),
+                onClick = {
+                    navController.navigateUp()
+                }
+            ) {
+                Text(
+                    text = "Назад",
                     color = Color.Black
                 )
             }
