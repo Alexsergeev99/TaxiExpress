@@ -117,6 +117,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                 tint = Color.White
             )
         }
+
         Column(
             modifier = Modifier
                 .padding(16.dp)
@@ -124,10 +125,10 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
         ) {
             Image(
                 modifier = Modifier
-                    .fillMaxWidth(0.8f)
-                    .size(180.dp)
+                    .fillMaxWidth()
+                    .size(220.dp)
                     .align(alignment = Alignment.CenterHorizontally),
-                painter = painterResource(id = R.drawable.yellow_car),
+                painter = painterResource(id = R.drawable.car_with_road),
                 contentDescription = "test image"
             )
             Row {
