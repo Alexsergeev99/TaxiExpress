@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.alexsergeev.express.screens.CodeScreen
 import ru.alexsergeev.express.screens.Contacts
 import ru.alexsergeev.express.screens.FinalScreen
@@ -32,7 +33,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         setContent {
+            window.statusBarColor = getColor(R.color.white)
+            window.navigationBarColor = getColor(R.color.white)
             ExpressTheme {
                 Column(
                     modifier = Modifier

@@ -65,11 +65,11 @@ fun RateScreen(
     ) {
         Image(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(0.8f)
                 .align(alignment = Alignment.CenterHorizontally)
                 .size(200.dp)
                 .padding(top = 16.dp),
-            painter = painterResource(id = R.drawable.slavexpresslogo__horisontal_),
+            painter = painterResource(id = R.drawable.yellow_car),
             contentDescription = "test image"
         )
         Text(

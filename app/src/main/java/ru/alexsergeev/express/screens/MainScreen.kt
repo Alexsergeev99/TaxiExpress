@@ -117,20 +117,19 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                 tint = Color.White
             )
         }
-        Image(
-            modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .size(200.dp)
-                .padding(top = 16.dp)
-                .align(alignment = Alignment.TopCenter),
-            painter = painterResource(id = R.drawable.slavexpresslogo__horisontal_),
-            contentDescription = "test image"
-        )
         Column(
             modifier = Modifier
                 .padding(16.dp)
                 .align(alignment = Alignment.Center)
         ) {
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth(0.8f)
+                    .size(180.dp)
+                    .align(alignment = Alignment.CenterHorizontally),
+                painter = painterResource(id = R.drawable.yellow_car),
+                contentDescription = "test image"
+            )
             Row {
                 OutlinedTextField(modifier = Modifier
                     .align(alignment = Alignment.Bottom)
