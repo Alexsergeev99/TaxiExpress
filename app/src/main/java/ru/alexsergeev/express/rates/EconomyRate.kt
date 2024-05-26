@@ -3,7 +3,6 @@ package ru.alexsergeev.express.rates
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -26,18 +25,19 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.cars.EconomyCars
-import ru.alexsergeev.express.cars.MinivanCars
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
-fun EconomyRate(navController: NavController, name: String?,
-                phone: String?,
-                from: String?,
-                to: String?,
-                date: String?,
-                time: String?,
-                passengers: String?) {
+fun EconomyRate(
+    navController: NavController, name: String?,
+    phone: String?,
+    from: String?,
+    to: String?,
+    date: String?,
+    time: String?,
+    passengers: String?
+) {
 
     val dialogState = remember {
         mutableStateOf(false)
@@ -118,15 +118,17 @@ fun EconomyRate(navController: NavController, name: String?,
                 .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
-                    navController.navigate("final_screen/" +
-                            "${name.toString()}/" +
-                            "${phone.toString()}/" +
-                            "${from.toString()}/" +
-                            "${to.toString()}/" +
-                            "${date.toString()}/" +
-                            "${time.toString()}/" +
-                            "${passengers.toString()}/" +
-                            "Эконом")
+                    navController.navigate(
+                        "final_screen/" +
+                                "${name.toString()}/" +
+                                "${phone.toString()}/" +
+                                "${from.toString()}/" +
+                                "${to.toString()}/" +
+                                "${date.toString()}/" +
+                                "${time.toString()}/" +
+                                "${passengers.toString()}/" +
+                                "ECONOMY"
+                    )
                 }
             ) {
                 Text(

@@ -254,7 +254,6 @@ private fun signInWithPhoneAuthCredential(
                 message.value = "Успешно"
                 Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
             } else {
-                // Sign in failed, display a message
                 if (task.exception is FirebaseAuthInvalidCredentialsException) {
                     // когда неуспешна
                     Toast.makeText(

@@ -126,9 +126,9 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
             Image(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .size(220.dp)
+                    .size(180.dp)
                     .align(alignment = Alignment.CenterHorizontally),
-                painter = painterResource(id = R.drawable.car_with_road),
+                painter = painterResource(id = R.drawable.slavlogonew),
                 contentDescription = "test image"
             )
             Row {

@@ -40,6 +40,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -79,7 +80,12 @@ dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("androidx.navigation:navigation-compose:2.7.7")
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
-
+    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation ("com.squareup.retrofit2:retrofit:2.10.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.10.0")
+    implementation ("com.google.code.gson:gson:2.10.1")
+    implementation ("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
 //    implementation("com.google.firebase:firebase-auth-ktx:21.0.1")
 //    implementation("com.google.firebase:firebase-analytics-ktx:19.0.0")
 

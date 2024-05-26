@@ -67,9 +67,9 @@ fun RateScreen(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(alignment = Alignment.CenterHorizontally)
-                .size(220.dp)
+                .size(170.dp)
                 .padding(top = 16.dp),
-            painter = painterResource(id = R.drawable.car_with_road),
+            painter = painterResource(id = R.drawable.slavlogonew),
             contentDescription = "test image"
         )
         Text(

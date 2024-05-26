@@ -1,5 +1,7 @@
 package ru.alexsergeev.express.screens
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -14,31 +16,40 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
-import androidx.compose.material.icons.outlined.KeyboardArrowDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import ru.alexsergeev.express.R
+import ru.alexsergeev.express.api.OrderApi
 import ru.alexsergeev.express.buttons.IconControlButton
+import ru.alexsergeev.express.dto.Options
+import ru.alexsergeev.express.dto.Order
+import ru.alexsergeev.express.dto.User
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
+import ru.alexsergeev.express.viewmodel.OrderViewModel
 
 @Composable
 fun FinalScreen(
@@ -50,8 +61,13 @@ fun FinalScreen(
     date: String?,
     time: String?,
     passengers: String?,
-    rate: String?
+    rate: String?,
+    vm: OrderViewModel = viewModel()
 ) {
+    val ctx = LocalContext.current
+    val response = remember {
+        mutableStateOf("")
+    }
     val comment = remember {
         mutableStateOf("")
     }
@@ -62,6 +78,18 @@ fun FinalScreen(
     val checkedPetState = remember {
         mutableStateOf(false)
     }
+    val order = Order(
+        from = from.toString(),
+        to = to.toString(),
+        time = "${date.toString()} ${time.toString()}",
+        tariff = rate.toString(),
+        countPassengers = passengers.toString().toInt(),
+        comment = comment.value.toString(),
+        user = User(name.toString(), "+7${phone.toString()}"),
+        options = Options(checkedChildrenState.value)
+    )
+    val coroutineScope = rememberCoroutineScope()
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -86,61 +114,81 @@ fun FinalScreen(
                 color = DarkYellow,
                 text = "Подтверждение заказа"
             )
-            Box(modifier = Modifier
-                .border(4.dp, DarkYellow)) {
+            Box(
+                modifier = Modifier
+                    .border(4.dp, DarkYellow)
+            ) {
                 Column {
                     Row {
-                        Text(modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.CenterVertically),
+                        Text(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Имя: ${name.toString()}")
-                        Text(modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.CenterVertically),
+                            text = "Имя: ${name.toString()}"
+                        )
+                        Text(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Номер телефона: +7${phone.toString()}")
+                            text = "Номер телефона: +7${phone.toString()}"
+                        )
                     }
                     Row {
-                        Text(modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.CenterVertically),
+                        Text(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Поедем из: ${from.toString()}")
-                        Text(modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.CenterVertically),
+                            text = "Поедем из: ${from.toString()}"
+                        )
+                        Text(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Поедем в: ${to.toString()}")
+                            text = "Поедем в: ${to.toString()}"
+                        )
                     }
                     Row {
-                        Text(modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.CenterVertically),
+                        Text(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Дата поездки: ${date.toString()}")
-                        Text(modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.CenterVertically),
+                            text = "Дата поездки: ${date.toString()}"
+                        )
+                        Text(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Время поездки: ${time.toString()}")
+                            text = "Время поездки: ${time.toString()}"
+                        )
                     }
                     Row {
-                        Text(modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.CenterVertically),
+                        Text(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Тариф: ${rate.toString()}")
-                        Text(modifier = Modifier
-                            .padding(16.dp)
-                            .align(Alignment.CenterVertically),
+                            text = "Тариф: ${rate.toString()}"
+                        )
+                        Text(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Количество пассажиров: ${passengers.toString()}")
+                            text = "Количество пассажиров: ${passengers.toString()}"
+                        )
                     }
                 }
             }
-            Row(modifier = Modifier
-                .align(Alignment.CenterHorizontally)) {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            ) {
                 OutlinedTextField(
                     modifier = Modifier
                         .padding(top = 8.dp),
@@ -203,10 +251,18 @@ fun FinalScreen(
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
                     focusManager.clearFocus()
+//                    coroutineScope.launch {
+//                        vm.makeOrder(order)
+//                    }
+                    postDataUsingRetrofit(
+                        ctx, response, order
+                    )
 //                    navController.navigate("code_screen/${name.toString()}")
                 }) {
-                Text(text = "Рассчитать заказ",
-                    color = Color.Black)
+                Text(
+                    text = "Рассчитать заказ",
+                    color = Color.Black
+                )
             }
             Button(
                 modifier = Modifier
@@ -227,3 +283,26 @@ fun FinalScreen(
         }
     }
 }
+
+fun postDataUsingRetrofit(
+    ctx: Context,
+    result: MutableState<String>,
+    order: Order
+) {
+    val order: Order = order
+    val call: Call<Order> = OrderApi.retrofitService.makeOrder(order)
+    call!!.enqueue(object : Callback<Order?> {
+        override fun onResponse(call: Call<Order?>?, response: Response<Order?>) {
+            Toast.makeText(ctx, "Data posted to API", Toast.LENGTH_SHORT).show()
+            val model: Order? = response.body()
+            val resp =
+                "Response Code : " + response.code()
+            result.value = resp
+        }
+
+        override fun onFailure(call: Call<Order?>?, t: Throwable) {
+            result.value = "Error found is : " + t.message
+        }
+    })
+}
+//}
