@@ -35,7 +35,7 @@ val retrofit = Retrofit.Builder()
 
 interface ApiService {
     @POST("order")
-    fun makeOrder(@Body order: Order): Call<Order>
+    fun makeOrder(@Body order: Order): Call<Unit>
 }
 
 object OrderApi {

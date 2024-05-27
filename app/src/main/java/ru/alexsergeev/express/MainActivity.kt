@@ -19,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import ru.alexsergeev.express.screens.AfterOrderScreen
 import ru.alexsergeev.express.screens.CodeScreen
 import ru.alexsergeev.express.screens.Contacts
 import ru.alexsergeev.express.screens.FinalScreen
@@ -131,11 +132,10 @@ fun Navigation() {
                 it.arguments?.getString("rate")
             )
         }
-//        composable(route = "minivans/{name}") {
-//                Box {
-//                    MinivanRate(navController = navController, it.arguments?.getString("name"))
-//                    MinivanCars(navController = navController, it.arguments?.getString("name"))
-//                }
-//            }
+        composable(route = "after_screen/{name}") {
+            AfterOrderScreen(
+                navController = navController, it.arguments?.getString("name")
+            )
+        }
     }
 }

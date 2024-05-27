@@ -1,7 +1,5 @@
 package ru.alexsergeev.express.screens
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,7 +21,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -38,11 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import ru.alexsergeev.express.R
-import ru.alexsergeev.express.api.OrderApi
 import ru.alexsergeev.express.buttons.IconControlButton
 import ru.alexsergeev.express.dto.Options
 import ru.alexsergeev.express.dto.Order
@@ -252,12 +245,12 @@ fun FinalScreen(
                 onClick = {
                     focusManager.clearFocus()
 //                    coroutineScope.launch {
-//                        vm.makeOrder(order)
+                    vm.makeOrder(order)
 //                    }
-                    postDataUsingRetrofit(
-                        ctx, response, order
-                    )
-//                    navController.navigate("code_screen/${name.toString()}")
+//                    postDataUsingRetrofit(
+//                        ctx, response, order
+//                    )
+                    navController.navigate("after_screen/${name.toString()}")
                 }) {
                 Text(
                     text = "Рассчитать заказ",
@@ -284,25 +277,24 @@ fun FinalScreen(
     }
 }
 
-fun postDataUsingRetrofit(
-    ctx: Context,
-    result: MutableState<String>,
-    order: Order
-) {
-    val order: Order = order
-    val call: Call<Order> = OrderApi.retrofitService.makeOrder(order)
-    call!!.enqueue(object : Callback<Order?> {
-        override fun onResponse(call: Call<Order?>?, response: Response<Order?>) {
-            Toast.makeText(ctx, "Data posted to API", Toast.LENGTH_SHORT).show()
-            val model: Order? = response.body()
-            val resp =
-                "Response Code : " + response.code()
-            result.value = resp
-        }
-
-        override fun onFailure(call: Call<Order?>?, t: Throwable) {
-            result.value = "Error found is : " + t.message
-        }
-    })
-}
+//fun postDataUsingRetrofit(
+//    ctx: Context,
+//    result: MutableState<String>,
+//    order: Order
+//) {
+//    val order: Order = order
+//    val call: Call<Order> = OrderApi.retrofitService.makeOrder(order)
+//    call!!.enqueue(object : Callback<Order?> {
+//        override fun onResponse(call: Call<Order?>?, response: Response<Order?>) {
+//            Toast.makeText(ctx, "Data posted to API", Toast.LENGTH_SHORT).show()
+////            val model: Order? = response.body()
+//            val resp = "Response Code : " + response.code()
+//            result.value = resp
+//        }
+//
+//        override fun onFailure(call: Call<Order?>?, t: Throwable) {
+//            result.value = "Error found is : " + t.message
+//        }
+//    })
+//}
 //}

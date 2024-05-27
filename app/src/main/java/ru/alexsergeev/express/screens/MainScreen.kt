@@ -301,8 +301,8 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                                     "${phone.toString()}/" +
                                     "${start.value.toString()}/" +
                                     "${finish.value.toString()}/" +
-                                    "${pickedDate.toString()}/" +
-                                    "${pickedTime.toString()}/${passengers.value.toString()}"
+                                    "${pickedDate.toString()[8]}${pickedDate.toString()[9]}.${pickedDate.toString()[5]}${pickedDate.toString()[6]}.${pickedDate.toString()[0]}${pickedDate.toString()[1]}${pickedDate.toString()[2]}${pickedDate.toString()[3]}/" +
+                                    "${pickedTime[0]}${pickedTime[1]}:${pickedTime[2]}${pickedTime[3]}/${passengers.value.toString()}"
 
                         )
                     } else if (start.value.isNotEmpty() && finish.value.isNotEmpty()) {
