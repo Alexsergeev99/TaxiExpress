@@ -23,25 +23,6 @@ class OrderRepositoryImpl : OrderRepository {
         OrderApi.retrofitService.makeOrder(order)
             .enqueue(
                 object : Callback<Unit?> {
-//                    override fun onResponse(
-//                        call: Call<Order?>?,
-//                        response: Response<Order?>
-//                    ) {
-////                        if (!response.isSuccessful) {
-////                            callback.onError(RuntimeException(response.message()))
-////                            return
-////                        }
-//                        val responseBody = response.body() //?: throw Exception("body is null")
-//
-//                        if (responseBody != null) {
-//                            callback.onSuccess(responseBody)
-//                        }
-//                    }
-//
-//                    override fun onFailure(call: Call<Order?>?, t: Throwable) {
-//                        callback.onError(Exception(t))
-//                    }
-
                     override fun onResponse(p0: Call<Unit?>, p1: Response<Unit?>) {
                         val responseBody = p1.body() //?: throw Exception("body is null")
 

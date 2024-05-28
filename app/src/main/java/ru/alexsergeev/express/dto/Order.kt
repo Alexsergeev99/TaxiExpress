@@ -18,6 +18,6 @@ data class User(
 
 data class Options(
     val babySeat: Boolean = false,
-//    val withPets: Boolean = false
+    val withAnimal: Boolean = false
 )
 

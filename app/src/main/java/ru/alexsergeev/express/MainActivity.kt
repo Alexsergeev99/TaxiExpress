@@ -132,9 +132,10 @@ fun Navigation() {
                 it.arguments?.getString("rate")
             )
         }
-        composable(route = "after_screen/{name}") {
+        composable(route = "after_screen/{name}/{phone}") {
             AfterOrderScreen(
-                navController = navController, it.arguments?.getString("name")
+                navController = navController, it.arguments?.getString("name"),
+                it.arguments?.getString("phone")
             )
         }
     }

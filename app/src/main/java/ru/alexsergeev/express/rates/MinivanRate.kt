@@ -135,7 +135,7 @@ fun MinivanRate(navController: NavController,
                             "${date.toString()}/" +
                             "${time.toString()}/" +
                             "${passengers?.toString()}/" +
-                            "Минивен")
+                            "MINIVAN")
                 }
             ) {
                 Text(

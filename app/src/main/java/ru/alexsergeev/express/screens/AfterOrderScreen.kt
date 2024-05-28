@@ -13,6 +13,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Phone
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,9 +29,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import ru.alexsergeev.express.R
+import ru.alexsergeev.express.ui.theme.DarkRed
+import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
-fun AfterOrderScreen(navController: NavController, name: String?) {
+fun AfterOrderScreen(navController: NavController, name: String?, phone: String?,) {
 
     val ctx = LocalContext.current
     val focusManager = LocalFocusManager.current
@@ -126,6 +130,21 @@ fun AfterOrderScreen(navController: NavController, name: String?) {
                         .align(alignment = Alignment.CenterVertically),
                     color = Color.White,
                     text = "https://t.me/SlavyanskyExpress"
+                )
+            }
+            Button(
+                modifier = Modifier
+                    .padding(bottom = 8.dp, top = 24.dp)
+                    .fillMaxWidth(0.5f)
+                    .align(Alignment.CenterHorizontally),
+                enabled = true,
+                colors = ButtonDefaults.buttonColors(DarkYellow),
+                onClick = {
+                    navController.navigate("main_screen/${name.toString()}/${phone.toString()}")                }
+            ) {
+                Text(
+                    text = "На главный экран",
+                    color = Color.Black
                 )
             }
         }

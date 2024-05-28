@@ -127,7 +127,7 @@ fun ComfortRate(navController: NavController, name: String?,
                                     "${date.toString()}/" +
                                     "${time.toString()}/" +
                                     "${passengers.toString()}/" +
-                                    "Комфорт"
+                                    "COMFORT"
                         )
                     }
                 ) {

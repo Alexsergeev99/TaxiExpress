@@ -79,7 +79,7 @@ fun FinalScreen(
         countPassengers = passengers.toString().toInt(),
         comment = comment.value.toString(),
         user = User(name.toString(), "+7${phone.toString()}"),
-        options = Options(checkedChildrenState.value)
+        options = Options(checkedChildrenState.value, checkedPetState.value)
     )
     val coroutineScope = rememberCoroutineScope()
 
@@ -246,11 +246,8 @@ fun FinalScreen(
                     focusManager.clearFocus()
 //                    coroutineScope.launch {
                     vm.makeOrder(order)
-//                    }
-//                    postDataUsingRetrofit(
-//                        ctx, response, order
-//                    )
-                    navController.navigate("after_screen/${name.toString()}")
+//                }
+                    navController.navigate("after_screen/${name.toString()}/${phone.toString()}")
                 }) {
                 Text(
                     text = "Рассчитать заказ",
@@ -276,25 +273,3 @@ fun FinalScreen(
         }
     }
 }
-
-//fun postDataUsingRetrofit(
-//    ctx: Context,
-//    result: MutableState<String>,
-//    order: Order
-//) {
-//    val order: Order = order
-//    val call: Call<Order> = OrderApi.retrofitService.makeOrder(order)
-//    call!!.enqueue(object : Callback<Order?> {
-//        override fun onResponse(call: Call<Order?>?, response: Response<Order?>) {
-//            Toast.makeText(ctx, "Data posted to API", Toast.LENGTH_SHORT).show()
-////            val model: Order? = response.body()
-//            val resp = "Response Code : " + response.code()
-//            result.value = resp
-//        }
-//
-//        override fun onFailure(call: Call<Order?>?, t: Throwable) {
-//            result.value = "Error found is : " + t.message
-//        }
-//    })
-//}
-//}

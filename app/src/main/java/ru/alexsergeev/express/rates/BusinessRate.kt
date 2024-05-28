@@ -130,7 +130,7 @@ fun BusinessRate(
                                 "${date.toString()}/" +
                                 "${time.toString()}/" +
                                 "${passengers.toString()}/" +
-                                "Бизнес"
+                                "BUSINESS"
                     )
                 }
             ) {
