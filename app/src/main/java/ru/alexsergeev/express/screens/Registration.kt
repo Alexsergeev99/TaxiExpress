@@ -153,7 +153,7 @@ fun Registration(navController: NavController) {
                                 .show()
                             val number = "+7${phone.value}"
                             sendVerificationCode(number, mAuth, ctx as Activity, callbacks)
-                            navController.navigate("code_screen/${name.value.toString()}/${phone.value.toString()}")
+                            navController.navigate("code_screen/${name.value.toString()}/${phone.value.toString()}/${verificationID.value.toString()}")
                         } else {
                             Toast.makeText(ctx, "Номер телефона указан неверно", Toast.LENGTH_SHORT)
                                 .show()

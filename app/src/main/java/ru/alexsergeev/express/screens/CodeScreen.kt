@@ -52,8 +52,9 @@ import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
+
 @Composable
-fun CodeScreen(navController: NavController, name: String?, phone: String?) {
+fun CodeScreen(navController: NavController, name: String?, phone: String?, verificationIDCode: String?) {
 
     val phoneNumber = remember {
         mutableStateOf("")
@@ -63,19 +64,30 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?) {
         mutableStateOf("")
     }
 
-    val verificationID = remember {
-        mutableStateOf("")
-    }
+//    val verificationIDCode = remember {
+//        mutableStateOf("")
+//    }
+    val KEY_VERIFICATION_ID = "key_verification_id";
+
 
     val message = remember {
         mutableStateOf("")
     }
 
     var mAuth: FirebaseAuth = FirebaseAuth.getInstance();
-    lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
     val ctx = LocalContext.current
     val focusManager = LocalFocusManager.current
+
+//    fun onSaveInstanceState(outState: Bundle) {
+//        onSaveInstanceState(outState)
+//        outState.putString(KEY_VERIFICATION_ID, verificationIDCode.value)
+//    }
+//
+//    fun onRestoreInstanceState(savedInstanceState: MutableState<String>) {
+//        onRestoreInstanceState(savedInstanceState)
+//        verificationIDCode.value = savedInstanceState.value.getString(KEY_VERIFICATION_ID).toString()
+//    }
 
     Box(
         modifier = Modifier
@@ -128,16 +140,16 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?) {
 //                            .show()
 //                    }
                     if (TextUtils.isEmpty(codeValue.value.toString())) {
-                        // displaying toast message on below line.
                         Toast.makeText(ctx, "Пожалуйста, введите код из СМС", Toast.LENGTH_SHORT)
                             .show()
                     } else {
-                        Log.d("error", verificationID.value)
-                        // on below line generating phone credentials.
+                        Log.d("error", verificationIDCode.toString())
+//                        if (verificationIDCode.value == null) {
+////                            onRestoreInstanceState(savedInstanceState);
+//                        }
                         val credential: PhoneAuthCredential = PhoneAuthProvider.getCredential(
-                            verificationID.value.toString(), codeValue.value.toString()
+                            verificationIDCode.toString(), codeValue.value.toString()
                         )
-                        // on below line signing within credentials.
                         signInWithPhoneAuthCredential(
                             credential,
                             mAuth,
@@ -145,34 +157,19 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?) {
                             ctx,
                             message
                         )
+                        navController.navigate("main_screen/${name.toString()}/${phone.toString()}")
                     }
                 }
             ) {
-                Text(text = "Войти",
-                    color = Color.Black)
+                Text(
+                    text = "Войти",
+                    color = Color.Black
+                )
             }
         }
     }
-    callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-        override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-            // ниже обновление сообщения и показ тоаста
-            message.value = "Верификация прошла успешно"
-            Toast.makeText(ctx, "Верификация успешна", Toast.LENGTH_SHORT).show()
-        }
-
-        override fun onVerificationFailed(p0: FirebaseException) {
-            // тоаст с ошибкой
-            message.value = "Ошибка верификации пользователя : \n" + p0.message
-            Toast.makeText(ctx, "Верификация неуспешна", Toast.LENGTH_SHORT).show()
-        }
-
-        override fun onCodeSent(verificationId: String, p1: PhoneAuthProvider.ForceResendingToken) {
-            // метод отправки кода
-            super.onCodeSent(verificationId, p1)
-            verificationID.value = verificationId
-        }
-    }
 }
+
 
 @Composable
 fun OtpTextField(
@@ -261,8 +258,8 @@ private fun signInWithPhoneAuthCredential(
                     // когда неуспешна
                     Toast.makeText(
                         context,
-                        "Неправильный код" + (task.exception as FirebaseAuthInvalidCredentialsException).message,
-                        Toast.LENGTH_SHORT
+                        "Неправильный код",
+                        Toast.LENGTH_LONG
                     ).show()
                 }
             }
