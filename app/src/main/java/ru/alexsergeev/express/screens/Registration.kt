@@ -1,6 +1,7 @@
 package ru.alexsergeev.express.screens
 
 import android.app.Activity
+import android.content.Context
 import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -19,6 +20,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -39,6 +41,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
@@ -68,7 +71,7 @@ fun Registration(navController: NavController) {
         mutableStateOf("")
     }
 
-//    var mAuth: FirebaseAuth = FirebaseAuth.getInstance();
+    var mAuth: FirebaseAuth = FirebaseAuth.getInstance();
     lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
     val ctx = LocalContext.current
@@ -148,7 +151,8 @@ fun Registration(navController: NavController) {
                         if (Patterns.PHONE.matcher(phone.value).matches()) {
                             Toast.makeText(ctx, "Номер телефона указан верно", Toast.LENGTH_SHORT)
                                 .show()
-//                            sendVerificationCode(phone.value, mAuth, ctx as Activity, callbacks)
+                            val number = "+7${phone.value}"
+                            sendVerificationCode(number, mAuth, ctx as Activity, callbacks)
                             navController.navigate("code_screen/${name.value.toString()}/${phone.value.toString()}")
                         } else {
                             Toast.makeText(ctx, "Номер телефона указан неверно", Toast.LENGTH_SHORT)
@@ -171,12 +175,12 @@ fun Registration(navController: NavController) {
         override fun onVerificationCompleted(p0: PhoneAuthCredential) {
             // обновление сообщения и отправка тоаста
             message.value = "Верификация прошла успешно"
-            Toast.makeText(ctx, "Верификация неуспешна", Toast.LENGTH_SHORT).show()
+            Toast.makeText(ctx, "Верификация успешна", Toast.LENGTH_SHORT).show()
         }
 
         override fun onVerificationFailed(p0: FirebaseException) {
             // тоаст с ошибкой
-            message.value = "Fail to verify user : \n" + p0.message
+            message.value = "Ошибка верификации пользователя : \n" + p0.message
             Toast.makeText(ctx, "Верификация неуспешна", Toast.LENGTH_SHORT).show()
         }
 

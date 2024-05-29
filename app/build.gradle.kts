@@ -86,6 +86,7 @@ dependencies {
     implementation ("com.google.code.gson:gson:2.10.1")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
+    implementation ("androidx.browser:browser:1.2.0")
 //    implementation("com.google.firebase:firebase-auth-ktx:21.0.1")
 //    implementation("com.google.firebase:firebase-analytics-ktx:19.0.0")
 

@@ -41,7 +41,7 @@ class MainActivity : ComponentActivity() {
             ExpressTheme {
                 Column(
                     modifier = Modifier
-                        .padding(top = 48.dp, bottom = 16.dp)
+//                        .padding(top = 48.dp, bottom = 16.dp)
                         .clip(RoundedCornerShape(10.dp)),
                 ) {
 //                    Map()

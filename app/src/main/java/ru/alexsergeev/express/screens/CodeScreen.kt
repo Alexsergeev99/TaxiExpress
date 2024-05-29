@@ -2,6 +2,8 @@ package ru.alexsergeev.express.screens
 
 import android.app.Activity
 import android.content.Context
+import android.text.TextUtils
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -69,7 +71,7 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?) {
         mutableStateOf("")
     }
 
-//    var mAuth: FirebaseAuth = FirebaseAuth.getInstance();
+    var mAuth: FirebaseAuth = FirebaseAuth.getInstance();
     lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
     val ctx = LocalContext.current
@@ -112,37 +114,38 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?) {
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
                     focusManager.clearFocus()
-                    if (codeValue.value.isNotEmpty()) {
-                        if (codeValue.value.length == 6) {
-                            Toast.makeText(ctx, "Код введен верно", Toast.LENGTH_SHORT)
-                                .show()
-                            navController.navigate("main_screen/${name.toString()}/${phone.toString()}")
-                        } else {
-                            Toast.makeText(ctx, "Код введен неверно", Toast.LENGTH_SHORT)
-                                .show()
-                        }
-                    } else {
-                        Toast.makeText(ctx, "Пожалуйста, введите код из СМС", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-//                    if (TextUtils.isEmpty(codeValue.value.toString())) {
-//                        // displaying toast message on below line.
+//                    if (codeValue.value.isNotEmpty()) {
+//                        if (codeValue.value.length == 6) {
+//                            Toast.makeText(ctx, "Код введен верно", Toast.LENGTH_SHORT)
+//                                .show()
+//                            navController.navigate("main_screen/${name.toString()}/${phone.toString()}")
+//                        } else {
+//                            Toast.makeText(ctx, "Код введен неверно", Toast.LENGTH_SHORT)
+//                                .show()
+//                        }
+//                    } else {
 //                        Toast.makeText(ctx, "Пожалуйста, введите код из СМС", Toast.LENGTH_SHORT)
 //                            .show()
-//                    } else {
-//                        // on below line generating phone credentials.
-//                        val credential: PhoneAuthCredential = PhoneAuthProvider.getCredential(
-//                            verificationID.value, codeValue.value
-//                        )
-//                        // on below line signing within credentials.
-//                        signInWithPhoneAuthCredential(
-//                            credential,
-//                            mAuth,
-//                            ctx as Activity,
-//                            ctx,
-//                            message
-//                        )
 //                    }
+                    if (TextUtils.isEmpty(codeValue.value.toString())) {
+                        // displaying toast message on below line.
+                        Toast.makeText(ctx, "Пожалуйста, введите код из СМС", Toast.LENGTH_SHORT)
+                            .show()
+                    } else {
+                        Log.d("error", verificationID.value)
+                        // on below line generating phone credentials.
+                        val credential: PhoneAuthCredential = PhoneAuthProvider.getCredential(
+                            verificationID.value.toString(), codeValue.value.toString()
+                        )
+                        // on below line signing within credentials.
+                        signInWithPhoneAuthCredential(
+                            credential,
+                            mAuth,
+                            ctx as Activity,
+                            ctx,
+                            message
+                        )
+                    }
                 }
             ) {
                 Text(text = "Войти",
@@ -154,7 +157,7 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?) {
         override fun onVerificationCompleted(p0: PhoneAuthCredential) {
             // ниже обновление сообщения и показ тоаста
             message.value = "Верификация прошла успешно"
-            Toast.makeText(ctx, "Верификация неуспешна", Toast.LENGTH_SHORT).show()
+            Toast.makeText(ctx, "Верификация успешна", Toast.LENGTH_SHORT).show()
         }
 
         override fun onVerificationFailed(p0: FirebaseException) {

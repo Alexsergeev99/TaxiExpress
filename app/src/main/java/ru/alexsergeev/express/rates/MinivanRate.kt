@@ -7,23 +7,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.BottomSheetValue
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.rememberBottomSheetScaffoldState
-import androidx.compose.material.rememberBottomSheetState
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import kotlinx.coroutines.launch
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.cars.MinivanCars
 import ru.alexsergeev.express.ui.theme.DarkRed
@@ -39,14 +29,16 @@ import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun MinivanRate(navController: NavController,
-                name: String?,
-                phone: String?,
-                from: String?,
-                to: String?,
-                date: String?,
-                time: String?,
-                passengers: String?) {
+fun MinivanRate(
+    navController: NavController,
+    name: String?,
+    phone: String?,
+    from: String?,
+    to: String?,
+    date: String?,
+    time: String?,
+    passengers: String?
+) {
 
     val dialogState = remember {
         mutableStateOf(false)
@@ -96,7 +88,8 @@ fun MinivanRate(navController: NavController,
             )
 
             if (dialogState.value) {
-                MinivanCars(dialogState, navController = navController,
+                MinivanCars(
+                    dialogState, navController = navController,
                     name.toString(),
                     phone.toString(),
                     from.toString(),
@@ -127,15 +120,17 @@ fun MinivanRate(navController: NavController,
                 .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
-                    navController.navigate("final_screen/" +
-                            "${name.toString()}/" +
-                            "${phone.toString()}/" +
-                            "${from.toString()}/" +
-                            "${to.toString()}/" +
-                            "${date.toString()}/" +
-                            "${time.toString()}/" +
-                            "${passengers?.toString()}/" +
-                            "MINIVAN")
+                    navController.navigate(
+                        "final_screen/" +
+                                "${name.toString()}/" +
+                                "${phone.toString()}/" +
+                                "${from.toString()}/" +
+                                "${to.toString()}/" +
+                                "${date.toString()}/" +
+                                "${time.toString()}/" +
+                                "${passengers.toString()}/" +
+                                "MINIVAN"
+                    )
                 }
             ) {
                 Text(
