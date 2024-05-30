@@ -88,7 +88,8 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?, veri
             painter = painterResource(id = R.drawable.slavexpresslogo__horisontal_),
             contentDescription = "test image"
         )
-        Column {
+        Column(modifier = Modifier
+            .align(Alignment.Center)) {
             Text(
                 modifier = Modifier
                     .padding(20.dp)
@@ -100,7 +101,9 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?, veri
                 otpText = codeValue.value,
                 onOtpTextChange = { value, otpInputFilled ->
                     codeValue.value = value
-                }
+                },
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
             )
             Button(
                 modifier = Modifier
