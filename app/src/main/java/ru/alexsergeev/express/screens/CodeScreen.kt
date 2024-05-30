@@ -31,6 +31,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,7 +44,6 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
@@ -54,23 +54,17 @@ import ru.alexsergeev.express.ui.theme.DarkYellow
 
 
 @Composable
-fun CodeScreen(navController: NavController, name: String?, phone: String?, verificationIDCode: String?) {
+fun CodeScreen(navController: NavController, name: String?, phone: String?, verificationID: String?) {
 
-    val phoneNumber = remember {
+    val phoneNumber = rememberSaveable {
         mutableStateOf("")
     }
 
-    val codeValue = remember {
+    val codeValue = rememberSaveable {
         mutableStateOf("")
     }
 
-//    val verificationIDCode = remember {
-//        mutableStateOf("")
-//    }
-    val KEY_VERIFICATION_ID = "key_verification_id";
-
-
-    val message = remember {
+    val message = rememberSaveable {
         mutableStateOf("")
     }
 
@@ -78,16 +72,6 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?, veri
 
     val ctx = LocalContext.current
     val focusManager = LocalFocusManager.current
-
-//    fun onSaveInstanceState(outState: Bundle) {
-//        onSaveInstanceState(outState)
-//        outState.putString(KEY_VERIFICATION_ID, verificationIDCode.value)
-//    }
-//
-//    fun onRestoreInstanceState(savedInstanceState: MutableState<String>) {
-//        onRestoreInstanceState(savedInstanceState)
-//        verificationIDCode.value = savedInstanceState.value.getString(KEY_VERIFICATION_ID).toString()
-//    }
 
     Box(
         modifier = Modifier
@@ -143,12 +127,8 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?, veri
                         Toast.makeText(ctx, "Пожалуйста, введите код из СМС", Toast.LENGTH_SHORT)
                             .show()
                     } else {
-                        Log.d("error", verificationIDCode.toString())
-//                        if (verificationIDCode.value == null) {
-////                            onRestoreInstanceState(savedInstanceState);
-//                        }
                         val credential: PhoneAuthCredential = PhoneAuthProvider.getCredential(
-                            verificationIDCode.toString(), codeValue.value.toString()
+                            verificationID.toString(), codeValue.value.toString()
                         )
                         signInWithPhoneAuthCredential(
                             credential,

@@ -81,11 +81,12 @@ fun Navigation() {
                 it.arguments?.getString("phone")
             )
         }
-        composable("code_screen/{name}/{phone}") {
+        composable("code_screen/{name}/{phone}/{verificationID}") {
             CodeScreen(
                 navController = navController,
                 it.arguments?.getString("name"),
-                it.arguments?.getString("phone")
+                it.arguments?.getString("phone"),
+                it.arguments?.getString("verificationID")
             )
         }
         composable(route = "left_menu/{name}/{phone}") {

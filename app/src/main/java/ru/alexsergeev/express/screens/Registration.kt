@@ -2,6 +2,7 @@ package ru.alexsergeev.express.screens
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -23,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -57,17 +59,17 @@ fun Registration(navController: NavController) {
 //            color = Color.Transparent
 //        )
 
-    val name = remember {
+    val name = rememberSaveable {
         mutableStateOf("")
     }
-    val phone = remember {
+    val phone = rememberSaveable {
         mutableStateOf("")
     }
-    val verificationID = remember {
-        mutableStateOf("")
+    val verificationID = rememberSaveable {
+        mutableStateOf("1")
     }
 
-    val message = remember {
+    val message = rememberSaveable {
         mutableStateOf("")
     }
 
@@ -85,16 +87,16 @@ fun Registration(navController: NavController) {
         , contentAlignment = Alignment.Center
     )
     {
-        Image(
-            modifier = Modifier
-                .fillMaxWidth()
-                .size(240.dp)
-                .padding(top = 48.dp)
-                .align(alignment = Alignment.TopCenter),
-            painter = painterResource(id = R.drawable.slavexpresslogo__horisontal_),
-            contentDescription = "test image"
-        )
         Column {
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .size(240.dp)
+                    .padding(top = 48.dp)
+                    .align(alignment = Alignment.CenterHorizontally),
+                painter = painterResource(id = R.drawable.slavexpresslogo__horisontal_),
+                contentDescription = "test image"
+            )
             Text(
                 modifier = Modifier
                     .padding(16.dp)
@@ -153,7 +155,7 @@ fun Registration(navController: NavController) {
                                 .show()
                             val number = "+7${phone.value}"
                             sendVerificationCode(number, mAuth, ctx as Activity, callbacks)
-                            navController.navigate("code_screen/${name.value.toString()}/${phone.value.toString()}/${verificationID.value.toString()}")
+                            Log.d("button", verificationID.value)
                         } else {
                             Toast.makeText(ctx, "Номер телефона указан неверно", Toast.LENGTH_SHORT)
                                 .show()
@@ -188,6 +190,8 @@ fun Registration(navController: NavController) {
             // отправка кода
             super.onCodeSent(verificationId, p1)
             verificationID.value = verificationId
+            Log.d("code", verificationID.value)
+            navController.navigate("code_screen/${name.value.toString()}/${phone.value.toString()}/${verificationID.value.toString()}")
         }
     }
 }

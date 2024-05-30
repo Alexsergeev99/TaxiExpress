@@ -27,6 +27,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,10 +60,10 @@ import kotlin.math.absoluteValue
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainPage(navController: NavController, name: String?, phone: String?) {
-    var pickedDate by remember {
+    var pickedDate by rememberSaveable {
         mutableStateOf(LocalDate.now())
     }
-    var pickedTime by remember {
+    var pickedTime by rememberSaveable {
         mutableStateOf("")
     }
     val formattedDate by remember {
@@ -87,16 +88,16 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
     val dateDialogState = rememberMaterialDialogState()
     val timeDialogState = rememberMaterialDialogState()
 
-    val start = remember {
+    val start = rememberSaveable {
         mutableStateOf("")
     }
-    val finish = remember {
+    val finish = rememberSaveable {
         mutableStateOf("")
     }
-    var valueCounter by remember {
+    var valueCounter by rememberSaveable {
         mutableStateOf(1)
     }
-    val passengers = remember {
+    val passengers = rememberSaveable {
         mutableStateOf("1")
     }
     Box(
@@ -149,7 +150,6 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = {
                         start.value = it
-//                        focusManager.clearFocus()
                     }
                 )
                 OutlinedTextField(
@@ -170,7 +170,6 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = {
                         finish.value = it
-//                        focusManager.clearFocus()
                     }
                 )
             }

@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -58,17 +59,17 @@ fun FinalScreen(
     vm: OrderViewModel = viewModel()
 ) {
     val ctx = LocalContext.current
-    val response = remember {
+    val response = rememberSaveable {
         mutableStateOf("")
     }
-    val comment = remember {
+    val comment = rememberSaveable {
         mutableStateOf("")
     }
     val focusManager = LocalFocusManager.current
-    val checkedChildrenState = remember {
+    val checkedChildrenState = rememberSaveable {
         mutableStateOf(false)
     }
-    val checkedPetState = remember {
+    val checkedPetState = rememberSaveable {
         mutableStateOf(false)
     }
     val order = Order(
