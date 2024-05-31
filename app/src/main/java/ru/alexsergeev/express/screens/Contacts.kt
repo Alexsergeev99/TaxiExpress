@@ -33,10 +33,11 @@ fun Contacts(navController: NavController, name: String?, phone: String?) {
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.Black)
+            .padding(bottom = 120.dp)
     )
     {
         IconButton(modifier = Modifier
-            .padding(top = 32.dp, start = 32.dp)
+            .padding(top = 72.dp, start = 32.dp)
             .size(32.dp),
             onClick = {
                 navController.navigate("left_menu/${name.toString()}/${phone.toString()}")
@@ -47,19 +48,19 @@ fun Contacts(navController: NavController, name: String?, phone: String?) {
                 tint = Color.White
             )
         }
-        Image(
-            modifier = Modifier
-                .fillMaxWidth()
-                .size(120.dp)
-                .padding(top = 48.dp)
-                .align(alignment = Alignment.TopCenter),
-            painter = painterResource(id = R.drawable.slavexpresslogo__horisontal_),
-            contentDescription = "test image"
-        )
         Column(
             modifier = Modifier
                 .align(Alignment.Center)
         ) {
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .size(180.dp)
+                    .padding(bottom = 48.dp)
+                    .align(alignment = Alignment.CenterHorizontally),
+                painter = painterResource(id = R.drawable.slavexpresslogo__horisontal_),
+                contentDescription = "test image"
+            )
             Text(
                 modifier = Modifier
                     .padding(16.dp)

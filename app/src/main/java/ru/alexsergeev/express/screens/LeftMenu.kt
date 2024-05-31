@@ -30,14 +30,14 @@ fun LeftMenu(navController: NavController, name: String?, phone: String?) {
         modifier = Modifier
             .fillMaxWidth(0.7f)
             .fillMaxHeight()
-            .padding(bottom = 48.dp)
+            .padding(bottom = 48.dp, top = 48.dp)
             .background(Color.Black),
         verticalArrangement = Arrangement.Top
     )
     {
         Row(
             modifier = Modifier
-                .padding(top = 16.dp, start = 16.dp),
+                .padding(top = 32.dp, start = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(

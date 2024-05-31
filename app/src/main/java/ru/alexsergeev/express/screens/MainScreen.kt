@@ -116,7 +116,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                 .background(Color.Black)
         ) {
             IconButton(modifier = Modifier
-                .padding(top = 32.dp, start = 32.dp)
+                .padding(top = 72.dp, start = 32.dp)
                 .size(32.dp),
                 onClick = {
                     navController.navigate("left_menu/${name.toString()}/${phone.toString()}")
@@ -204,7 +204,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                                 dateDialogState.show()
                             }) {
                             Text(
-                                text = "Дата поездки",
+                                text = "Выбрать дату",
                                 color = Color.Black
                             )
                         }
@@ -233,33 +233,35 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
 //                            color = Color.Black
 //                        )
 //                    }
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .align(alignment = Alignment.CenterVertically),
-                        value = pickedTime.toString(),
-                        shape = RoundedCornerShape(20),
-                        label = { Text(text = "Время поездки") },
-                        placeholder = { Text(text = "##:##") },
-                        colors = TextFieldDefaults.colors(
-                            focusedTextColor = Color.White,
-                            focusedContainerColor = Color.Black,
-                            unfocusedTextColor = Color.White,
-                            unfocusedContainerColor = Color.Black
-                        ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        onValueChange = {
-                            pickedTime = it
-                        },
-                        visualTransformation = mask
-                    )
-                    IconControlButton(
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically),
-                        icon = Icons.Outlined.Check,
-                        contentDescription = "clear cursor",
-                        onClick = { focusManager.clearFocus() },
-                        tintColor = Color.White
-                    )
+                    Column {
+                        OutlinedTextField(
+                            modifier = Modifier
+                                .align(alignment = Alignment.CenterHorizontally),
+                            value = pickedTime.toString(),
+                            shape = RoundedCornerShape(20),
+                            label = { Text(text = "Время поездки") },
+                            placeholder = { Text(text = "##:##") },
+                            colors = TextFieldDefaults.colors(
+                                focusedTextColor = Color.White,
+                                focusedContainerColor = Color.Black,
+                                unfocusedTextColor = Color.White,
+                                unfocusedContainerColor = Color.Black
+                            ),
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                            onValueChange = {
+                                pickedTime = it
+                            },
+                            visualTransformation = mask
+                        )
+                        IconControlButton(
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally),
+                            icon = Icons.Outlined.Check,
+                            contentDescription = "clear cursor",
+                            onClick = { focusManager.clearFocus() },
+                            tintColor = Color.White
+                        )
+                    }
 //                    Button(
 //                        modifier = Modifier
 //                            .padding(4.dp)
@@ -426,7 +428,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                     modifier = Modifier
                         .align(Alignment.CenterHorizontally),
                     icon = Icons.Outlined.Check,
-                    contentDescription = "Decrease count",
+                    contentDescription = "clear focus",
                     onClick = { focusManager.clearFocus() },
                     tintColor = Color.White
                 )
@@ -443,7 +445,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                                 dateDialogState.show()
                             }) {
                             Text(
-                                text = "Дата поездки",
+                                text = "Выбрать дату",
                                 color = Color.Black
                             )
                         }

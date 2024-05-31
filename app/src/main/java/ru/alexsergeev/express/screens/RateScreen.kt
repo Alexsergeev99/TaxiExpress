@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabPosition
@@ -15,12 +16,15 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layout
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Constraints
@@ -31,6 +35,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import ru.alexsergeev.express.R
@@ -56,6 +61,11 @@ fun RateScreen(
     val pagerState = rememberPagerState()
     val tabIndex = pagerState.currentPage
     val coroutineScope = rememberCoroutineScope()
+    val config = LocalConfiguration.current
+    val portraitMode = remember {
+        mutableStateOf(config.orientation)
+    }
+    if(portraitMode.value == android.content.res.Configuration.ORIENTATION_PORTRAIT) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -68,7 +78,7 @@ fun RateScreen(
                 .fillMaxWidth()
                 .align(alignment = Alignment.CenterHorizontally)
                 .size(170.dp)
-                .padding(top = 16.dp),
+                .padding(top = 48.dp),
             painter = painterResource(id = R.drawable.slavlogonew),
             contentDescription = "test image"
         )
@@ -147,6 +157,102 @@ fun RateScreen(
                     date.toString(),
                     time.toString(),
                     passengers.toString())
+            }
+        }
+    }
+    } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 8.dp, bottom = 8.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(color = Color.Black)
+        ) {
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(alignment = Alignment.CenterHorizontally)
+                    .size(130.dp)
+                    .padding(top = 8.dp),
+                painter = painterResource(id = R.drawable.slavlogonew),
+                contentDescription = "test image"
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, bottom = 8.dp),
+                textAlign = TextAlign.Center,
+                fontSize = 30.sp,
+                text = "Выбор тарифа",
+                color = Color.White
+            )
+            TabRow(
+                selectedTabIndex = tabIndex,
+                indicator = { position ->
+                    TabRowDefaults.Indicator(
+                        Modifier.pagerTabIndicatorOffset(pagerState, position)
+                    )
+                },
+                containerColor = DarkRed,
+                contentColor = Color.White
+            ) {
+                tabList.forEachIndexed { index, level ->
+                    Tab(selected = tabIndex == index,
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        },
+                        text = {
+                            Text(text = level)
+                        }
+                    )
+                }
+            }
+            HorizontalPager(
+                count = tabList.size,
+                state = pagerState,
+                modifier = Modifier
+                    .weight(1.0f)
+                    .fillMaxHeight(0.5f)
+            ) { index ->
+                when (tabIndex) {
+                    0 -> EconomyRate(
+                        navController = navController,
+                        name.toString(),
+                        phone.toString(),
+                        from.toString(),
+                        to.toString(),
+                        date.toString(),
+                        time.toString(),
+                        passengers.toString()
+                    )
+
+                    1 -> ComfortRate(navController = navController,
+                        name.toString(),
+                        phone.toString(),
+                        from.toString(),
+                        to.toString(),
+                        date.toString(),
+                        time.toString(),
+                        passengers.toString())
+                    2 -> BusinessRate(navController = navController,
+                        name.toString(),
+                        phone.toString(),
+                        from.toString(),
+                        to.toString(),
+                        date.toString(),
+                        time.toString(),
+                        passengers.toString())
+                    else -> MinivanRate(navController = navController,
+                        name.toString(),
+                        phone.toString(),
+                        from.toString(),
+                        to.toString(),
+                        date.toString(),
+                        time.toString(),
+                        passengers.toString())
+                }
             }
         }
     }

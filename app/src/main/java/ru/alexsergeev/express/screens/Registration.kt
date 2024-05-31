@@ -97,7 +97,7 @@ fun Registration(navController: NavController) {
             Image(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .size(160.dp)
+                    .size(200.dp)
                     .padding(bottom = 48.dp)
                     .align(alignment = Alignment.CenterHorizontally),
                 painter = painterResource(id = R.drawable.slavexpresslogo__horisontal_),

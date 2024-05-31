@@ -43,6 +43,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -95,7 +96,8 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?, veri
                     .padding(20.dp)
                     .align(alignment = Alignment.CenterHorizontally),
                 color = Color.White,
-                text = "Введите код"
+                text = "Введите код",
+                fontSize = 24.sp
             )
             OtpTextField(
                 otpText = codeValue.value,
