@@ -1,5 +1,6 @@
 package ru.alexsergeev.express.screens
 
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -28,12 +29,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
-import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
-fun AfterOrderScreen(navController: NavController, name: String?, phone: String?,) {
+fun AfterOrderScreen(navController: NavController, name: String?, phone: String?) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val ctx = LocalContext.current
     val focusManager = LocalFocusManager.current
@@ -140,7 +142,8 @@ fun AfterOrderScreen(navController: NavController, name: String?, phone: String?
                 enabled = true,
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
-                    navController.navigate("main_screen/${name.toString()}/${phone.toString()}")                }
+                    navController.navigate("main_screen/${name.toString()}/${phone.toString()}")
+                }
             ) {
                 Text(
                     text = "На главный экран",

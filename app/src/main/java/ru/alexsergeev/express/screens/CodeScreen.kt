@@ -2,8 +2,8 @@ package ru.alexsergeev.express.screens
 
 import android.app.Activity
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.text.TextUtils
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,13 +48,20 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 
 @Composable
-fun CodeScreen(navController: NavController, name: String?, phone: String?, verificationID: String?) {
+fun CodeScreen(
+    navController: NavController,
+    name: String?,
+    phone: String?,
+    verificationID: String?
+) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val phoneNumber = rememberSaveable {
         mutableStateOf("")
@@ -89,8 +95,10 @@ fun CodeScreen(navController: NavController, name: String?, phone: String?, veri
             painter = painterResource(id = R.drawable.slavexpresslogo__horisontal_),
             contentDescription = "test image"
         )
-        Column(modifier = Modifier
-            .align(Alignment.Center)) {
+        Column(
+            modifier = Modifier
+                .align(Alignment.Center)
+        ) {
             Text(
                 modifier = Modifier
                     .padding(20.dp)

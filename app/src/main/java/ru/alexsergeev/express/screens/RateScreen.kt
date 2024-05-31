@@ -1,5 +1,6 @@
 package ru.alexsergeev.express.screens
 
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -8,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabPosition
@@ -35,9 +35,9 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
+import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.rates.BusinessRate
 import ru.alexsergeev.express.rates.ComfortRate
@@ -57,6 +57,8 @@ fun RateScreen(
     time: String?,
     passengers: String?
 ) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
     val tabList = listOf("Эконом", "Комфорт", "Бизнес", "Минивэн")
     val pagerState = rememberPagerState()
     val tabIndex = pagerState.currentPage
@@ -65,101 +67,109 @@ fun RateScreen(
     val portraitMode = remember {
         mutableStateOf(config.orientation)
     }
-    if(portraitMode.value == android.content.res.Configuration.ORIENTATION_PORTRAIT) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = 8.dp, bottom = 8.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .background(color = Color.Black)
-    ) {
-        Image(
+    if (portraitMode.value == android.content.res.Configuration.ORIENTATION_PORTRAIT) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .align(alignment = Alignment.CenterHorizontally)
-                .size(170.dp)
-                .padding(top = 48.dp),
-            painter = painterResource(id = R.drawable.slavlogonew),
-            contentDescription = "test image"
-        )
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp, bottom = 16.dp),
-            textAlign = TextAlign.Center,
-            fontSize = 36.sp,
-            text = "Выбор тарифа",
-            color = Color.White
-        )
-        TabRow(
-            selectedTabIndex = tabIndex,
-            indicator = { position ->
-                TabRowDefaults.Indicator(
-                    Modifier.pagerTabIndicatorOffset(pagerState, position)
-                )
-            },
-            containerColor = DarkRed,
-            contentColor = Color.White
+                .fillMaxSize()
+                .padding(top = 8.dp, bottom = 8.dp)
+                .clip(RoundedCornerShape(10.dp))
+                .background(color = Color.Black)
         ) {
-            tabList.forEachIndexed { index, level ->
-                Tab(selected = tabIndex == index,
-                    onClick = {
-                        coroutineScope.launch {
-                            pagerState.animateScrollToPage(index)
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(alignment = Alignment.CenterHorizontally)
+                    .size(170.dp)
+                    .padding(top = 48.dp),
+                painter = painterResource(id = R.drawable.slavlogonew),
+                contentDescription = "test image"
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, bottom = 16.dp),
+                textAlign = TextAlign.Center,
+                fontSize = 36.sp,
+                text = "Выбор тарифа",
+                color = Color.White
+            )
+            TabRow(
+                selectedTabIndex = tabIndex,
+                indicator = { position ->
+                    TabRowDefaults.Indicator(
+                        Modifier.pagerTabIndicatorOffset(pagerState, position)
+                    )
+                },
+                containerColor = DarkRed,
+                contentColor = Color.White
+            ) {
+                tabList.forEachIndexed { index, level ->
+                    Tab(selected = tabIndex == index,
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(index)
+                            }
+                        },
+                        text = {
+                            Text(text = level)
                         }
-                    },
-                    text = {
-                        Text(text = level)
-                    }
-                )
+                    )
+                }
             }
-        }
-        HorizontalPager(
-            count = tabList.size,
-            state = pagerState,
-            modifier = Modifier
-                .weight(1.0f)
-                .fillMaxHeight(0.5f)
-        ) { index ->
-            when (tabIndex) {
-                0 -> EconomyRate(
-                    navController = navController,
-                    name.toString(),
-                    phone.toString(),
-                    from.toString(),
-                    to.toString(),
-                    date.toString(),
-                    time.toString(),
-                    passengers.toString()
-                )
+            HorizontalPager(
+                count = tabList.size,
+                state = pagerState,
+                modifier = Modifier
+                    .weight(1.0f)
+                    .fillMaxHeight(0.5f)
+            ) { index ->
+                when (tabIndex) {
+                    0 -> EconomyRate(
+                        navController = navController,
+                        name.toString(),
+                        phone.toString(),
+                        from.toString(),
+                        to.toString(),
+                        date.toString(),
+                        time.toString(),
+                        passengers.toString()
+                    )
 
-                1 -> ComfortRate(navController = navController,
-                    name.toString(),
-                    phone.toString(),
-                    from.toString(),
-                    to.toString(),
-                    date.toString(),
-                    time.toString(),
-                    passengers.toString())
-                2 -> BusinessRate(navController = navController,
-                    name.toString(),
-                    phone.toString(),
-                    from.toString(),
-                    to.toString(),
-                    date.toString(),
-                    time.toString(),
-                    passengers.toString())
-                else -> MinivanRate(navController = navController,
-                    name.toString(),
-                    phone.toString(),
-                    from.toString(),
-                    to.toString(),
-                    date.toString(),
-                    time.toString(),
-                    passengers.toString())
+                    1 -> ComfortRate(
+                        navController = navController,
+                        name.toString(),
+                        phone.toString(),
+                        from.toString(),
+                        to.toString(),
+                        date.toString(),
+                        time.toString(),
+                        passengers.toString()
+                    )
+
+                    2 -> BusinessRate(
+                        navController = navController,
+                        name.toString(),
+                        phone.toString(),
+                        from.toString(),
+                        to.toString(),
+                        date.toString(),
+                        time.toString(),
+                        passengers.toString()
+                    )
+
+                    else -> MinivanRate(
+                        navController = navController,
+                        name.toString(),
+                        phone.toString(),
+                        from.toString(),
+                        to.toString(),
+                        date.toString(),
+                        time.toString(),
+                        passengers.toString()
+                    )
+                }
             }
         }
-    }
     } else {
         Column(
             modifier = Modifier
@@ -228,30 +238,38 @@ fun RateScreen(
                         passengers.toString()
                     )
 
-                    1 -> ComfortRate(navController = navController,
+                    1 -> ComfortRate(
+                        navController = navController,
                         name.toString(),
                         phone.toString(),
                         from.toString(),
                         to.toString(),
                         date.toString(),
                         time.toString(),
-                        passengers.toString())
-                    2 -> BusinessRate(navController = navController,
+                        passengers.toString()
+                    )
+
+                    2 -> BusinessRate(
+                        navController = navController,
                         name.toString(),
                         phone.toString(),
                         from.toString(),
                         to.toString(),
                         date.toString(),
                         time.toString(),
-                        passengers.toString())
-                    else -> MinivanRate(navController = navController,
+                        passengers.toString()
+                    )
+
+                    else -> MinivanRate(
+                        navController = navController,
                         name.toString(),
                         phone.toString(),
                         from.toString(),
                         to.toString(),
                         date.toString(),
                         time.toString(),
-                        passengers.toString())
+                        passengers.toString()
+                    )
                 }
             }
         }

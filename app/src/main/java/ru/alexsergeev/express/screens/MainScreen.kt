@@ -1,5 +1,6 @@
 package ru.alexsergeev.express.screens
 
+import android.content.pm.ActivityInfo
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -50,7 +51,7 @@ import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
-import org.osmdroid.config.Configuration
+import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.buttons.CounterPassengersButton
 import ru.alexsergeev.express.buttons.IconControlButton
@@ -63,6 +64,7 @@ import kotlin.math.absoluteValue
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainPage(navController: NavController, name: String?, phone: String?) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
     var pickedDate by rememberSaveable {
         mutableStateOf(LocalDate.now())
     }
@@ -108,7 +110,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
     val portraitMode = remember {
         mutableStateOf(config.orientation)
     }
-    if(portraitMode.value == android.content.res.Configuration.ORIENTATION_PORTRAIT) {
+    if (portraitMode.value == android.content.res.Configuration.ORIENTATION_PORTRAIT) {
         Box(
             Modifier
                 .fillMaxWidth()
@@ -140,9 +142,11 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                     painter = painterResource(id = R.drawable.slavlogonew),
                     contentDescription = "test image"
                 )
-                Row(modifier = Modifier
-                    .align(Alignment.CenterHorizontally),
-                    horizontalArrangement = Arrangement.Center) {
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally),
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     OutlinedTextField(modifier = Modifier
                         .align(alignment = Alignment.CenterVertically)
                         .fillMaxWidth(0.5f),
@@ -381,9 +385,11 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                     painter = painterResource(id = R.drawable.slavlogonew),
                     contentDescription = "test image"
                 )
-                Row(modifier = Modifier
-                    .align(Alignment.CenterHorizontally),
-                    horizontalArrangement = Arrangement.Center) {
+                Row(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally),
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     OutlinedTextField(modifier = Modifier
                         .align(alignment = Alignment.CenterVertically)
                         .fillMaxWidth(0.25f),

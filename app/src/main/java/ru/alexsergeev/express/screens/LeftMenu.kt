@@ -1,5 +1,6 @@
 package ru.alexsergeev.express.screens
 
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -22,10 +23,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
 
 @Composable
 fun LeftMenu(navController: NavController, name: String?, phone: String?) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
     Column(
         modifier = Modifier
             .fillMaxWidth(0.7f)

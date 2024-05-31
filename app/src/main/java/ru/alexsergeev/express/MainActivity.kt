@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -18,7 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import ru.alexsergeev.express.screens.AfterOrderScreen
 import ru.alexsergeev.express.screens.CodeScreen
 import ru.alexsergeev.express.screens.Contacts
@@ -41,19 +39,10 @@ class MainActivity : ComponentActivity() {
             ExpressTheme {
                 Column(
                     modifier = Modifier
-//                        .padding(top = 48.dp, bottom = 16.dp)
                         .clip(RoundedCornerShape(10.dp)),
                 ) {
-//                    Map()
-//                    MainPage()
-//                    RateScreen()
-//                    Registration()
-//                    LeftMenu()
                     Surface(color = Color.Black, modifier = Modifier.fillMaxSize()) {
                         Navigation()
-//                        LeftMenu()
-//                        RateScreen()
-//                        EconomyRate()
                     }
                 }
             }

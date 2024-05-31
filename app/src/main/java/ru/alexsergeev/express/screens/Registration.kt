@@ -1,7 +1,7 @@
 package ru.alexsergeev.express.screens
 
 import android.app.Activity
-import android.content.Context
+import android.content.pm.ActivityInfo
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
@@ -25,14 +25,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -45,13 +42,12 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.buttons.IconControlButton
 import ru.alexsergeev.express.ui.theme.DarkYellow
@@ -60,10 +56,7 @@ import kotlin.math.absoluteValue
 
 @Composable
 fun Registration(navController: NavController) {
-//    val systemUiController = rememberSystemUiController()
-//        systemUiController.setSystemBarsColor(
-//            color = Color.Transparent
-//        )
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val name = rememberSaveable {
         mutableStateOf("")
@@ -89,8 +82,7 @@ fun Registration(navController: NavController) {
         modifier = Modifier
             .fillMaxSize()
             .background(color = Color.Black)
-            .clip(RoundedCornerShape(10.dp))
-        , contentAlignment = Alignment.Center
+            .clip(RoundedCornerShape(10.dp)), contentAlignment = Alignment.Center
     )
     {
         Column {
@@ -111,9 +103,10 @@ fun Registration(navController: NavController) {
                 text = "Регистрация",
                 fontSize = 24.sp
             )
-            Row(modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                , horizontalArrangement = Arrangement.Center) {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally), horizontalArrangement = Arrangement.Center
+            ) {
                 OutlinedTextField(
                     modifier = Modifier
                         .align(alignment = Alignment.CenterVertically),
@@ -140,9 +133,10 @@ fun Registration(navController: NavController) {
                     tintColor = Color.White
                 )
             }
-            Row(modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                , horizontalArrangement = Arrangement.Center) {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally), horizontalArrangement = Arrangement.Center
+            ) {
                 OutlinedTextField(
                     modifier = Modifier
                         .align(alignment = Alignment.CenterVertically),
@@ -198,8 +192,10 @@ fun Registration(navController: NavController) {
                         ).show()
                     }
                 }) {
-                Text(text = "Получить код",
-                    color = Color.Black)
+                Text(
+                    text = "Получить код",
+                    color = Color.Black
+                )
             }
         }
     }

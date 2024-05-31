@@ -1,5 +1,6 @@
 package ru.alexsergeev.express.rates
 
+import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -14,7 +15,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,20 +24,23 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.cars.ComfortCars
-import ru.alexsergeev.express.cars.MinivanCars
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
-fun ComfortRate(navController: NavController, name: String?,
-                phone: String?,
-                from: String?,
-                to: String?,
-                date: String?,
-                time: String?,
-                passengers: String?) {
+fun ComfortRate(
+    navController: NavController, name: String?,
+    phone: String?,
+    from: String?,
+    to: String?,
+    date: String?,
+    time: String?,
+    passengers: String?
+) {
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val dialogState = rememberSaveable {
         mutableStateOf(false)
@@ -98,45 +101,45 @@ fun ComfortRate(navController: NavController, name: String?,
                     passengers.toString()
                 )
             }
-                TextButton(
-                    onClick = {
-                        dialogState.value = true
-                    },
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .align(Alignment.CenterVertically),
-                        text = "Другие машины в этом тарифе",
-                        color = Color.White
-                    )
-                }
-                Button(modifier = Modifier
-                    .padding(bottom = 4.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+            TextButton(
+                onClick = {
+                    dialogState.value = true
+                },
+                modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .fillMaxWidth(0.5f),
-                    colors = ButtonDefaults.buttonColors(DarkYellow),
-                    onClick = {
-                        navController.navigate(
-                            "final_screen/" +
-                                    "${name.toString()}/" +
-                                    "${phone.toString()}/" +
-                                    "${from.toString()}/" +
-                                    "${to.toString()}/" +
-                                    "${date.toString()}/" +
-                                    "${time.toString()}/" +
-                                    "${passengers.toString()}/" +
-                                    "COMFORT"
-                        )
-                    }
-                ) {
-                    Text(
-                        text = "Выбрать тариф",
-                        color = Color.Black
+            ) {
+                Text(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .align(Alignment.CenterVertically),
+                    text = "Другие машины в этом тарифе",
+                    color = Color.White
+                )
+            }
+            Button(modifier = Modifier
+                .padding(bottom = 4.dp, top = 8.dp, start = 8.dp, end = 8.dp)
+                .align(Alignment.CenterHorizontally)
+                .fillMaxWidth(0.5f),
+                colors = ButtonDefaults.buttonColors(DarkYellow),
+                onClick = {
+                    navController.navigate(
+                        "final_screen/" +
+                                "${name.toString()}/" +
+                                "${phone.toString()}/" +
+                                "${from.toString()}/" +
+                                "${to.toString()}/" +
+                                "${date.toString()}/" +
+                                "${time.toString()}/" +
+                                "${passengers.toString()}/" +
+                                "COMFORT"
                     )
                 }
+            ) {
+                Text(
+                    text = "Выбрать тариф",
+                    color = Color.Black
+                )
+            }
             Button(
                 modifier = Modifier
                     .padding(bottom = 4.dp)
@@ -153,6 +156,6 @@ fun ComfortRate(navController: NavController, name: String?,
                     color = Color.Black
                 )
             }
-            }
         }
     }
+}
