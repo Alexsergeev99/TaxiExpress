@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             window.statusBarColor = getColor(R.color.white)
-            window.navigationBarColor = getColor(R.color.white)
+            window.navigationBarColor = getColor(R.color.black)
             ExpressTheme {
                 Column(
                     modifier = Modifier

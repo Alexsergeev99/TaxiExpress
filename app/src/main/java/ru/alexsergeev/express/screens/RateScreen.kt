@@ -35,6 +35,7 @@ import androidx.navigation.NavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
+import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import ru.alexsergeev.express.LockScreenOrientation
@@ -67,210 +68,105 @@ fun RateScreen(
     val portraitMode = remember {
         mutableStateOf(config.orientation)
     }
-    if (portraitMode.value == android.content.res.Configuration.ORIENTATION_PORTRAIT) {
-        Column(
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 8.dp, bottom = 8.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(color = Color.Black)
+    ) {
+        Image(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 8.dp, bottom = 8.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(color = Color.Black)
+                .fillMaxWidth()
+                .align(alignment = Alignment.CenterHorizontally)
+                .size(170.dp)
+                .padding(top = 48.dp),
+            painter = painterResource(id = R.drawable.slavlogonew),
+            contentDescription = "test image"
+        )
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, bottom = 16.dp),
+            textAlign = TextAlign.Center,
+            fontSize = 36.sp,
+            text = "Выбор тарифа",
+            color = Color.White
+        )
+        TabRow(
+            selectedTabIndex = tabIndex,
+            indicator = { position ->
+                TabRowDefaults.Indicator(
+                    Modifier.pagerTabIndicatorOffset(pagerState, position)
+                )
+            },
+            containerColor = DarkRed,
+            contentColor = Color.White
         ) {
-            Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(alignment = Alignment.CenterHorizontally)
-                    .size(170.dp)
-                    .padding(top = 48.dp),
-                painter = painterResource(id = R.drawable.slavlogonew),
-                contentDescription = "test image"
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 16.dp, bottom = 16.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 36.sp,
-                text = "Выбор тарифа",
-                color = Color.White
-            )
-            TabRow(
-                selectedTabIndex = tabIndex,
-                indicator = { position ->
-                    TabRowDefaults.Indicator(
-                        Modifier.pagerTabIndicatorOffset(pagerState, position)
-                    )
-                },
-                containerColor = DarkRed,
-                contentColor = Color.White
-            ) {
-                tabList.forEachIndexed { index, level ->
-                    Tab(selected = tabIndex == index,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(index)
-                            }
-                        },
-                        text = {
-                            Text(text = level)
+            tabList.forEachIndexed { index, level ->
+                Tab(selected = tabIndex == index,
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(index)
                         }
-                    )
-                }
-            }
-            HorizontalPager(
-                count = tabList.size,
-                state = pagerState,
-                modifier = Modifier
-                    .weight(1.0f)
-                    .fillMaxHeight(0.5f)
-            ) { index ->
-                when (tabIndex) {
-                    0 -> EconomyRate(
-                        navController = navController,
-                        name.toString(),
-                        phone.toString(),
-                        from.toString(),
-                        to.toString(),
-                        date.toString(),
-                        time.toString(),
-                        passengers.toString()
-                    )
-
-                    1 -> ComfortRate(
-                        navController = navController,
-                        name.toString(),
-                        phone.toString(),
-                        from.toString(),
-                        to.toString(),
-                        date.toString(),
-                        time.toString(),
-                        passengers.toString()
-                    )
-
-                    2 -> BusinessRate(
-                        navController = navController,
-                        name.toString(),
-                        phone.toString(),
-                        from.toString(),
-                        to.toString(),
-                        date.toString(),
-                        time.toString(),
-                        passengers.toString()
-                    )
-
-                    else -> MinivanRate(
-                        navController = navController,
-                        name.toString(),
-                        phone.toString(),
-                        from.toString(),
-                        to.toString(),
-                        date.toString(),
-                        time.toString(),
-                        passengers.toString()
-                    )
-                }
+                    },
+                    text = {
+                        Text(text = level)
+                    }
+                )
             }
         }
-    } else {
-        Column(
+        HorizontalPager(
+            count = tabList.size,
+            state = pagerState,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(top = 8.dp, bottom = 8.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .background(color = Color.Black)
-        ) {
-            Image(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(alignment = Alignment.CenterHorizontally)
-                    .size(130.dp)
-                    .padding(top = 8.dp),
-                painter = painterResource(id = R.drawable.slavlogonew),
-                contentDescription = "test image"
-            )
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 8.dp, bottom = 8.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 30.sp,
-                text = "Выбор тарифа",
-                color = Color.White
-            )
-            TabRow(
-                selectedTabIndex = tabIndex,
-                indicator = { position ->
-                    TabRowDefaults.Indicator(
-                        Modifier.pagerTabIndicatorOffset(pagerState, position)
-                    )
-                },
-                containerColor = DarkRed,
-                contentColor = Color.White
-            ) {
-                tabList.forEachIndexed { index, level ->
-                    Tab(selected = tabIndex == index,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(index)
-                            }
-                        },
-                        text = {
-                            Text(text = level)
-                        }
-                    )
-                }
-            }
-            HorizontalPager(
-                count = tabList.size,
-                state = pagerState,
-                modifier = Modifier
-                    .weight(1.0f)
-                    .fillMaxHeight(0.5f)
-            ) { index ->
-                when (tabIndex) {
-                    0 -> EconomyRate(
-                        navController = navController,
-                        name.toString(),
-                        phone.toString(),
-                        from.toString(),
-                        to.toString(),
-                        date.toString(),
-                        time.toString(),
-                        passengers.toString()
-                    )
+                .weight(1.0f)
+                .fillMaxHeight(0.5f)
+        ) { index ->
+            when (tabIndex) {
+                0 -> EconomyRate(
+                    navController = navController,
+                    name.toString(),
+                    phone.toString(),
+                    from.toString(),
+                    to.toString(),
+                    date.toString(),
+                    time.toString(),
+                    passengers.toString()
+                )
 
-                    1 -> ComfortRate(
-                        navController = navController,
-                        name.toString(),
-                        phone.toString(),
-                        from.toString(),
-                        to.toString(),
-                        date.toString(),
-                        time.toString(),
-                        passengers.toString()
-                    )
+                1 -> ComfortRate(
+                    navController = navController,
+                    name.toString(),
+                    phone.toString(),
+                    from.toString(),
+                    to.toString(),
+                    date.toString(),
+                    time.toString(),
+                    passengers.toString()
+                )
 
-                    2 -> BusinessRate(
-                        navController = navController,
-                        name.toString(),
-                        phone.toString(),
-                        from.toString(),
-                        to.toString(),
-                        date.toString(),
-                        time.toString(),
-                        passengers.toString()
-                    )
+                2 -> BusinessRate(
+                    navController = navController,
+                    name.toString(),
+                    phone.toString(),
+                    from.toString(),
+                    to.toString(),
+                    date.toString(),
+                    time.toString(),
+                    passengers.toString()
+                )
 
-                    else -> MinivanRate(
-                        navController = navController,
-                        name.toString(),
-                        phone.toString(),
-                        from.toString(),
-                        to.toString(),
-                        date.toString(),
-                        time.toString(),
-                        passengers.toString()
-                    )
-                }
+                else -> MinivanRate(
+                    navController = navController,
+                    name.toString(),
+                    phone.toString(),
+                    from.toString(),
+                    to.toString(),
+                    date.toString(),
+                    time.toString(),
+                    passengers.toString()
+                )
             }
         }
     }
