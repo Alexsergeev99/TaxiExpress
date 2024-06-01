@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.buttons.IconControlButton
@@ -248,9 +250,9 @@ fun FinalScreen(
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
                     focusManager.clearFocus()
-//                    coroutineScope.launch {
+                    coroutineScope.launch {
                     vm.makeOrder(order)
-//                }
+                }
                     navController.navigate("after_screen/${name.toString()}/${phone.toString()}")
                 }) {
                 Text(

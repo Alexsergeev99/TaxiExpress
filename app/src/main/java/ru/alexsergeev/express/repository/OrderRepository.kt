@@ -3,7 +3,7 @@ package ru.alexsergeev.express.repository
 import ru.alexsergeev.express.dto.Order
 
 interface OrderRepository {
-    fun makeOrder(order: Order, callback: MakeOrderCallback)
+    suspend fun makeOrder(order: Order)
 }
 
 interface MakeOrderCallback {
