@@ -174,7 +174,10 @@ fun Registration(navController: NavController) {
                 onClick = {
                     focusManager.clearFocus()
                     if (phone.value.isNotEmpty() && name.value.isNotEmpty()) {
-                        if (Patterns.PHONE.matcher(phone.value).matches()) {
+                        if (Patterns.PHONE.matcher(phone.value).matches() &&
+                            phone.value[0].toString().toInt() == 9 &&
+                            phone.value.length == 10
+                        ) {
                             Toast.makeText(ctx, "Номер телефона указан верно", Toast.LENGTH_SHORT)
                                 .show()
                             val number = "+7${phone.value}"

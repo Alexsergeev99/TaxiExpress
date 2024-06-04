@@ -121,14 +121,14 @@ fun FinalScreen(
                     Row {
                         Text(
                             modifier = Modifier
-                                .padding(16.dp)
+                                .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
                             text = "Имя: ${name.toString()}"
                         )
                         Text(
                             modifier = Modifier
-                                .padding(16.dp)
+                                .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
                             text = "Номер телефона: +7${phone.toString()}"
@@ -137,14 +137,14 @@ fun FinalScreen(
                     Row {
                         Text(
                             modifier = Modifier
-                                .padding(16.dp)
+                                .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
                             text = "Поедем из: ${from.toString()}"
                         )
                         Text(
                             modifier = Modifier
-                                .padding(16.dp)
+                                .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
                             text = "Поедем в: ${to.toString()}"
@@ -153,14 +153,14 @@ fun FinalScreen(
                     Row {
                         Text(
                             modifier = Modifier
-                                .padding(16.dp)
+                                .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
                             text = "Дата поездки: ${date.toString()}"
                         )
                         Text(
                             modifier = Modifier
-                                .padding(16.dp)
+                                .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
                             text = "Время поездки: ${time.toString()}"
@@ -169,14 +169,14 @@ fun FinalScreen(
                     Row {
                         Text(
                             modifier = Modifier
-                                .padding(16.dp)
+                                .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
                             text = "Тариф: ${rate.toString()}"
                         )
                         Text(
                             modifier = Modifier
-                                .padding(16.dp)
+                                .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
                             text = "Количество пассажиров: ${passengers.toString()}"
