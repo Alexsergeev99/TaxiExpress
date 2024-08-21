@@ -78,20 +78,12 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                 .format(pickedDate)
         }
     }
-//    val formattedTime by remember {
-//        derivedStateOf {
-//            DateTimeFormatter
-//                .ofPattern("hh:mm")
-//                .format(pickedTime)
-//        }
-//    }
 
     val focusManager = LocalFocusManager.current
     val ctx = LocalContext.current
     val mask = MaskVisualTransformation("##:##")
 
     val dateDialogState = rememberMaterialDialogState()
-    val timeDialogState = rememberMaterialDialogState()
 
     val start = rememberSaveable {
         mutableStateOf("")
@@ -106,10 +98,6 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
         mutableStateOf("1")
     }
 
-    val config = LocalConfiguration.current
-    val portraitMode = remember {
-        mutableStateOf(config.orientation)
-    }
     Box(
         Modifier
             .fillMaxWidth()
@@ -224,18 +212,6 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                         )
                     }
                 }
-//                    Button(modifier = Modifier
-//                        .padding(4.dp)
-//                        .fillMaxWidth(),
-//                        colors = ButtonDefaults.buttonColors(DarkRed),
-//                        onClick = {
-//                            timeDialogState.show()
-//                        }) {
-//                        Text(
-//                            text = "Время поездки",
-//                            color = Color.Black
-//                        )
-//                    }
                 Column {
                     OutlinedTextField(
                         modifier = Modifier
@@ -265,22 +241,6 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                         tintColor = Color.White
                     )
                 }
-//                    Button(
-//                        modifier = Modifier
-//                            .padding(4.dp)
-//                            .fillMaxWidth(),
-//                        enabled = true,
-//                        colors = ButtonDefaults.buttonColors(DarkRed),
-//                        onClick = { /*TODO*/ }) {
-//                        Text(
-//                            text = if(pickedTime != null) {
-//                                "${pickedTime[0]}" + "${pickedTime[1]}" + ":" + "${pickedTime[2]}" + "${pickedTime[3]}"
-//                            } else {
-//                                   pickedTime
-//                            },
-//                            color = Color.Black
-//                        )
-//                    }
             }
             Text(
                 modifier = Modifier
@@ -393,19 +353,6 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
             pickedDate = it
         }
     }
-//    MaterialDialog(
-//        dialogState = timeDialogState,
-//        buttons = {
-//            positiveButton(text = "OK")
-//            negativeButton(text = "Назад")
-//        }) {
-//        timepicker(
-//            initialTime = LocalTime.now(),
-//            title = "Время поездки",
-//        ) {
-//            pickedTime = it
-//        }
-//    }
 }
 
 class MaskTimeVisualTransformation(private val mask: String) : VisualTransformation {

@@ -35,9 +35,7 @@ fun MinivanCars(
     time: String?,
     passengers: String?
 ) {
-    val dialogText = remember {
-        mutableStateOf("")
-    }
+
     AlertDialog(onDismissRequest = {
         dialogState.value = false
     }, modifier = Modifier
@@ -76,7 +74,6 @@ fun MinivanCars(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 16.dp),
-//            .background(Color.White)
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom
             ) {

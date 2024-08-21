@@ -35,10 +35,8 @@ import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
 fun AfterOrderScreen(navController: NavController, name: String?, phone: String?) {
-    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
-    val ctx = LocalContext.current
-    val focusManager = LocalFocusManager.current
+    LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     Box(
         modifier = Modifier

@@ -64,10 +64,7 @@ fun RateScreen(
     val pagerState = rememberPagerState()
     val tabIndex = pagerState.currentPage
     val coroutineScope = rememberCoroutineScope()
-    val config = LocalConfiguration.current
-    val portraitMode = remember {
-        mutableStateOf(config.orientation)
-    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()

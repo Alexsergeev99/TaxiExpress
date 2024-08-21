@@ -26,7 +26,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 
 @Composable
 fun Map() {
-    val context = LocalContext.current
     Box(modifier = Modifier
         .fillMaxHeight(0.6f))  {
         AndroidView(
@@ -40,5 +39,4 @@ fun Map() {
             }
         )
     }
-
 }

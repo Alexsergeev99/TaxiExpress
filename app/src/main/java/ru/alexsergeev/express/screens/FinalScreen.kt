@@ -63,10 +63,6 @@ fun FinalScreen(
 ) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
-    val ctx = LocalContext.current
-    val response = rememberSaveable {
-        mutableStateOf("")
-    }
     val comment = rememberSaveable {
         mutableStateOf("")
     }

@@ -28,6 +28,7 @@ import ru.alexsergeev.express.R
 
 @Composable
 fun LeftMenu(navController: NavController, name: String?, phone: String?) {
+
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     Column(
@@ -99,22 +100,5 @@ fun LeftMenu(navController: NavController, name: String?, phone: String?) {
                 text = "Контакты", fontSize = 24.sp
             )
         }
-//        Button(modifier = Modifier
-//            .align(alignment = Alignment.Start),
-//            colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-//                Color.Black,
-//                Color.White
-//            ),
-//            onClick = { /*TODO*/ }) {
-//            Icon(
-//                painter = painterResource(id = R.drawable.baseline_contact_support_24),
-//                contentDescription = "help"
-//            )
-//            Text(
-//                modifier = Modifier
-//                    .padding(start = 8.dp), text = "Поддержка", fontSize = 24.sp
-//            )
-//        }
-//        LeftMenuNew()
     }
 }

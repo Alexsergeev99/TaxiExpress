@@ -123,19 +123,6 @@ fun CodeScreen(
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
                     focusManager.clearFocus()
-//                    if (codeValue.value.isNotEmpty()) {
-//                        if (codeValue.value.length == 6) {
-//                            Toast.makeText(ctx, "Код введен верно", Toast.LENGTH_SHORT)
-//                                .show()
-//                            navController.navigate("main_screen/${name.toString()}/${phone.toString()}")
-//                        } else {
-//                            Toast.makeText(ctx, "Код введен неверно", Toast.LENGTH_SHORT)
-//                                .show()
-//                        }
-//                    } else {
-//                        Toast.makeText(ctx, "Пожалуйста, введите код из СМС", Toast.LENGTH_SHORT)
-//                            .show()
-//                    }
                     if (TextUtils.isEmpty(codeValue.value.toString())) {
                         Toast.makeText(ctx, "Пожалуйста, введите код из СМС", Toast.LENGTH_SHORT)
                             .show()

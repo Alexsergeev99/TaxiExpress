@@ -72,7 +72,7 @@ fun Registration(navController: NavController) {
         mutableStateOf("")
     }
 
-    var mAuth: FirebaseAuth = FirebaseAuth.getInstance();
+    val mAuth: FirebaseAuth = FirebaseAuth.getInstance();
     lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
     val ctx = LocalContext.current

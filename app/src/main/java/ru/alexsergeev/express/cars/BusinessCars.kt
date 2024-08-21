@@ -76,7 +76,6 @@ fun BusinessCars(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 8.dp),
-//            .background(Color.White)
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom
             ) {

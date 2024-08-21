@@ -16,7 +16,6 @@ class OrderRepositoryImpl : OrderRepository {
             if (!response.isSuccessful) {
                 throw ApiError(response.code(), response.message())
             }
-//            val body = response.body() ?: throw ApiError(response.code(), response.message())
         } catch (e: IOException) {
             throw ru.alexsergeev.express.errors.NetworkError
         } catch (e: Exception) {

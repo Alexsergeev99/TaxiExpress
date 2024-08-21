@@ -82,7 +82,6 @@ fun ComfortCars(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 4.dp),
-//            .background(Color.White)
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom
             ) {

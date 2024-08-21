@@ -40,9 +40,7 @@ fun EconomyCars(
     time: String?,
     passengers: String?
 ) {
-    val dialogText = remember {
-        mutableStateOf("")
-    }
+
     AlertDialog(onDismissRequest = {
         dialogState.value = false
     }, modifier = Modifier
@@ -81,7 +79,6 @@ fun EconomyCars(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 4.dp),
-//            .background(Color.White)
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Bottom
             ) {

@@ -31,7 +31,9 @@ import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
 fun Contacts(navController: NavController, name: String?, phone: String?) {
+
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
     Box(
         modifier = Modifier
             .fillMaxSize()
