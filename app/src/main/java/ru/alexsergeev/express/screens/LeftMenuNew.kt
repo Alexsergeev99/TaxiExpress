@@ -56,14 +56,6 @@ fun LeftMenuNew() {
                 }
             }
         },
-//        content = {
-//            Row {
-//                IconButton(onClick = { scope.launch { drawerState.open() } },
-//                    content = { Icon(painterResource(id = R.drawable.menu_vert), "Меню")}
-//                )
-//                Text(selectedItem.value, fontSize = 28.sp)
-//            }
-//        }
         content = {
             Column(
                 modifier = Modifier

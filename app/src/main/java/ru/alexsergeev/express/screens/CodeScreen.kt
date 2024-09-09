@@ -48,24 +48,20 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
+import ru.alexsergeev.express.viewmodel.OrderViewModel
 
 
 @Composable
 fun CodeScreen(
     navController: NavController,
-    name: String?,
-    phone: String?,
     verificationID: String?
 ) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-
-    val phoneNumber = rememberSaveable {
-        mutableStateOf("")
-    }
 
     val codeValue = rememberSaveable {
         mutableStateOf("")
@@ -137,7 +133,7 @@ fun CodeScreen(
                             ctx,
                             message
                         )
-                        navController.navigate("main_screen/${name.toString()}/${phone.toString()}")
+                        navController.navigate("main_screen")
                     }
                 }
             ) {

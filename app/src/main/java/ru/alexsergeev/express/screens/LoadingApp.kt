@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import ru.alexsergeev.express.LockScreenOrientation
-import ru.alexsergeev.express.R
 
 @Composable
 fun SplashScreen(navController: NavController) {
@@ -32,7 +31,6 @@ fun SplashScreen(navController: NavController) {
         androidx.compose.animation.core.Animatable(0f)
     }
 
-    // Animation
     LaunchedEffect(key1 = true) {
         scale.animateTo(
             targetValue = 0.7f,
@@ -56,7 +54,7 @@ fun SplashScreen(navController: NavController) {
             exit = scaleOut(animationSpec = tween(durationMillis = 300)),
         ) {
             Image(
-                painter = painterResource(id = R.drawable.slavexpresslogo_only_s),
+                painter = painterResource(id = ru.alexsergeev.express.R.drawable.slavexpresslogo_only_s),
                 contentDescription = "Logo",
                 modifier = Modifier
                     .scale(scale.value)

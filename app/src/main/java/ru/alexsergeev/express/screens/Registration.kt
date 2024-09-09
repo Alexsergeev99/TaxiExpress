@@ -25,6 +25,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -41,29 +42,30 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.buttons.IconControlButton
+import ru.alexsergeev.express.dto.User
 import ru.alexsergeev.express.ui.theme.DarkYellow
+import ru.alexsergeev.express.utils.MaskVisualTransformation
+import ru.alexsergeev.express.viewmodel.OrderViewModel
 import java.util.concurrent.TimeUnit
 import kotlin.math.absoluteValue
 
 @Composable
-fun Registration(navController: NavController) {
+fun Registration(navController: NavController, viewModel: OrderViewModel = koinViewModel()) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
-    val name = rememberSaveable {
-        mutableStateOf("")
-    }
-    val phone = rememberSaveable {
-        mutableStateOf("")
-    }
+    val order by viewModel.getOrder().collectAsStateWithLifecycle()
+
     val verificationID = rememberSaveable {
         mutableStateOf("1")
     }
@@ -110,7 +112,7 @@ fun Registration(navController: NavController) {
                 OutlinedTextField(
                     modifier = Modifier
                         .align(alignment = Alignment.CenterVertically),
-                    value = name.value,
+                    value = order.user.name,
                     shape = RoundedCornerShape(20),
                     label = { Text(text = "Ваше имя") },
                     colors = TextFieldDefaults.colors(
@@ -121,7 +123,9 @@ fun Registration(navController: NavController) {
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = {
-                        name.value = it
+                        viewModel.setOrder(
+                            order.copy(user = User(it, order.user.number))
+                        )
                     }
                 )
                 IconControlButton(
@@ -140,7 +144,7 @@ fun Registration(navController: NavController) {
                 OutlinedTextField(
                     modifier = Modifier
                         .align(alignment = Alignment.CenterVertically),
-                    value = phone.value,
+                    value = order.user.number,
                     shape = RoundedCornerShape(20),
                     label = { Text(text = "Ваш номер телефона") },
                     placeholder = { Text(text = "+7 (###) ### ##-##") },
@@ -152,7 +156,9 @@ fun Registration(navController: NavController) {
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                     onValueChange = {
-                        phone.value = it
+                        viewModel.setOrder(
+                            order.copy(user = User(order.user.name, it))
+                        )
                     },
                     visualTransformation = mask
                 )
@@ -173,14 +179,14 @@ fun Registration(navController: NavController) {
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
                     focusManager.clearFocus()
-                    if (phone.value.isNotEmpty() && name.value.isNotEmpty()) {
-                        if (Patterns.PHONE.matcher(phone.value).matches() &&
-                            phone.value[0].toString().toInt() == 9 &&
-                            phone.value.length == 10
+                    if (order.user.number.isNotEmpty() && order.user.name.isNotEmpty()) {
+                        if (Patterns.PHONE.matcher(order.user.number).matches() &&
+                            order.user.number[0].toString().toInt() == 9 &&
+                            order.user.number.length == 10
                         ) {
                             Toast.makeText(ctx, "Номер телефона указан верно", Toast.LENGTH_SHORT)
                                 .show()
-                            val number = "+7${phone.value}"
+                            val number = "+7${order.user.number}"
                             sendVerificationCode(number, mAuth, ctx as Activity, callbacks)
                             Log.d("button", verificationID.value)
                         } else {
@@ -204,73 +210,32 @@ fun Registration(navController: NavController) {
     }
     callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-            // обновление сообщения и отправка тоаста
             message.value = "Верификация прошла успешно"
             Toast.makeText(ctx, "Верификация успешна", Toast.LENGTH_SHORT).show()
         }
 
         override fun onVerificationFailed(p0: FirebaseException) {
-            // тоаст с ошибкой
             message.value = "Ошибка верификации пользователя : \n" + p0.message
             Toast.makeText(ctx, "Верификация неуспешна", Toast.LENGTH_SHORT).show()
         }
 
         override fun onCodeSent(verificationId: String, p1: PhoneAuthProvider.ForceResendingToken) {
-            // отправка кода
             super.onCodeSent(verificationId, p1)
             verificationID.value = verificationId
             Log.d("code", verificationID.value)
-            navController.navigate("code_screen/${name.value.toString()}/${phone.value.toString()}/${verificationID.value.toString()}")
+            navController.navigate("code_screen/${verificationID.value.toString()}")
         }
     }
 }
-
-class MaskVisualTransformation(private val mask: String) : VisualTransformation {
-    private val specialSymbolsIndices = mask.indices.filter { mask[it] != '#' }
-
-    override fun filter(text: AnnotatedString): TransformedText {
-        var out = ""
-        var maskIndex = 0
-        text.forEach { char ->
-            while (specialSymbolsIndices.contains(maskIndex)) {
-                out += mask[maskIndex]
-                maskIndex++
-            }
-            out += char
-            maskIndex++
-        }
-        return TransformedText(AnnotatedString(out), offsetTranslator())
-    }
-
-    private fun offsetTranslator() = object : OffsetMapping {
-        override fun originalToTransformed(offset: Int): Int {
-            val offsetValue = offset.absoluteValue
-            if (offsetValue == 0) return 0
-            var numberOfHashtags = 0
-            val masked = mask.takeWhile {
-                if (it == '#') numberOfHashtags++
-                numberOfHashtags < offsetValue
-            }
-            return masked.length + 1
-        }
-
-        override fun transformedToOriginal(offset: Int): Int {
-            return mask.take(offset.absoluteValue).count { it == '#' }
-        }
-    }
-}
-
-// метод для получения кода
 private fun sendVerificationCode(
     number: String,
     auth: FirebaseAuth,
     activity: Activity,
     callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 ) {
-    // опции кода
     val options = PhoneAuthOptions.newBuilder(auth)
-        .setPhoneNumber(number) // номер телефона
-        .setTimeout(60L, TimeUnit.SECONDS) // время
+        .setPhoneNumber(number)
+        .setTimeout(60L, TimeUnit.SECONDS)
         .setActivity(activity)
         .setCallbacks(callbacks)
         .build()

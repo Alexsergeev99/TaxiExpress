@@ -14,6 +14,7 @@ import ru.alexsergeev.express.screens.MainPage
 import ru.alexsergeev.express.screens.RateScreen
 import ru.alexsergeev.express.screens.Registration
 import ru.alexsergeev.express.screens.SplashScreen
+import ru.alexsergeev.express.viewmodel.OrderViewModel
 
 @Composable
 fun Navigation() {
@@ -28,32 +29,24 @@ fun Navigation() {
         composable("registration") {
             Registration(navController = navController)
         }
-        composable("main_screen/{name}/{phone}") {
+        composable("main_screen") {
             MainPage(
                 navController = navController,
-                it.arguments?.getString("name"),
-                it.arguments?.getString("phone")
             )
         }
-        composable("code_screen/{name}/{phone}/{verificationID}") {
+        composable("code_screen/{verificationID}") {
             CodeScreen(
                 navController = navController,
-                it.arguments?.getString("name"),
-                it.arguments?.getString("phone"),
-                it.arguments?.getString("verificationID")
+                verificationID = it.arguments?.getString("verificationID")
             )
         }
-        composable(route = "left_menu/{name}/{phone}") {
+        composable(route = "left_menu") {
             Box {
                 MainPage(
                     navController = navController,
-                    it.arguments?.getString("name"),
-                    it.arguments?.getString("phone")
                 )
                 LeftMenu(
                     navController = navController,
-                    it.arguments?.getString("name"),
-                    it.arguments?.getString("phone")
                 )
             }
         }

@@ -1,6 +1,7 @@
 package ru.alexsergeev.express.screens
 
 import android.content.pm.ActivityInfo
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,37 +35,40 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
+import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.buttons.CounterPassengersButton
 import ru.alexsergeev.express.buttons.IconControlButton
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
+import ru.alexsergeev.express.utils.MaskVisualTransformation
+import ru.alexsergeev.express.viewmodel.OrderViewModel
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import kotlin.math.absoluteValue
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainPage(navController: NavController, name: String?, phone: String?) {
+fun MainPage(
+    navController: NavController,
+    viewModel: OrderViewModel = koinViewModel()
+) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
+    val order by viewModel.getOrder().collectAsStateWithLifecycle()
+
     var pickedDate by rememberSaveable {
         mutableStateOf(LocalDate.now())
     }
@@ -85,17 +89,8 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
 
     val dateDialogState = rememberMaterialDialogState()
 
-    val start = rememberSaveable {
-        mutableStateOf("")
-    }
-    val finish = rememberSaveable {
-        mutableStateOf("")
-    }
     var valueCounter by rememberSaveable {
         mutableStateOf(1)
-    }
-    val passengers = rememberSaveable {
-        mutableStateOf("1")
     }
 
     Box(
@@ -108,7 +103,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
             .padding(top = 72.dp, start = 32.dp)
             .size(32.dp),
             onClick = {
-                navController.navigate("left_menu/${name.toString()}/${phone.toString()}")
+                navController.navigate("left_menu")
             }) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_density_medium_24),
@@ -138,7 +133,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                     .align(alignment = Alignment.CenterVertically)
                     .fillMaxWidth(0.5f),
                     shape = RoundedCornerShape(20),
-                    value = start.value,
+                    value = order.from,
                     label = { Text(text = "Откуда поедем") },
                     colors = TextFieldDefaults.colors(
                         focusedTextColor = Color.White,
@@ -150,7 +145,9 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = {
-                        start.value = it
+                        viewModel.setOrder(
+                            order.copy(from = it)
+                        )
                     }
                 )
                 OutlinedTextField(
@@ -158,7 +155,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                         .align(alignment = Alignment.CenterVertically)
                         .fillMaxWidth(),
                     shape = RoundedCornerShape(20),
-                    value = finish.value,
+                    value = order.to,
                     label = { Text(text = "Куда поедем") },
                     colors = TextFieldDefaults.colors(
                         focusedTextColor = Color.White,
@@ -170,7 +167,9 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = {
-                        finish.value = it
+                        viewModel.setOrder(
+                            order.copy(to = it)
+                        )
                     }
                 )
             }
@@ -216,7 +215,7 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                     OutlinedTextField(
                         modifier = Modifier
                             .align(alignment = Alignment.CenterHorizontally),
-                        value = pickedTime.toString(),
+                        value = order.time,
                         shape = RoundedCornerShape(20),
                         label = { Text(text = "Время поездки") },
                         placeholder = { Text(text = "##:##") },
@@ -228,6 +227,9 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         onValueChange = {
+                            viewModel.setOrder(
+                                order.copy(time = it)
+                            )
                             pickedTime = it
                         },
                         visualTransformation = mask
@@ -255,15 +257,21 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                 value = valueCounter.toString(),
                 onValueDecreaseClick = {
                     valueCounter = maxOf(valueCounter - 1, 1)
-                    passengers.value = valueCounter.toString()
+                    viewModel.setOrder(
+                        order.copy(countPassengers = valueCounter)
+                    )
                 },
                 onValueIncreaseClick = {
                     valueCounter++
-                    passengers.value = valueCounter.toString()
+                    viewModel.setOrder(
+                        order.copy(countPassengers = valueCounter)
+                    )
                 },
                 onValueClearClick = {
                     valueCounter = 1
-                    passengers.value = valueCounter.toString()
+                    viewModel.setOrder(
+                        order.copy(countPassengers = valueCounter)
+                    )
                 },
                 modifier = Modifier
                     .padding(8.dp)
@@ -276,24 +284,24 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
                 .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
-                    if (start.value.isNotEmpty() &&
-                        finish.value.isNotEmpty() &&
+                    if (order.from.isNotEmpty() &&
+                        order.to.isNotEmpty() &&
                         pickedDate >= LocalDate.now() &&
                         pickedTime.isNotEmpty() &&
                         pickedTime[0].toString().toInt() <= 2 &&
                         pickedTime[2].toString().toInt() <= 5 &&
                         valueCounter <= 7
                     ) {
-                        navController.navigate(
-                            "rate_screen/" +
-                                    "${name.toString()}/" +
-                                    "${phone.toString()}/" +
-                                    "${start.value.toString()}/" +
-                                    "${finish.value.toString()}/" +
-                                    "${pickedDate.toString()[8]}${pickedDate.toString()[9]}.${pickedDate.toString()[5]}${pickedDate.toString()[6]}.${pickedDate.toString()[0]}${pickedDate.toString()[1]}${pickedDate.toString()[2]}${pickedDate.toString()[3]}/" +
-                                    "${pickedTime[0]}${pickedTime[1]}:${pickedTime[2]}${pickedTime[3]}/${passengers.value.toString()}"
-
-                        )
+//                        navController.navigate(
+//                            "rate_screen/" +
+//                                    "${name.toString()}/" +
+//                                    "${phone.toString()}/" +
+//                                    "${start.value.toString()}/" +
+//                                    "${finish.value.toString()}/" +
+//                                    "${pickedDate.toString()[8]}${pickedDate.toString()[9]}.${pickedDate.toString()[5]}${pickedDate.toString()[6]}.${pickedDate.toString()[0]}${pickedDate.toString()[1]}${pickedDate.toString()[2]}${pickedDate.toString()[3]}/" +
+//                                    "${pickedTime[0]}${pickedTime[1]}:${pickedTime[2]}${pickedTime[3]}/${passengers.value.toString()}"
+//
+//                        )
                     } else if (pickedTime[0].toString().toInt() > 2 || pickedTime[2].toString()
                             .toInt() > 5
                     ) {
@@ -351,41 +359,6 @@ fun MainPage(navController: NavController, name: String?, phone: String?) {
             title = "Дата поездки",
         ) {
             pickedDate = it
-        }
-    }
-}
-
-class MaskTimeVisualTransformation(private val mask: String) : VisualTransformation {
-    private val specialSymbolsIndices = mask.indices.filter { mask[it] != '#' }
-
-    override fun filter(text: AnnotatedString): TransformedText {
-        var out = ""
-        var maskIndex = 0
-        text.forEach { char ->
-            while (specialSymbolsIndices.contains(maskIndex)) {
-                out += mask[maskIndex]
-                maskIndex++
-            }
-            out += char
-            maskIndex++
-        }
-        return TransformedText(AnnotatedString(out), offsetTranslator())
-    }
-
-    private fun offsetTranslator() = object : OffsetMapping {
-        override fun originalToTransformed(offset: Int): Int {
-            val offsetValue = offset.absoluteValue
-            if (offsetValue == 0) return 0
-            var numberOfHashtags = 0
-            val masked = mask.takeWhile {
-                if (it == '#') numberOfHashtags++
-                numberOfHashtags < offsetValue
-            }
-            return masked.length + 1
-        }
-
-        override fun transformedToOriginal(offset: Int): Int {
-            return mask.take(offset.absoluteValue).count { it == '#' }
         }
     }
 }
