@@ -30,7 +30,7 @@ import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkYellow
 
 @Composable
-fun Contacts(navController: NavController, name: String?, phone: String?) {
+fun Contacts(navController: NavController) {
 
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
@@ -45,7 +45,7 @@ fun Contacts(navController: NavController, name: String?, phone: String?) {
             .padding(top = 72.dp, start = 32.dp)
             .size(32.dp),
             onClick = {
-                navController.navigate("left_menu/${name.toString()}/${phone.toString()}")
+                navController.navigate("left_menu")
             }) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_density_medium_24),

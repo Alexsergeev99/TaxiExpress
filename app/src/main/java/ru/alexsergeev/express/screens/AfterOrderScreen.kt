@@ -19,24 +19,31 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkYellow
+import ru.alexsergeev.express.viewmodel.OrderViewModel
 
 @Composable
-fun AfterOrderScreen(navController: NavController, name: String?, phone: String?) {
+fun AfterOrderScreen(
+    navController: NavController,
+    viewModel: OrderViewModel = koinViewModel()
+) {
 
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+
+    val order by viewModel.getOrder().collectAsStateWithLifecycle()
 
     Box(
         modifier = Modifier
@@ -60,7 +67,7 @@ fun AfterOrderScreen(navController: NavController, name: String?, phone: String?
                     .align(alignment = Alignment.CenterHorizontally),
                 color = Color.White,
                 fontSize = 24.sp,
-                text = "$name, спасибо за Ваш заказ!"
+                text = "${order.user.name}, спасибо за Ваш заказ!"
             )
             Text(
                 modifier = Modifier
@@ -140,7 +147,7 @@ fun AfterOrderScreen(navController: NavController, name: String?, phone: String?
                 enabled = true,
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
-                    navController.navigate("main_screen/${name.toString()}/${phone.toString()}")
+                    navController.navigate("main_screen")
                 }
             ) {
                 Text(

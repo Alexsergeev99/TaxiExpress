@@ -22,28 +22,24 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.buttons.IconControlButton
 import ru.alexsergeev.express.dto.Options
-import ru.alexsergeev.express.dto.Order
-import ru.alexsergeev.express.dto.User
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
 import ru.alexsergeev.express.viewmodel.OrderViewModel
@@ -51,38 +47,40 @@ import ru.alexsergeev.express.viewmodel.OrderViewModel
 @Composable
 fun FinalScreen(
     navController: NavController,
-    name: String?,
-    phone: String?,
-    from: String?,
-    to: String?,
-    date: String?,
-    time: String?,
-    passengers: String?,
-    rate: String?,
-    vm: OrderViewModel = viewModel()
+//    name: String?,
+//    phone: String?,
+//    from: String?,
+//    to: String?,
+//    date: String?,
+//    time: String?,
+//    passengers: String?,
+//    rate: String?,
+    viewModel: OrderViewModel = koinViewModel()
 ) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
-    val comment = rememberSaveable {
-        mutableStateOf("")
-    }
+    val order by viewModel.getOrder().collectAsStateWithLifecycle()
+
+//    val comment = rememberSaveable {
+//        mutableStateOf("")
+//    }
     val focusManager = LocalFocusManager.current
-    val checkedChildrenState = rememberSaveable {
-        mutableStateOf(false)
-    }
-    val checkedPetState = rememberSaveable {
-        mutableStateOf(false)
-    }
-    val order = Order(
-        from = from.toString(),
-        to = to.toString(),
-        time = "${date.toString()} ${time.toString()}",
-        tariff = rate.toString(),
-        countPassengers = passengers.toString().toInt(),
-        comment = comment.value.toString(),
-        user = User(name.toString(), "+7${phone.toString()}"),
-        options = Options(checkedChildrenState.value, checkedPetState.value)
-    )
+//    val checkedChildrenState = rememberSaveable {
+//        mutableStateOf(false)
+//    }
+//    val checkedPetState = rememberSaveable {
+//        mutableStateOf(false)
+//    }
+//    val order = Order(
+//        from = from.toString(),
+//        to = to.toString(),
+//        time = "${date.toString()} ${time.toString()}",
+//        tariff = rate.toString(),
+//        countPassengers = passengers.toString().toInt(),
+//        comment = comment.value.toString(),
+//        user = User(name.toString(), "+7${phone.toString()}"),
+//        options = Options(checkedChildrenState.value, checkedPetState.value)
+//    )
     val coroutineScope = rememberCoroutineScope()
 
     Box(
@@ -120,14 +118,14 @@ fun FinalScreen(
                                 .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Имя: ${name.toString()}"
+                            text = "Имя: ${order.user.name}"
                         )
                         Text(
                             modifier = Modifier
                                 .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Номер телефона: +7${phone.toString()}"
+                            text = "Номер телефона: +7${order.user.number}"
                         )
                     }
                     Row {
@@ -136,14 +134,14 @@ fun FinalScreen(
                                 .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Поедем из: ${from.toString()}"
+                            text = "Поедем из: ${order.from}"
                         )
                         Text(
                             modifier = Modifier
                                 .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Поедем в: ${to.toString()}"
+                            text = "Поедем в: ${order.to}"
                         )
                     }
                     Row {
@@ -159,7 +157,7 @@ fun FinalScreen(
                                 .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Время поездки: ${time.toString()}"
+                            text = "Время поездки: ${order.time}"
                         )
                     }
                     Row {
@@ -168,14 +166,14 @@ fun FinalScreen(
                                 .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Тариф: ${rate.toString()}"
+                            text = "Тариф: ${order.tariff}"
                         )
                         Text(
                             modifier = Modifier
                                 .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Количество пассажиров: ${passengers.toString()}"
+                            text = "Количество пассажиров: ${order.countPassengers}"
                         )
                     }
                 }
@@ -187,7 +185,7 @@ fun FinalScreen(
                 OutlinedTextField(
                     modifier = Modifier
                         .padding(top = 8.dp),
-                    value = comment.value,
+                    value = order.comment ?: "",
                     shape = RoundedCornerShape(20),
                     label = { Text(text = "Комментарий:") },
                     colors = TextFieldDefaults.colors(
@@ -198,7 +196,10 @@ fun FinalScreen(
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     onValueChange = {
-                        comment.value = it
+                        viewModel.setOrder(
+                            order.copy(comment = it)
+                        )
+//                        comment.value = it
                     }
                 )
                 IconControlButton(
@@ -212,9 +213,16 @@ fun FinalScreen(
             }
             Row {
                 Checkbox(
-                    checked = checkedChildrenState.value,
+                    checked = order.options.babySeat,
                     modifier = Modifier.padding(16.dp),
-                    onCheckedChange = { checkedChildrenState.value = it },
+                    onCheckedChange = {
+                        viewModel.setOrder(
+                            order.copy(
+                                options = Options(it, order.options.withAnimal)
+                            )
+                        )
+//                        checkedChildrenState.value = it
+                    },
                 )
                 Text(
                     text = "Нужно детское кресло",
@@ -226,9 +234,16 @@ fun FinalScreen(
             }
             Row {
                 Checkbox(
-                    checked = checkedPetState.value,
+                    checked = order.options.withAnimal,
                     modifier = Modifier.padding(16.dp),
-                    onCheckedChange = { checkedPetState.value = it },
+                    onCheckedChange = {
+                        viewModel.setOrder(
+                            order.copy(
+                                options = Options(it, order.options.withAnimal)
+                            )
+                        )
+//                        checkedPetState.value = it
+                    },
                 )
                 Text(
                     text = "Буду с питомцем",
@@ -247,9 +262,10 @@ fun FinalScreen(
                 onClick = {
                     focusManager.clearFocus()
                     coroutineScope.launch {
-                    vm.makeOrder(order)
-                }
-                    navController.navigate("after_screen/${name.toString()}/${phone.toString()}")
+                        viewModel.makeOrder(order)
+//                        vm.makeOrder(order)
+                    }
+                    navController.navigate("after_screen")
                 }) {
                 Text(
                     text = "Рассчитать заказ",

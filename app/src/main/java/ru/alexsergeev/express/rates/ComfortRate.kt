@@ -14,6 +14,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -23,28 +24,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.express.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.cars.ComfortCars
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
+import ru.alexsergeev.express.viewmodel.OrderViewModel
 
 @Composable
 fun ComfortRate(
-    navController: NavController, name: String?,
-    phone: String?,
-    from: String?,
-    to: String?,
-    date: String?,
-    time: String?,
-    passengers: String?
+    navController: NavController,
+    viewModel: OrderViewModel = koinViewModel()
 ) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val dialogState = rememberSaveable {
         mutableStateOf(false)
     }
+    val order by viewModel.getOrder().collectAsStateWithLifecycle()
 
     Column(
         modifier = Modifier
@@ -92,13 +92,6 @@ fun ComfortRate(
             if (dialogState.value) {
                 ComfortCars(
                     dialogState, navController = navController,
-                    name.toString(),
-                    phone.toString(),
-                    from.toString(),
-                    to.toString(),
-                    date.toString(),
-                    time.toString(),
-                    passengers.toString()
                 )
             }
             TextButton(
@@ -122,16 +115,13 @@ fun ComfortRate(
                 .fillMaxWidth(0.5f),
                 colors = ButtonDefaults.buttonColors(DarkYellow),
                 onClick = {
+                    viewModel.setOrder(
+                        order.copy(tariff = "COMFORT")
+                    )
                     navController.navigate(
-                        "final_screen/" +
-                                "${name.toString()}/" +
-                                "${phone.toString()}/" +
-                                "${from.toString()}/" +
-                                "${to.toString()}/" +
-                                "${date.toString()}/" +
-                                "${time.toString()}/" +
-                                "${passengers.toString()}/" +
-                                "COMFORT"
+                        "final_screen/"
+//                                +
+//                                "COMFORT"
                     )
                 }
             ) {

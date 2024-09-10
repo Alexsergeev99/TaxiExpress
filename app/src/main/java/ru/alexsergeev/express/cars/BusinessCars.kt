@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -18,8 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.express.ui.theme.DarkRed
+import ru.alexsergeev.express.viewmodel.OrderViewModel
 
 private val cars = listOf("Hongqi H5", "Hongqi H9", "Mercedes-Benz Maybach S-klasse", "Zeekr 009")
 
@@ -27,33 +31,24 @@ private val cars = listOf("Hongqi H5", "Hongqi H9", "Mercedes-Benz Maybach S-kla
 fun BusinessCars(
     dialogState: MutableState<Boolean>,
     navController: NavController,
-    name: String?,
-    phone: String?,
-    from: String?,
-    to: String?,
-    date: String?,
-    time: String?,
-    passengers: String?
+    viewModel: OrderViewModel = koinViewModel()
 ) {
-    val dialogText = remember {
-        mutableStateOf("")
-    }
+
+    val order by viewModel.getOrder().collectAsStateWithLifecycle()
+
     AlertDialog(onDismissRequest = {
         dialogState.value = false
     }, modifier = Modifier
         .padding(bottom = 16.dp),
         confirmButton = {
             TextButton(onClick = {
+                viewModel.setOrder(
+                    order.copy(tariff = "BUSINESS")
+                )
                 navController.navigate(
-                    "final_screen/" +
-                            "${name.toString()}/" +
-                            "${phone.toString()}/" +
-                            "${from.toString()}/" +
-                            "${to.toString()}/" +
-                            "${date.toString()}/" +
-                            "${time.toString()}/" +
-                            "${passengers?.toString()}/" +
-                            "Бизнес"
+                    "final_screen/"
+//                            +
+//                            "Бизнес"
                 )
                 dialogState.value = false
             },
