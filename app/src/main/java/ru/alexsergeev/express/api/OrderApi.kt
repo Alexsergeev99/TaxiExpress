@@ -13,7 +13,7 @@ import ru.alexsergeev.express.BuildConfig
 import ru.alexsergeev.express.dto.Order
 import java.util.concurrent.TimeUnit
 
-val BASE_URL = "http://185.211.170.219:8080/api/"
+const val BASE_URL = "http://185.211.170.219:8080/api/"
 
 val retrofit = Retrofit.Builder()
     .client(

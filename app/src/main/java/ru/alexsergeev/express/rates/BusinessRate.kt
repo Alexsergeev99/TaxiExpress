@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
-import ru.alexsergeev.express.LockScreenOrientation
+import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.cars.BusinessCars
 import ru.alexsergeev.express.ui.theme.DarkRed
@@ -119,11 +119,7 @@ fun BusinessRate(
                     viewModel.setOrder(
                         order.copy(tariff = "BUSINESS")
                     )
-                    navController.navigate(
-                        "final_screen/"
-//                                +
-//                                "BUSINESS"
-                    )
+                    navController.navigate("final_screen")
                 }
             ) {
                 Text(

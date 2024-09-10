@@ -25,7 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import ru.alexsergeev.express.LockScreenOrientation
+import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.ui.theme.DarkYellow
 

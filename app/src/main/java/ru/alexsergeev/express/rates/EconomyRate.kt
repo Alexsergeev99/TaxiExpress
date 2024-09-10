@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
-import ru.alexsergeev.express.LockScreenOrientation
+import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.cars.EconomyCars
 import ru.alexsergeev.express.ui.theme.DarkRed
@@ -117,11 +117,7 @@ fun EconomyRate(
                     viewModel.setOrder(
                         order.copy(tariff = "ECONOMY")
                     )
-                    navController.navigate(
-                        "final_screen/"
-//                                +
-//                                "ECONOMY"
-                    )
+                    navController.navigate("final_screen")
                 }
             ) {
                 Text(

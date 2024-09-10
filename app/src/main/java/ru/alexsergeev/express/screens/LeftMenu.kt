@@ -1,7 +1,6 @@
 package ru.alexsergeev.express.screens
 
 import android.content.pm.ActivityInfo
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
-import ru.alexsergeev.express.LockScreenOrientation
+import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.viewmodel.OrderViewModel
 
@@ -94,9 +93,7 @@ fun LeftMenu(navController: NavController, viewModel: OrderViewModel = koinViewM
                 Color.Black,
                 Color.White
             ),
-            onClick = {
-//                navController.navigate("contacts/${name.toString()}/${phone.toString()}")
-            }) {
+            onClick = { navController.navigate("contacts") }) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_contact_support_24),
                 contentDescription = "contacts"

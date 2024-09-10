@@ -21,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
-import ru.alexsergeev.express.LockScreenOrientation
+import ru.alexsergeev.express.utils.LockScreenOrientation
 
 @Composable
 fun SplashScreen(navController: NavController) {

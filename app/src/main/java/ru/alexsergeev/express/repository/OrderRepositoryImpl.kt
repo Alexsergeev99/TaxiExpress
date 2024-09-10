@@ -46,6 +46,7 @@ class OrderRepositoryImpl : OrderRepository {
         } catch (e: IOException) {
             throw ru.alexsergeev.express.errors.NetworkError
         } catch (e: Exception) {
+            e.printStackTrace()
             throw UnknownError
         }
     }

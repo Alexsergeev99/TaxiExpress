@@ -29,7 +29,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
-import ru.alexsergeev.express.LockScreenOrientation
+import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.rates.BusinessRate
 import ru.alexsergeev.express.rates.ComfortRate
@@ -106,21 +106,13 @@ fun RateScreen(
                 .fillMaxHeight(0.5f)
         ) { index ->
             when (tabIndex) {
-                0 -> EconomyRate(
-                    navController = navController,
-                )
+                0 -> EconomyRate(navController = navController)
 
-                1 -> ComfortRate(
-                    navController = navController,
-                )
+                1 -> ComfortRate(navController = navController)
 
-                2 -> BusinessRate(
-                    navController = navController,
-                )
+                2 -> BusinessRate(navController = navController)
 
-                else -> MinivanRate(
-                    navController = navController,
-                )
+                else -> MinivanRate(navController = navController)
             }
         }
     }

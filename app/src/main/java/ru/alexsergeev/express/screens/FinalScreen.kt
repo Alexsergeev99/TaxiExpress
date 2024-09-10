@@ -36,7 +36,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
-import ru.alexsergeev.express.LockScreenOrientation
+import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.buttons.IconControlButton
 import ru.alexsergeev.express.dto.Options
@@ -47,41 +47,17 @@ import ru.alexsergeev.express.viewmodel.OrderViewModel
 @Composable
 fun FinalScreen(
     navController: NavController,
-//    name: String?,
-//    phone: String?,
-//    from: String?,
-//    to: String?,
-//    date: String?,
-//    time: String?,
-//    passengers: String?,
-//    rate: String?,
     viewModel: OrderViewModel = koinViewModel()
 ) {
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val order by viewModel.getOrder().collectAsStateWithLifecycle()
 
-//    val comment = rememberSaveable {
-//        mutableStateOf("")
-//    }
     val focusManager = LocalFocusManager.current
-//    val checkedChildrenState = rememberSaveable {
-//        mutableStateOf(false)
-//    }
-//    val checkedPetState = rememberSaveable {
-//        mutableStateOf(false)
-//    }
-//    val order = Order(
-//        from = from.toString(),
-//        to = to.toString(),
-//        time = "${date.toString()} ${time.toString()}",
-//        tariff = rate.toString(),
-//        countPassengers = passengers.toString().toInt(),
-//        comment = comment.value.toString(),
-//        user = User(name.toString(), "+7${phone.toString()}"),
-//        options = Options(checkedChildrenState.value, checkedPetState.value)
-//    )
+
     val coroutineScope = rememberCoroutineScope()
+
+    val separateDateTime: List<String?> = order.time.split(" ")
 
     Box(
         modifier = Modifier
@@ -150,14 +126,14 @@ fun FinalScreen(
                                 .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Дата поездки: ${date.toString()}"
+                            text = "Дата поездки: ${separateDateTime[0]}"
                         )
                         Text(
                             modifier = Modifier
                                 .padding(8.dp)
                                 .align(Alignment.CenterVertically),
                             color = Color.White,
-                            text = "Время поездки: ${order.time}"
+                            text = "Время поездки: ${separateDateTime[1]}"
                         )
                     }
                     Row {
@@ -199,7 +175,6 @@ fun FinalScreen(
                         viewModel.setOrder(
                             order.copy(comment = it)
                         )
-//                        comment.value = it
                     }
                 )
                 IconControlButton(
@@ -221,7 +196,6 @@ fun FinalScreen(
                                 options = Options(it, order.options.withAnimal)
                             )
                         )
-//                        checkedChildrenState.value = it
                     },
                 )
                 Text(
@@ -242,7 +216,6 @@ fun FinalScreen(
                                 options = Options(it, order.options.withAnimal)
                             )
                         )
-//                        checkedPetState.value = it
                     },
                 )
                 Text(
@@ -263,7 +236,6 @@ fun FinalScreen(
                     focusManager.clearFocus()
                     coroutineScope.launch {
                         viewModel.makeOrder(order)
-//                        vm.makeOrder(order)
                     }
                     navController.navigate("after_screen")
                 }) {

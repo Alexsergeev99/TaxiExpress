@@ -23,6 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
 import ru.alexsergeev.express.ui.theme.DarkRed
+import ru.alexsergeev.express.ui.theme.DarkYellow
 import ru.alexsergeev.express.viewmodel.OrderViewModel
 
 private  val cars = listOf("Chery Tiggo 4 Pro", "Chery Tiggo 7 Pro", "Chevrolet Cruze",
@@ -49,14 +50,10 @@ fun EconomyCars(
                 viewModel.setOrder(
                     order.copy(tariff = "ECONOMY")
                 )
-                navController.navigate(
-                    "final_screen/"
-//                            +
-//                            "Эконом"
-                )
+                navController.navigate("final_screen")
                 dialogState.value = false
             },
-                colors = ButtonDefaults.buttonColors(contentColor =  Color.Black, disabledContentColor = Color.Black)
+                colors = ButtonDefaults.buttonColors(containerColor = DarkYellow, contentColor =  Color.Black, disabledContentColor = Color.Black)
             ) {
                 Text(text = "Выбрать этот тариф")
             }

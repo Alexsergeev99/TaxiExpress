@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
-import ru.alexsergeev.express.LockScreenOrientation
+import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.cars.ComfortCars
 import ru.alexsergeev.express.ui.theme.DarkRed
@@ -118,11 +118,7 @@ fun ComfortRate(
                     viewModel.setOrder(
                         order.copy(tariff = "COMFORT")
                     )
-                    navController.navigate(
-                        "final_screen/"
-//                                +
-//                                "COMFORT"
-                    )
+                    navController.navigate("final_screen")
                 }
             ) {
                 Text(

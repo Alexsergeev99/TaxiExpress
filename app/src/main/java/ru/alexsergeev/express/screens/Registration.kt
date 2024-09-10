@@ -35,11 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -50,7 +46,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import org.koin.androidx.compose.koinViewModel
-import ru.alexsergeev.express.LockScreenOrientation
+import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.buttons.IconControlButton
 import ru.alexsergeev.express.dto.User
@@ -58,7 +54,6 @@ import ru.alexsergeev.express.ui.theme.DarkYellow
 import ru.alexsergeev.express.utils.MaskVisualTransformation
 import ru.alexsergeev.express.viewmodel.OrderViewModel
 import java.util.concurrent.TimeUnit
-import kotlin.math.absoluteValue
 
 @Composable
 fun Registration(navController: NavController, viewModel: OrderViewModel = koinViewModel()) {

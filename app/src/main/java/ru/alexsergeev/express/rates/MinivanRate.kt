@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -26,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import org.koin.androidx.compose.koinViewModel
-import ru.alexsergeev.express.LockScreenOrientation
+import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.cars.MinivanCars
 import ru.alexsergeev.express.ui.theme.DarkRed
@@ -116,11 +115,7 @@ fun MinivanRate(
                     viewModel.setOrder(
                         order.copy(tariff = "MINIVAN")
                     )
-                    navController.navigate(
-                        "final_screen/"
-//                                +
-//                                "MINIVAN"
-                    )
+                    navController.navigate("final_screen")
                 }
             ) {
                 Text(

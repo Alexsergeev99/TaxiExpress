@@ -1,7 +1,6 @@
 package ru.alexsergeev.express.screens
 
 import android.content.pm.ActivityInfo
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,7 +18,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
@@ -49,7 +47,7 @@ import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import org.koin.androidx.compose.koinViewModel
-import ru.alexsergeev.express.LockScreenOrientation
+import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.buttons.CounterPassengersButton
 import ru.alexsergeev.express.buttons.IconControlButton
@@ -292,16 +290,14 @@ fun MainPage(
                         pickedTime[2].toString().toInt() <= 5 &&
                         valueCounter <= 7
                     ) {
-//                        navController.navigate(
-//                            "rate_screen/" +
-//                                    "${name.toString()}/" +
-//                                    "${phone.toString()}/" +
-//                                    "${start.value.toString()}/" +
-//                                    "${finish.value.toString()}/" +
-//                                    "${pickedDate.toString()[8]}${pickedDate.toString()[9]}.${pickedDate.toString()[5]}${pickedDate.toString()[6]}.${pickedDate.toString()[0]}${pickedDate.toString()[1]}${pickedDate.toString()[2]}${pickedDate.toString()[3]}/" +
-//                                    "${pickedTime[0]}${pickedTime[1]}:${pickedTime[2]}${pickedTime[3]}/${passengers.value.toString()}"
-//
-//                        )
+                        viewModel.setOrder(
+                            order.copy(
+                                time = "${pickedDate.toString()[8]}${pickedDate.toString()[9]}.${pickedDate.toString()[5]}${pickedDate.toString()[6]}.${pickedDate.toString()[0]}${pickedDate.toString()[1]}${pickedDate.toString()[2]}${pickedDate.toString()[3]} ${pickedTime[0]}${pickedTime[1]}:${pickedTime[2]}${pickedTime[3]}"
+                            )
+                        )
+                        navController.navigate(
+                            "rate_screen"
+                        )
                     } else if (pickedTime[0].toString().toInt() > 2 || pickedTime[2].toString()
                             .toInt() > 5
                     ) {

@@ -39,8 +39,8 @@ fun Navigation() {
         }
         composable(route = "left_menu") {
             Box {
-                MainPage(navController = navController,)
-                LeftMenu(navController = navController,)
+                MainPage(navController = navController)
+                LeftMenu(navController = navController)
             }
         }
         composable(route = "contacts") {

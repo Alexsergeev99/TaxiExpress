@@ -1,4 +1,4 @@
-package ru.alexsergeev.express
+package ru.alexsergeev.express.utils
 
 import android.app.Activity
 import android.content.Context
