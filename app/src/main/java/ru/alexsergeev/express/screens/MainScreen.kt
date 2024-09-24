@@ -1,10 +1,8 @@
 package ru.alexsergeev.express.screens
 
 import android.content.pm.ActivityInfo
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -47,12 +45,14 @@ import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import org.koin.androidx.compose.koinViewModel
-import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.buttons.CounterPassengersButton
 import ru.alexsergeev.express.buttons.IconControlButton
+import ru.alexsergeev.express.components.AddressPointsInMainScreen
+import ru.alexsergeev.express.components.MainScreenButton
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
+import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.utils.MaskVisualTransformation
 import ru.alexsergeev.express.viewmodel.OrderViewModel
 import java.time.LocalDate
@@ -122,55 +122,7 @@ fun MainPage(
                 painter = painterResource(id = R.drawable.slavlogonew),
                 contentDescription = "test image"
             )
-            Row(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally),
-                horizontalArrangement = Arrangement.Center
-            ) {
-                OutlinedTextField(modifier = Modifier
-                    .align(alignment = Alignment.CenterVertically)
-                    .fillMaxWidth(0.5f),
-                    shape = RoundedCornerShape(20),
-                    value = order.from,
-                    label = { Text(text = "Откуда поедем") },
-                    colors = TextFieldDefaults.colors(
-                        focusedTextColor = Color.White,
-                        focusedContainerColor = Color.Black,
-                        unfocusedTextColor = Color.White,
-                        unfocusedContainerColor = Color.Black,
-                        focusedLabelColor = Color.White,
-                        unfocusedLabelColor = Color.White,
-                    ),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    onValueChange = {
-                        viewModel.setOrder(
-                            order.copy(from = it)
-                        )
-                    }
-                )
-                OutlinedTextField(
-                    modifier = Modifier
-                        .align(alignment = Alignment.CenterVertically)
-                        .fillMaxWidth(),
-                    shape = RoundedCornerShape(20),
-                    value = order.to,
-                    label = { Text(text = "Куда поедем") },
-                    colors = TextFieldDefaults.colors(
-                        focusedTextColor = Color.White,
-                        focusedContainerColor = Color.Black,
-                        unfocusedTextColor = Color.White,
-                        unfocusedContainerColor = Color.Black,
-                        focusedLabelColor = Color.White,
-                        unfocusedLabelColor = Color.White
-                    ),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    onValueChange = {
-                        viewModel.setOrder(
-                            order.copy(to = it)
-                        )
-                    }
-                )
-            }
+            AddressPointsInMainScreen()
             IconControlButton(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally),
@@ -276,66 +228,7 @@ fun MainPage(
                     .align(Alignment.CenterHorizontally)
                     .background(Color.Black)
             )
-            Button(modifier = Modifier
-                .align(alignment = Alignment.CenterHorizontally)
-                .padding(4.dp)
-                .fillMaxWidth(0.5f),
-                colors = ButtonDefaults.buttonColors(DarkYellow),
-                onClick = {
-                    if (order.from.isNotEmpty() &&
-                        order.to.isNotEmpty() &&
-                        pickedDate >= LocalDate.now() &&
-                        pickedTime.isNotEmpty() &&
-                        pickedTime[0].toString().toInt() <= 2 &&
-                        pickedTime[2].toString().toInt() <= 5 &&
-                        valueCounter <= 7
-                    ) {
-                        viewModel.setOrder(
-                            order.copy(
-                                time = "${pickedDate.toString()[8]}${pickedDate.toString()[9]}.${pickedDate.toString()[5]}${pickedDate.toString()[6]}.${pickedDate.toString()[0]}${pickedDate.toString()[1]}${pickedDate.toString()[2]}${pickedDate.toString()[3]} ${pickedTime[0]}${pickedTime[1]}:${pickedTime[2]}${pickedTime[3]}"
-                            )
-                        )
-                        navController.navigate(
-                            "rate_screen"
-                        )
-                    } else if (pickedTime[0].toString().toInt() > 2 || pickedTime[2].toString()
-                            .toInt() > 5
-                    ) {
-                        Toast.makeText(
-                            ctx,
-                            "Пожалуйста, укажите корректное время поездки",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    } else if (valueCounter > 7) {
-                        Toast.makeText(
-                            ctx,
-                            "Максимальное количество пассажиров - 7",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    } else if (pickedDate < LocalDate.now()) {
-                        Toast.makeText(
-                            ctx,
-                            "Дата поездки не может быть раньше сегодняшнего дня",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    } else {
-                        Toast.makeText(
-                            ctx,
-                            "Пожалуйста, заполните все поля",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
-                    }
-                }
-            ) {
-                Text(
-                    text = "Далее",
-                    color = Color.Black
-                )
-            }
+            MainScreenButton(navController, valueCounter, pickedDate, pickedTime)
         }
     }
 

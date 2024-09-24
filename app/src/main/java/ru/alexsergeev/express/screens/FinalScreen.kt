@@ -3,7 +3,6 @@ package ru.alexsergeev.express.screens
 import android.content.pm.ActivityInfo
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,7 +16,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
@@ -36,12 +34,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
-import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.R
 import ru.alexsergeev.express.buttons.IconControlButton
-import ru.alexsergeev.express.dto.Options
+import ru.alexsergeev.express.components.CheckBoxesInFinalScreen
+import ru.alexsergeev.express.components.MainInfoBoxInFinalScreen
 import ru.alexsergeev.express.ui.theme.DarkRed
 import ru.alexsergeev.express.ui.theme.DarkYellow
+import ru.alexsergeev.express.utils.LockScreenOrientation
 import ru.alexsergeev.express.viewmodel.OrderViewModel
 
 @Composable
@@ -52,11 +51,8 @@ fun FinalScreen(
     LockScreenOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
 
     val order by viewModel.getOrder().collectAsStateWithLifecycle()
-
     val focusManager = LocalFocusManager.current
-
     val coroutineScope = rememberCoroutineScope()
-
     val separateDateTime: List<String?> = order.time.split(" ")
 
     Box(
@@ -83,77 +79,7 @@ fun FinalScreen(
                 color = DarkYellow,
                 text = "Подтверждение заказа"
             )
-            Box(
-                modifier = Modifier
-                    .border(4.dp, DarkYellow)
-            ) {
-                Column {
-                    Row {
-                        Text(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .align(Alignment.CenterVertically),
-                            color = Color.White,
-                            text = "Имя: ${order.user.name}"
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .align(Alignment.CenterVertically),
-                            color = Color.White,
-                            text = "Номер телефона: +7${order.user.number}"
-                        )
-                    }
-                    Row {
-                        Text(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .align(Alignment.CenterVertically),
-                            color = Color.White,
-                            text = "Поедем из: ${order.from}"
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .align(Alignment.CenterVertically),
-                            color = Color.White,
-                            text = "Поедем в: ${order.to}"
-                        )
-                    }
-                    Row {
-                        Text(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .align(Alignment.CenterVertically),
-                            color = Color.White,
-                            text = "Дата поездки: ${separateDateTime[0]}"
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .align(Alignment.CenterVertically),
-                            color = Color.White,
-                            text = "Время поездки: ${separateDateTime[1]}"
-                        )
-                    }
-                    Row {
-                        Text(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .align(Alignment.CenterVertically),
-                            color = Color.White,
-                            text = "Тариф: ${order.tariff}"
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(8.dp)
-                                .align(Alignment.CenterVertically),
-                            color = Color.White,
-                            text = "Количество пассажиров: ${order.countPassengers}"
-                        )
-                    }
-                }
-            }
+            MainInfoBoxInFinalScreen(separateDateTime)
             Row(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -186,46 +112,7 @@ fun FinalScreen(
                     tintColor = Color.White
                 )
             }
-            Row {
-                Checkbox(
-                    checked = order.options.babySeat,
-                    modifier = Modifier.padding(16.dp),
-                    onCheckedChange = {
-                        viewModel.setOrder(
-                            order.copy(
-                                options = Options(it, order.options.withAnimal)
-                            )
-                        )
-                    },
-                )
-                Text(
-                    text = "Нужно детское кресло",
-                    modifier = Modifier
-                        .padding(20.dp)
-                        .align(Alignment.CenterVertically),
-                    color = Color.White
-                )
-            }
-            Row {
-                Checkbox(
-                    checked = order.options.withAnimal,
-                    modifier = Modifier.padding(16.dp),
-                    onCheckedChange = {
-                        viewModel.setOrder(
-                            order.copy(
-                                options = Options(it, order.options.withAnimal)
-                            )
-                        )
-                    },
-                )
-                Text(
-                    text = "Буду с питомцем",
-                    modifier = Modifier
-                        .padding(20.dp)
-                        .align(Alignment.CenterVertically),
-                    color = Color.White
-                )
-            }
+            CheckBoxesInFinalScreen()
             Button(
                 modifier = Modifier
                     .padding(top = 16.dp)
